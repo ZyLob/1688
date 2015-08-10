@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>2ec4bf5a-6e08-4dba-8b4d-f88ab501f87d</ProjectGuid>
+    <ProjectGuid>{73539814-44BC-4843-A1E5-EB8F78B3C509}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ZyLob.Ali1688.Op.Tests</RootNamespace>
@@ -53,8 +53,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Authorization\" />
+    <Folder Include="CustomClassify\" />
+    <Folder Include="CustomerRel\" />
+    <Folder Include="Member\" />
+    <Folder Include="Models\" />
+    <Folder Include="PhotoAlbum\" />
+    <Folder Include="Product\" />
+    <Folder Include="ServicePlatform\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
