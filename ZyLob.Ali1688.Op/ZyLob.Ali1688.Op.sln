@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZyLob.Ali1688.Op", "ZyLob.Ali1688.Op.csproj", "{10F6ED4C-9FAD-4CA9-922B-3354B93D1DDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZyLob.Ali1688.Op.Tests", "..\ZyLob.Ali1688.Op.Tests\ZyLob.Ali1688.Op.Tests.csproj", "{73539814-44BC-4843-A1E5-EB8F78B3C509}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{10F6ED4C-9FAD-4CA9-922B-3354B93D1DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10F6ED4C-9FAD-4CA9-922B-3354B93D1DDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10F6ED4C-9FAD-4CA9-922B-3354B93D1DDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73539814-44BC-4843-A1E5-EB8F78B3C509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73539814-44BC-4843-A1E5-EB8F78B3C509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73539814-44BC-4843-A1E5-EB8F78B3C509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73539814-44BC-4843-A1E5-EB8F78B3C509}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
