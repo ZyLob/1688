@@ -65,6 +65,15 @@
     <Folder Include="Product\" />
     <Folder Include="ServicePlatform\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZyLob.Ali1688.Op\ZyLob.Ali1688.Op.csproj">
+      <Project>{10f6ed4c-9fad-4ca9-922b-3354b93d1ddb}</Project>
+      <Name>ZyLob.Ali1688.Op</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

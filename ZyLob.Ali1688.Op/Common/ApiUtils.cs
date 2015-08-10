@@ -71,6 +71,5 @@ namespace ZyLob.Ali1688.Op.Common
             string signCode = Sign(appSecret, signDivisor);
             paras.Add("_aop_signature", signCode);
         }
-        
     }
 }

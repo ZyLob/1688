@@ -31,7 +31,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,16 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ApiUtils.cs" />
+    <Compile Include="Common\ApplyUtils.cs" />
+    <Compile Include="Common\DateTimeExpression.cs" />
+    <Compile Include="Common\StringExpression.cs" />
+    <Compile Include="Common\StrUtils.cs" />
+    <Compile Include="Common\WebUtils.cs" />
+    <Compile Include="Models\AliApply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authorization\" />
-    <Folder Include="Common\" />
     <Folder Include="Companys\" />
     <Folder Include="CustomClassify\" />
     <Folder Include="CustomerRel\" />
     <Folder Include="Member\" />
-    <Folder Include="Models\" />
     <Folder Include="PhotoAlbum\" />
     <Folder Include="Product\" />
     <Folder Include="ServicePlatform\" />
