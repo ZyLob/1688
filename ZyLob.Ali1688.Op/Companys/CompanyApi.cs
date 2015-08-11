@@ -8,7 +8,7 @@ namespace ZyLob.Ali1688.Op.Companys
     /// <summary>
     /// 阿里公司库操作Api
     /// </summary>
-    public class CompnayApi
+    public class CompanyApi
     {
         ///  <summary>
         /// 获取阿里巴巴中国网站会员的公司库信息 不需要授权

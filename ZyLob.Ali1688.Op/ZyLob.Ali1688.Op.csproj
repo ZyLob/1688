@@ -55,7 +55,7 @@
     <Compile Include="Common\StringExpression.cs" />
     <Compile Include="Common\StrUtils.cs" />
     <Compile Include="Common\WebUtils.cs" />
-    <Compile Include="Companys\CompnayApi.cs" />
+    <Compile Include="Companys\CompanyApi.cs" />
     <Compile Include="Models\AliApply.cs" />
     <Compile Include="Models\AliResult.cs" />
     <Compile Include="Models\Authorization.cs" />
