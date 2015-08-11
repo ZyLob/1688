@@ -10,12 +10,25 @@ namespace ZyLob.Ali1688.Op.Models
     /// </summary>
     public class AliResult<T>
     {
+        public T Result { get; set; }
+    }
+    /// <summary>
+    /// 列表结果集
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class AliResultList<T>
+    {
         /// <summary>
         /// 请求是否成功返回
         /// </summary>
-        public bool IsSuccess { get; set; }
+        public bool Success { get; set; }
         /// <summary>
-        /// 请求异常时消息
+        /// 总记录数
+        /// </summary>
+
+        public int Total { get; set; }
+        /// <summary>
+        /// 请求异常时消息，当Success=false时有效
         /// </summary>
 
         public string Msg { get; set; }

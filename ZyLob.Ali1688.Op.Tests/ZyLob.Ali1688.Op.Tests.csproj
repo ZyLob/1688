@@ -53,11 +53,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Authorization\AuthApiTest.cs" />
     <Compile Include="Companys\CompnayApiTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Authorization\" />
     <Folder Include="CustomClassify\" />
     <Folder Include="CustomerRel\" />
     <Folder Include="Member\" />

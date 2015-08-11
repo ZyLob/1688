@@ -15,7 +15,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// 登录帐号
         /// </summary>
 
-        public string ResourceOwner { get; set; }
+        public string Resource_Owner { get; set; }
         /// <summary>
         /// 阿里会员编号
         /// </summary>
@@ -23,20 +23,20 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 有效时间
         /// </summary>
-        public int ExpiresIn { get; set; }
+        public int Expires_In { get; set; }
         /// <summary>
         /// 刷新令牌
         /// </summary>
-        public string RefreshToken { get; set; }
+        public string Refresh_Token { get; set; }
         /// <summary>
         ///  刷新令牌的过期时间
         /// </summary>
-        public DateTime RefreshTokenTimeout { get; set; }
+        public DateTime Refresh_Token_Timeout { get; set; }
         /// <summary>
         /// 访问令牌
         /// </summary>
 
-        public string AccessToken { get; set; }
+        public string Access_Token { get; set; }
 
     }
 }

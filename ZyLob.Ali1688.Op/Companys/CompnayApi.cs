@@ -35,10 +35,10 @@ namespace ZyLob.Ali1688.Op.Companys
                 otherParas.Add("access_token", accessToken);
             }
             ApiUtils.AddAliApiUrlSignPara(ApplyUtils.GetApply().SecretKey, url, otherParas);
-            var results = CommonSend.Send<List<AliCompanyInfo>>(url, otherParas);
-            if (results.IsSuccess && results.ToReturn.Count > 0)
+            var results = CommonSend.Send<AliResult<AliResultList<List<AliCompanyInfo>>>>(url, otherParas);
+            if (results.Result.Success && results.Result.ToReturn.Count > 0)
             {
-                return results.ToReturn.First();
+                return results.Result.ToReturn.First();
             }
             return null;
         }

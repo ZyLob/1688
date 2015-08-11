@@ -60,9 +60,12 @@ namespace ZyLob.Ali1688.Op.Common
         /// <param name="paras">请求参数</param>
         public static void AddAliApiUrlSignPara(string appSecret, string url, Dictionary<string, string> paras)
         {
-            var startIndex = url.IndexOf("param2", System.StringComparison.Ordinal);
-            string urlPath = url.Substring(startIndex);
-            string signDivisor = urlPath;
+            string signDivisor = "";
+            if (url.IsNotNullOrEmpty())
+            {
+                var startIndex = url.IndexOf("param2", System.StringComparison.Ordinal);
+                signDivisor = url.Substring(startIndex);
+            }
             ParameterFilter(paras);
             List<string> paraList = paras.Where(kv => kv.Value.IsNotNullOrEmpty()).Select(kv => kv.Key + kv.Value).ToList();
             paraList.Sort();

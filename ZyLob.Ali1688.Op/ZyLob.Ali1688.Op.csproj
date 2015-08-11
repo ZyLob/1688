@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authorization\AuthApi.cs" />
+    <Compile Include="Common\AliException.cs" />
     <Compile Include="Common\ApiUtils.cs" />
     <Compile Include="Common\ApplyUtils.cs" />
     <Compile Include="Common\CommonSend.cs" />
@@ -67,7 +69,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Authorization\" />
     <Folder Include="CustomClassify\" />
     <Folder Include="CustomerRel\" />
     <Folder Include="Member\" />
