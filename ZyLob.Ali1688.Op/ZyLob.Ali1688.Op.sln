@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZyLob.Ali1688.Op", "ZyLob.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZyLob.Ali1688.Op.Tests", "..\ZyLob.Ali1688.Op.Tests\ZyLob.Ali1688.Op.Tests.csproj", "{73539814-44BC-4843-A1E5-EB8F78B3C509}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZyLob.Ali1688.Op.MvcDemo", "..\ZyLob.Ali1688.Op.MvcDemo\ZyLob.Ali1688.Op.MvcDemo.csproj", "{6AA1E999-3659-4DB5-A84B-8CBD5E476448}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{73539814-44BC-4843-A1E5-EB8F78B3C509}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73539814-44BC-4843-A1E5-EB8F78B3C509}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73539814-44BC-4843-A1E5-EB8F78B3C509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AA1E999-3659-4DB5-A84B-8CBD5E476448}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AA1E999-3659-4DB5-A84B-8CBD5E476448}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AA1E999-3659-4DB5-A84B-8CBD5E476448}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AA1E999-3659-4DB5-A84B-8CBD5E476448}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
