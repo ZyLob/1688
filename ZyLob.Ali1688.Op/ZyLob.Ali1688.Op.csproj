@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -43,22 +47,36 @@
   <ItemGroup>
     <Compile Include="Common\ApiUtils.cs" />
     <Compile Include="Common\ApplyUtils.cs" />
+    <Compile Include="Common\CommonSend.cs" />
     <Compile Include="Common\DateTimeExpression.cs" />
+    <Compile Include="Common\EnumUtils.cs" />
     <Compile Include="Common\StringExpression.cs" />
     <Compile Include="Common\StrUtils.cs" />
     <Compile Include="Common\WebUtils.cs" />
+    <Compile Include="Companys\CompnayApi.cs" />
     <Compile Include="Models\AliApply.cs" />
+    <Compile Include="Models\AliResult.cs" />
+    <Compile Include="Models\Authorization.cs" />
+    <Compile Include="Models\CompanyLibrary.cs" />
+    <Compile Include="Models\CustomClassify.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Member.cs" />
+    <Compile Include="Models\PhotoAlbum.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ServicePlatform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authorization\" />
-    <Folder Include="Companys\" />
     <Folder Include="CustomClassify\" />
     <Folder Include="CustomerRel\" />
     <Folder Include="Member\" />
     <Folder Include="PhotoAlbum\" />
     <Folder Include="Product\" />
     <Folder Include="ServicePlatform\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -56,10 +56,12 @@ namespace ZyLob.Ali1688.Op.Common
         /// 添加阿里接口地址签名参数
         /// </summary>
         /// <param name="appSecret">签名密钥</param>
-        /// <param name="urlPath">url 中的一部分，我们称之为urlPath，从协议（param2）开始截取，到“?”为止</param>
+        /// <param name="url">url 中的一部分，我们称之为urlPath，从协议（param2）开始截取，到“?”为止</param>
         /// <param name="paras">请求参数</param>
-        public static void AddAliApiUrlSignPara(string appSecret, string urlPath, Dictionary<string, string> paras)
+        public static void AddAliApiUrlSignPara(string appSecret, string url, Dictionary<string, string> paras)
         {
+            var startIndex = url.IndexOf("param2", System.StringComparison.Ordinal);
+            string urlPath = url.Substring(startIndex);
             string signDivisor = urlPath;
             ParameterFilter(paras);
             List<string> paraList = paras.Where(kv => kv.Value.IsNotNullOrEmpty()).Select(kv => kv.Key + kv.Value).ToList();
