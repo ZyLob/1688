@@ -52,8 +52,6 @@
     <Compile Include="Common\CommonSend.cs" />
     <Compile Include="Common\DateTimeExpression.cs" />
     <Compile Include="Common\EnumUtils.cs" />
-    <Compile Include="Common\IPagedList.cs" />
-    <Compile Include="Common\PagedList.cs" />
     <Compile Include="Common\StringExpression.cs" />
     <Compile Include="Common\StrUtils.cs" />
     <Compile Include="Common\WebUtils.cs" />
@@ -68,7 +66,6 @@
     <Compile Include="Models\PhotoAlbum.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ServicePlatform.cs" />
-    <Compile Include="Product\ProductApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +73,7 @@
     <Folder Include="CustomerRel\" />
     <Folder Include="Member\" />
     <Folder Include="PhotoAlbum\" />
+    <Folder Include="Product\" />
     <Folder Include="ServicePlatform\" />
   </ItemGroup>
   <ItemGroup>

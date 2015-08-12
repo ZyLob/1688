@@ -4,4 +4,3 @@ E:\状元实验室\项目\1688\ZyLob.Ali1688.Op\bin\Debug\Newtonsoft.Json.dll
 E:\状元实验室\项目\1688\ZyLob.Ali1688.Op\bin\Debug\Newtonsoft.Json.xml
 E:\状元实验室\项目\1688\ZyLob.Ali1688.Op\obj\Debug\ZyLob.Ali1688.Op.dll
 E:\状元实验室\项目\1688\ZyLob.Ali1688.Op\obj\Debug\ZyLob.Ali1688.Op.pdb
-E:\状元实验室\项目\1688\ZyLob.Ali1688.Op\obj\Debug\ZyLob.Ali1688.Op.csprojResolveAssemblyReference.cache
