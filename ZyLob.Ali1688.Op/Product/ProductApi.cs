@@ -6,6 +6,9 @@ using ZyLob.Ali1688.Op.Models;
 
 namespace ZyLob.Ali1688.Op.Product
 {
+    /// <summary>
+    /// 阿里产品操作接口
+    /// </summary>
     public class ProductApi
     {
         /// <summary>
