@@ -52,6 +52,8 @@
     <Compile Include="Common\CommonSend.cs" />
     <Compile Include="Common\DateTimeExpression.cs" />
     <Compile Include="Common\EnumUtils.cs" />
+    <Compile Include="Common\IPagedList.cs" />
+    <Compile Include="Common\PagedList.cs" />
     <Compile Include="Common\StringExpression.cs" />
     <Compile Include="Common\StrUtils.cs" />
     <Compile Include="Common\WebUtils.cs" />
