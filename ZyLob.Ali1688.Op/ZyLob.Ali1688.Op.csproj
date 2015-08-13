@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authorization\AuthApi.cs" />
+    <Compile Include="Common\AliDatetimeJsonConverter.cs" />
     <Compile Include="Common\AliException.cs" />
     <Compile Include="Common\ApiUtils.cs" />
     <Compile Include="Common\ApplyUtils.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Models\PhotoAlbum.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ServicePlatform.cs" />
+    <Compile Include="Product\ProductApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +77,6 @@
     <Folder Include="CustomerRel\" />
     <Folder Include="Member\" />
     <Folder Include="PhotoAlbum\" />
-    <Folder Include="Product\" />
     <Folder Include="ServicePlatform\" />
   </ItemGroup>
   <ItemGroup>

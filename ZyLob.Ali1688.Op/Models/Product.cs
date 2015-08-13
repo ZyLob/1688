@@ -159,23 +159,23 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 创建日期
         /// </summary>
-        public string GmtCreate { get; set; }
+        public DateTime GmtCreate { get; set; }
         /// <summary>
         /// 最近修改时间
         /// </summary>
-        public string GmtModified { get; set; }
+        public DateTime GmtModified { get; set; }
         /// <summary>
         /// 最近重发时间
         /// </summary>
-        public string GmtLastRepost { get; set; }
+        public DateTime GmtLastRepost { get; set; }
         /// <summary>
         /// 审核通过时间
         /// </summary>
-        public string GmtApproved { get; set; }
+        public DateTime GmtApproved { get; set; }
         /// <summary>
         /// 过期日期
         /// </summary>
-        public string GmtExpire { get; set; }
+        public DateTime GmtExpire { get; set; }
     }
 
     /// <summary>
@@ -331,7 +331,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// </summary>
         public string ReturnFields { get; set; }
         /// <summary>
-        /// 单页条数
+        /// 每页记录数，默认为20 最大50 
         /// </summary>
         public int PageSize { get; set; }
         /// <summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.UI.WebControls;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ZyLob.Ali1688.Op.Models;
 
@@ -25,8 +26,7 @@ namespace ZyLob.Ali1688.Op.Common
             try
             {
                  memberPrivateData = wuHelp.DoPost(url, parameters);
-                var result = JObject.Parse(memberPrivateData);
-                return result.ToObject<T>();
+                return JsonConvert.DeserializeObject<T>(memberPrivateData, new AliDatetimeJsonConverter());
             }
             catch (System.Exception ex)
             {

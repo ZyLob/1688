@@ -19,7 +19,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 阿里会员编号
         /// </summary>
-        public string AliMemberId { get; set; }
+        public string MemberId { get; set; }
         /// <summary>
         /// 有效时间
         /// </summary>
