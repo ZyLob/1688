@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using ZyLob.Ali1688.Op.Common;
-using ZyLob.Ali1688.Op.Models;
+﻿using ZyLob.Ali1688.Op.Context;
+﻿using ZyLob.Ali1688.Op.Models;
 
 namespace ZyLob.Ali1688.Op.Product
 {
@@ -11,6 +12,13 @@ namespace ZyLob.Ali1688.Op.Product
     /// </summary>
     public class ProductApi
     {
+        private readonly AliContext _context;
+
+        public ProductApi(AliContext context)
+        {
+            _context = context;
+        }
+
         ///  <summary>
         ///  产品搜索
         ///  </summary>
@@ -20,9 +28,9 @@ namespace ZyLob.Ali1688.Op.Product
         /// <param name="accessToken">可选 私密数据访问口令</param>
         /// <param name="seachModel">产品搜索参数模型</param>
         ///  <returns>产品分页信息</returns>
-        public static IPagedList<OfferDetailInfo> ProductSeach(ProductSeachModel seachModel, string accessToken="")
+        public  IPagedList<OfferDetailInfo> ProductSeach(ProductSeachModel seachModel, string accessToken="")
         {
-            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.search/{0}".FormatStr(ApplyUtils.GetApply().AppKey);
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.search/{0}".FormatStr(_context.Config.AppKey);
             var otherParas = new Dictionary<string, string>();
             otherParas.Add("pageNo", seachModel.PageNo + "");
             otherParas.Add("pageSize", seachModel.PageSize + "");
@@ -93,8 +101,8 @@ namespace ZyLob.Ali1688.Op.Product
             {
                 otherParas.Add("tpYear", seachModel.TpYear);
             }
-            ApiUtils.AddAliApiUrlSignPara(ApplyUtils.GetApply().SecretKey, url, otherParas);
-            var results = CommonSend.Send<AliResult<AliResultList<List<OfferDetailInfo>>>>(url, otherParas);
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<List<OfferDetailInfo>>>>(url, otherParas);
 
             if (results.Result.Total>0)
             {
@@ -114,16 +122,16 @@ namespace ZyLob.Ali1688.Op.Product
         /// <param name="accessToken">可选 私密数据访问口令</param>
         /// <param name="returnFields">自定义返回字段。多个字段以半角逗号分隔;默认返回（商品编号,私密属性列举,商品标题,商品详情,商品图片列表,商品属性信息,计量单位,可售数量,已销售量,价格区间 ）</param>
         /// <returns>产品信息 </returns>
-        public static OfferDetailInfo GetProductByOfferId(string offerId,string  accessToken="",
+        public  OfferDetailInfo GetProductByOfferId(string offerId,string  accessToken="",
             string returnFields =
                 "offerId,privateProperties,subject,details,imageList,productFeatureList,unit,amountOnSale,saledCount,priceRanges")
         {
-            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.get/{0}".FormatStr(ApplyUtils.GetApply().AppKey);
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.get/{0}".FormatStr(_context.Config.AppKey);
             var otherParas = new Dictionary<string, string>();
             otherParas.Add("offerId", offerId);
             otherParas.Add("returnFields", returnFields);
-            ApiUtils.AddAliApiUrlSignPara(ApplyUtils.GetApply().SecretKey, url, otherParas);
-            var results = CommonSend.Send<AliResult<AliResultList<List<OfferDetailInfo>>>>(url, otherParas);
+            _context.Util.AddAliApiUrlSignPara( url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<List<OfferDetailInfo>>>>(url, otherParas);
 
             if (results.Result.Total>0)
             {
@@ -141,18 +149,18 @@ namespace ZyLob.Ali1688.Op.Product
         /// <param name="accessToken">授权口令</param>
         /// <param name="offerIds">产品编号</param>
         /// <returns>产品重发结果</returns>
-        public static List<ProductRepostResult> OfferRepost(string accessToken, params string[] offerIds)
+        public  List<ProductRepostResult> OfferRepost(string accessToken, params string[] offerIds)
         {
             if (offerIds.Length == 0)
             {
                 return new List<ProductRepostResult>();
             }
-            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.repost/{0}".FormatStr(ApplyUtils.GetApply().AppKey);
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.repost/{0}".FormatStr(_context.Config.AppKey);
             var otherParas = new Dictionary<string, string>();
             otherParas.Add("access_token", accessToken);
             otherParas.Add("offerIds", string.Join(";", offerIds));
-            ApiUtils.AddAliApiUrlSignPara(ApplyUtils.GetApply().SecretKey, url, otherParas);
-            var results = CommonSend.Send<AliResult<AliResultList<List<ProductRepostResult>>>>(url, otherParas);
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<List<ProductRepostResult>>>>(url, otherParas);
 
             if ( results.Result.Total > 0)
             {
