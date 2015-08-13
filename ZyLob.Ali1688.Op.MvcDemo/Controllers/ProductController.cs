@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ZyLob.Ali1688.Op.Context;
 using ZyLob.Ali1688.Op.Models;
 using ZyLob.Ali1688.Op.Product;
 
@@ -21,7 +22,7 @@ namespace ZyLob.Ali1688.Op.MvcDemo.Controllers
         public ActionResult ProductList()
         {
             //产品搜索
-            var products = ProductApi.ProductSeach(new ProductSeachModel
+            var products = AliContext.Static.Product.ProductSeach(new ProductSeachModel
             {
                 MemberId = "szhf0"
             });
@@ -34,7 +35,7 @@ namespace ZyLob.Ali1688.Op.MvcDemo.Controllers
         /// <returns></returns>
         public ActionResult ProductOne()
         {
-            var product = ProductApi.GetProductByOfferId("899955287");
+            var product = AliContext.Static.Product.GetProductByOfferId("899955287");
             return View();
         }
 

@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using ZyLob.Ali1688.Op.Authorization;
+using ZyLob.Ali1688.Op.Context;
 
 namespace ZyLob.Ali1688.Op.MvcDemo.Controllers
 {
@@ -21,7 +22,7 @@ namespace ZyLob.Ali1688.Op.MvcDemo.Controllers
         public JsonResult Login(string code)
         {
             //获取登录口令
-            var token = AuthApi.GetAliToken(code);
+            var token = AliContext.Static.Auth.GetAliToken(code);
            /*******
             * 
             * 登录操作并记录相关口令信息
