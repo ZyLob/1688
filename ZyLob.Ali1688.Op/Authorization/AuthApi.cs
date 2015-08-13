@@ -24,14 +24,19 @@ namespace ZyLob.Ali1688.Op.Authorization
         /// <summary>
         /// 获取授权地址
         /// </summary>
+        /// <param name="redirectUri">可选,回调地址 默认使用配置地址</param>
         /// <param name="state">自定义参数，回跳到redirectUri时，会原样返回</param>
         /// <returns>授权地址</returns>
-        public  string GetAuthorizeUri(string state="")
-        {   
+        public string GetAuthorizeUri(string redirectUri="", string state = "")
+        {
+            if (redirectUri.IsNullOrWhiteSpace())
+            {
+                redirectUri = _context.Config.RedirectUri;
+            }
             var otherParas = new Dictionary<string, string>();
             otherParas.Add("client_id", _context.Config.AppKey);
             otherParas.Add("site", _context.Config.Site);
-            otherParas.Add("redirect_uri", _context.Config.RedirectUri);
+            otherParas.Add("redirect_uri", redirectUri);
             otherParas.Add("state", state);
             _context.Util.AddAliApiUrlSignPara("", otherParas);
             string paraStr = _context.Util.GetUriParametersString(otherParas);
