@@ -132,4 +132,18 @@ namespace ZyLob.Ali1688.Op.Models
         /// </summary>
         Disabled = 1
     }
+    /// <summary>
+    ///会员开启或关闭自定义分类
+    /// </summary>
+    public enum OfferGroupSwitchType
+    {
+        /// <summary>
+        /// On对应设置显示标记的开启，即：显示
+        /// </summary>
+        On,
+        /// <summary>
+        /// Off对应显示标记的关闭，即：不显示
+        /// </summary>
+        Off
+    }
 }

@@ -57,6 +57,7 @@
     <Compile Include="Common\WebUtils.cs" />
     <Compile Include="Companys\CompanyApi.cs" />
     <Compile Include="Context\AliContext.cs" />
+    <Compile Include="CustomClassify\CustomClassifyApi.cs" />
     <Compile Include="Models\AliApply.cs" />
     <Compile Include="Models\AliResult.cs" />
     <Compile Include="Models\Authorization.cs" />
@@ -71,7 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CustomClassify\" />
     <Folder Include="CustomerRel\" />
     <Folder Include="Member\" />
     <Folder Include="PhotoAlbum\" />

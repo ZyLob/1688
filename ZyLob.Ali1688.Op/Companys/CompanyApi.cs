@@ -43,7 +43,7 @@ namespace ZyLob.Ali1688.Op.Companys
                 otherParas.Add("access_token", accessToken);
             }
             _context.Util.AddAliApiUrlSignPara( url, otherParas);
-            var results = _context.Util.Send<AliResult<AliResultList<List<AliCompanyInfo>>>>(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<AliCompanyInfo>>>(url, otherParas);
             if (results.Result.Success && results.Result.ToReturn.Count > 0)
             {
                 return results.Result.ToReturn.First();

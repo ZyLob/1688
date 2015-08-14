@@ -35,6 +35,8 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 结果对象，异常时为空
         /// </summary>
-        public T ToReturn { get; set; }
+        public List<T> ToReturn { get; set; }
     }
+
+  
 }

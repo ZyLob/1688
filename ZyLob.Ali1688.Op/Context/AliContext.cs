@@ -6,6 +6,7 @@ using System.Text;
 using ZyLob.Ali1688.Op.Authorization;
 using ZyLob.Ali1688.Op.Common;
 using ZyLob.Ali1688.Op.Companys;
+using ZyLob.Ali1688.Op.CustomClassify;
 using ZyLob.Ali1688.Op.Models;
 using ZyLob.Ali1688.Op.Product;
 
@@ -30,6 +31,7 @@ namespace ZyLob.Ali1688.Op.Context
             Auth=new AuthApi(this);
             Company = new CompanyApi(this);
             Product=new ProductApi(this);
+            CustomClassify= new CustomClassifyApi(this);
         }
         /// <summary>
         /// 静态实例
@@ -53,5 +55,10 @@ namespace ZyLob.Ali1688.Op.Context
         /// 产品接口
         /// </summary>
         public ProductApi Product { get; set; }
+        /// <summary>
+        /// 自定义分类接口
+        /// </summary>
+        public CustomClassifyApi CustomClassify { get; set; }
+
     }
 }

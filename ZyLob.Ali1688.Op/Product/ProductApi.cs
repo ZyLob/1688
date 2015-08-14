@@ -102,7 +102,7 @@ namespace ZyLob.Ali1688.Op.Product
                 otherParas.Add("tpYear", seachModel.TpYear);
             }
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
-            var results = _context.Util.Send<AliResult<AliResultList<List<OfferDetailInfo>>>>(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<OfferDetailInfo>>>(url, otherParas);
 
             if (results.Result.Total>0)
             {
@@ -122,16 +122,16 @@ namespace ZyLob.Ali1688.Op.Product
         /// <param name="accessToken">可选 私密数据访问口令</param>
         /// <param name="returnFields">自定义返回字段。多个字段以半角逗号分隔;默认返回（商品编号,私密属性列举,商品标题,商品详情,商品图片列表,商品属性信息,计量单位,可售数量,已销售量,价格区间 ）</param>
         /// <returns>产品信息 </returns>
-        public  OfferDetailInfo GetProductByOfferId(string offerId,string  accessToken="",
+        public  OfferDetailInfo GetProductByOfferId(long offerId,string  accessToken="",
             string returnFields =
                 "offerId,privateProperties,subject,details,imageList,productFeatureList,unit,amountOnSale,saledCount,priceRanges")
         {
             string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.get/{0}".FormatStr(_context.Config.AppKey);
             var otherParas = new Dictionary<string, string>();
-            otherParas.Add("offerId", offerId);
+            otherParas.Add("offerId", offerId.ToString());
             otherParas.Add("returnFields", returnFields);
             _context.Util.AddAliApiUrlSignPara( url, otherParas);
-            var results = _context.Util.Send<AliResult<AliResultList<List<OfferDetailInfo>>>>(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<OfferDetailInfo>>>(url, otherParas);
 
             if (results.Result.Total>0)
             {
@@ -160,7 +160,7 @@ namespace ZyLob.Ali1688.Op.Product
             otherParas.Add("access_token", accessToken);
             otherParas.Add("offerIds", string.Join(";", offerIds));
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
-            var results = _context.Util.Send<AliResult<AliResultList<List<ProductRepostResult>>>>(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<ProductRepostResult>>>(url, otherParas);
 
             if ( results.Result.Total > 0)
             {
