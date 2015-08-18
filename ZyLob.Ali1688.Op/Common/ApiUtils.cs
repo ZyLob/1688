@@ -104,7 +104,7 @@ namespace ZyLob.Ali1688.Op.Common
             }
             catch (System.Exception ex)
             {
-                throw new AliException(url, memberPrivateData, ex.Message);
+                throw new AliAccessException(url, memberPrivateData, ex.Message);
             }
         }
     }

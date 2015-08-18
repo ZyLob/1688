@@ -25,13 +25,12 @@ namespace ZyLob.Ali1688.Op.Product
         /// <remarks>
         ///  接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&n=offer.search&v=1 
         ///  </remarks>
-        /// <param name="accessToken">可选 私密数据访问口令</param>
         /// <param name="seachModel">产品搜索参数模型</param>
         ///  <returns>产品分页信息</returns>
-        public  IPagedList<OfferDetailInfo> ProductSeach(ProductSeachModel seachModel, string accessToken="")
+        public  IPagedList<OfferDetailInfo> ProductSeach(ProductSeachModel seachModel)
         {
             string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.search/{0}".FormatStr(_context.Config.AppKey);
-            var otherParas = new Dictionary<string, string>();
+            var otherParas = _context.GetParas();
             otherParas.Add("pageNo", seachModel.PageNo + "");
             otherParas.Add("pageSize", seachModel.PageSize + "");
             if (seachModel.Q.IsNotNullOrEmpty())
@@ -119,15 +118,14 @@ namespace ZyLob.Ali1688.Op.Product
         /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&n=offer.get&v=1
         /// </remarks>
         /// <param name="offerId">产品编号</param>
-        /// <param name="accessToken">可选 私密数据访问口令</param>
         /// <param name="returnFields">自定义返回字段。多个字段以半角逗号分隔;默认返回（商品编号,私密属性列举,商品标题,商品详情,商品图片列表,商品属性信息,计量单位,可售数量,已销售量,价格区间 ）</param>
         /// <returns>产品信息 </returns>
-        public  OfferDetailInfo GetProductByOfferId(long offerId,string  accessToken="",
+        public  OfferDetailInfo GetProductByOfferId(long offerId,
             string returnFields =
                 "offerId,privateProperties,subject,details,imageList,productFeatureList,unit,amountOnSale,saledCount,priceRanges")
         {
             string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.get/{0}".FormatStr(_context.Config.AppKey);
-            var otherParas = new Dictionary<string, string>();
+            var otherParas = _context.GetParas();
             otherParas.Add("offerId", offerId.ToString());
             otherParas.Add("returnFields", returnFields);
             _context.Util.AddAliApiUrlSignPara( url, otherParas);
@@ -146,18 +144,16 @@ namespace ZyLob.Ali1688.Op.Product
         /// <remarks>
         /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&n=offer.repost&v=1
         /// </remarks>
-        /// <param name="accessToken">授权口令</param>
         /// <param name="offerIds">产品编号</param>
         /// <returns>产品重发结果</returns>
-        public  List<ProductRepostResult> OfferRepost(string accessToken, params string[] offerIds)
+        public  List<ProductRepostResult> OfferRepost( params string[] offerIds)
         {
             if (offerIds.Length == 0)
             {
                 return new List<ProductRepostResult>();
             }
             string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.repost/{0}".FormatStr(_context.Config.AppKey);
-            var otherParas = new Dictionary<string, string>();
-            otherParas.Add("access_token", accessToken);
+            var otherParas = _context.GetParas();
             otherParas.Add("offerIds", string.Join(";", offerIds));
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<AliResult<AliResultList<ProductRepostResult>>>(url, otherParas);

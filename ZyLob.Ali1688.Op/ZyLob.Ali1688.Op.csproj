@@ -69,6 +69,7 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ServicePlatform.cs" />
     <Compile Include="PhotoAlbum\AlbumApi.cs" />
+    <Compile Include="PhotoAlbum\PhotoApi.cs" />
     <Compile Include="Product\ProductApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

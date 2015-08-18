@@ -45,15 +45,17 @@ namespace ZyLob.Ali1688.Op.CustomClassify
         /// 阿里巴巴中国网站会员开启或关闭自定义分类功能
         /// </summary>
         /// <remarks>接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&n=offerGroup.set&v=1 </remarks>
-        /// <param name="accessToken">用户授权令牌</param>
         /// <param name="switchType">会员开启或关闭自定义分类</param>
         /// <returns>是否设置成功 true成功；false失败</returns>
-        public bool SetOfferGroup(string accessToken,OfferGroupSwitchType switchType)
+        public bool SetOfferGroup(OfferGroupSwitchType switchType)
         {
+            if (_context.AccessToken.IsNullOrEmpty())
+            {
+                throw new AliTokenException("开启或关闭自定义分类");
+            }
             string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offerGroup.set/{0}".FormatStr(_context.Config.AppKey);
-            var otherParas = new Dictionary<string, string>();
+            var otherParas = _context.GetParas();
             otherParas.Add("switchType", switchType.ToString().ToLower());
-            otherParas.Add("access_token", accessToken);
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<AliResult<AliResultList<AliResultSetOfferGroup>>>(url, otherParas);
             if (results.Result.Total > 0)

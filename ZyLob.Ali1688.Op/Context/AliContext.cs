@@ -18,23 +18,77 @@ namespace ZyLob.Ali1688.Op.Context
     /// </summary>
     public class AliContext
     {
-        public AliContext(AliApply aliApply = null)
+        #region 构造函数
+        /// <summary>
+        /// 实例化阿里接口上下文
+        /// </summary>
+        public AliContext()
         {
-            if (aliApply == null)
+            Init();
+        }
+        /// <summary>
+        /// 实例化阿里接口上下文
+        /// </summary>
+        /// <param name="accessToken">阿里访问口令</param>
+        public AliContext(string accessToken)
+        {
+            AccessToken = accessToken;
+            Init();
+        }
+        /// <summary>
+        /// 实例化阿里接口上下文
+        /// </summary>
+        /// <param name="aliApply">阿里应用配置</param>
+        public AliContext(AliApply aliApply)
+        {
+            Config = aliApply;
+            Init();
+        }
+        /// <summary>
+        /// 实例化阿里接口上下文
+        /// </summary>
+        /// <param name="accessToken">阿里访问口令</param>
+        /// <param name="aliApply">阿里应用配置</param>
+        public AliContext(string accessToken, AliApply aliApply)
+        {
+            Config = aliApply;
+            AccessToken = accessToken;
+            Init();
+        } 
+        #endregion
+        /// <summary>
+        /// 初始化上下文
+        /// </summary>
+        private void Init()
+        {
+            if (Config == null)
             {
                 Config = ConfigurationManager.GetSection("AliApplyConfig") as AliApply;
             }
-            else
-            {
-                Config = aliApply;                
-            }
             Util = new ApiUtils(this);
-            Auth=new AuthApi(this);
+            Auth = new AuthApi(this);
             Company = new CompanyApi(this);
-            Product=new ProductApi(this);
-            CustomClassify= new CustomClassifyApi(this);
-            Album=new AlbumApi(this);
+            Product = new ProductApi(this);
+            CustomClassify = new CustomClassifyApi(this);
+            Album = new AlbumApi(this);
+            Photo = new PhotoApi(this);
         }
+        /// <summary>
+        /// 获取参数集合
+        /// </summary>
+        public Dictionary<string, string> GetParas()
+        {
+            var paras=new Dictionary<string, string>();
+            if (AccessToken.IsNotNullOrEmpty())
+            {
+                paras.Add("access_token", AccessToken);
+            }
+            return paras;
+        }
+        /// <summary>
+        /// 阿里访问口令
+        /// </summary>
+        public string  AccessToken { get; set; }
         /// <summary>
         /// 静态实例
         /// </summary>
@@ -65,6 +119,10 @@ namespace ZyLob.Ali1688.Op.Context
         /// 相册接口
         /// </summary>
         public AlbumApi Album { get; set; }
+        /// <summary>
+        /// 图片接口
+        /// </summary>
+        public PhotoApi Photo { get; set; }
 
     }
 }

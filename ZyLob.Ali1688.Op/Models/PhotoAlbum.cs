@@ -107,7 +107,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 阿里会员ID
         /// </summary>
-        public string AlimemberId { get; set; }
+        public string AccountId { get; set; }
 
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         ///图片所属相册
         /// </summary>
-        public int AliAlbumId { get; set; }
+        public int AlbumId { get; set; }
     }
 
 
