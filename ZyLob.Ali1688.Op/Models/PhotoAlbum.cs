@@ -91,7 +91,7 @@ namespace ZyLob.Ali1688.Op.Models
     public class AliAlbumRemoveResult
     {
         /// <summary>
-        /// 相册是否删除成
+        /// 相册是否删除成功
         /// </summary>
         public bool IsSuccess { get; set; }
         /// <summary>
@@ -100,7 +100,7 @@ namespace ZyLob.Ali1688.Op.Models
         public long AlbumId { get; set; }
     }
     /// <summary>
-    /// Ali图片信息
+    /// 阿里图片信息
     /// </summary>
     public class AliPhoto
     {
@@ -154,13 +154,26 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         //图片大小，单位为字节	
         /// </summary>
-        public int Size { get; set; }
+        public long Size { get; set; }
         /// <summary>
         ///图片所属相册
         /// </summary>
-        public int AlbumId { get; set; }
+        public long AlbumId { get; set; }
     }
-
+    /// <summary>
+    /// 阿里图片移除返回结果
+    /// </summary>
+    public class AliPhotoRemoveResult
+    {
+        /// <summary>
+        /// 图片是否删除成功
+        /// </summary>
+        public bool IsSuccess { get; set; }
+        /// <summary>
+        /// 图片编号
+        /// </summary>
+        public long ImageId { get; set; }
+    }
 
     /// <summary>
     /// 图片空间信息
@@ -170,19 +183,19 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 阿里会员编号
         /// </summary>
-        public string AliMemberId { get; set; }
+        public string AccountId { get; set; }
         /// <summary>
         /// 已使用空间，单位为字节	
         /// </summary>
-        public int UsedSpace { get; set; }
+        public long UsedSpace { get; set; }
         /// <summary>
         /// 总空间，单位为字节
         /// </summary>
-        public int TotalSpace { get; set; }
+        public long TotalSpace { get; set; }
         /// <summary>
         ///空间是否已满，true：已满 false：未满	
         /// </summary>
-        public bool IsFull { get; set; }
+        public string IsFull { get; set; }
         /// <summary>
         /// 已使用空间占总空间百分比，精确到小数点后两位。如占用30.31%，返回值为30.31
         /// </summary>
