@@ -6,7 +6,7 @@ using ZyLob.Ali1688.Op.Context;
 namespace ZyLob.Ali1688.Op.Tests.Companys
 {
     [TestClass]
-    public class CompnayApiTest
+    public class CompnayApiTest : TestBase
     {
         [TestMethod]
         public void GetAliCompanyInfoTest()
