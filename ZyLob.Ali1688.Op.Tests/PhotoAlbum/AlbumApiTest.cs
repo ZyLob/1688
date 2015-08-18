@@ -11,14 +11,14 @@ namespace ZyLob.Ali1688.Op.Tests.PhotoAlbum
         [TestMethod]
         public void GetAlbumsTest()
         {
-            var results = AliContext.Static.Album.GetAlbums("f8b2c4b8-e5be-49e2-8eec-eeb8655a6fb7", AliAlbumType.Custom);
+            var results = AliContext.Static.Album.GetAlbums( AliAlbumType.Custom);
             int i = 1;
         }
 
         [TestMethod]
         public void GetTest()
         {
-            var result = AliContext.Static.Album.Get("f8b2c4b8-e5be-49e2-8eec-eeb8655a6fb7", "160909130");
+            var result = AliContext.Static.Album.Get( "160909130");
             int i = 1;
         }
         [TestMethod]
@@ -29,7 +29,7 @@ namespace ZyLob.Ali1688.Op.Tests.PhotoAlbum
             albumEdit.AlbumName = "测试相册20150818-1";
             albumEdit.Description = "测试使用";
             albumEdit.Password = "test";
-            var result = AliContext.Static.Album.Create("f8b2c4b8-e5be-49e2-8eec-eeb8655a6fb7", albumEdit);
+            var result = AliContext.Static.Album.Create( albumEdit);
             int i = 1;
         }
 
@@ -37,19 +37,19 @@ namespace ZyLob.Ali1688.Op.Tests.PhotoAlbum
         public void EditTest()
         {
             var albumEdit = new AliAlbumEdit();
-            albumEdit.AlbumId = 161232207;
+            albumEdit.AlbumId = 161232622;
             albumEdit.AlbumAuthority = AliAlbumAuthority.PasswordAlbum;
             albumEdit.AlbumName = "测试相册20150818-4";
             albumEdit.Description = "测试使用";
             albumEdit.Password = "test1";
-            var result = AliContext.Static.Album.Edit("f8b2c4b8-e5be-49e2-8eec-eeb8655a6fb7", albumEdit);
+            var result = AliContext.Static.Album.Edit( albumEdit);
             int i = 1;
         }
         [TestMethod]
         public void RemoveTest()
         {
 
-            var result = AliContext.Static.Album.Remove("f8b2c4b8-e5be-49e2-8eec-eeb8655a6fb7", 161032751,161044164);
+            var result = AliContext.Static.Album.Remove( 161032751,161044164);
             int i = 1;
         }
         

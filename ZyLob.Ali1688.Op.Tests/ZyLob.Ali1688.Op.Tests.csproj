@@ -57,6 +57,7 @@
     <Compile Include="Companys\CompnayApiTest.cs" />
     <Compile Include="CustomClassify\CustomClassifyApiTest.cs" />
     <Compile Include="PhotoAlbum\AlbumApiTest.cs" />
+    <Compile Include="PhotoAlbum\PhotoApiTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,7 @@ namespace ZyLob.Ali1688.Op.Tests.CustomClassify
         [TestMethod]
         public void SetOfferGroupTest()
         {
-            var isSuccess = AliContext.Static.CustomClassify.SetOfferGroup("7df64306-812f-48ca-ab67-a0b2c8699205", OfferGroupSwitchType.On);
+            var isSuccess = AliContext.Static.CustomClassify.SetOfferGroup(OfferGroupSwitchType.On);
             int i = 1;
         }
         [TestMethod]

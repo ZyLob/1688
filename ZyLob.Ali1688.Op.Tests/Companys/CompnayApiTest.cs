@@ -11,7 +11,8 @@ namespace ZyLob.Ali1688.Op.Tests.Companys
         [TestMethod]
         public void GetAliCompanyInfoTest()
         {
-            var compnay = AliContext.Static.Company.GetAliCompanyInfo("b2b-2080249682");
+            AliContext.Static.AccessToken = "f8b2c4b8-e5be-49e2-8eec-eeb8655a6fb7";
+            var compnay = AliContext.Static.Company.GetAliCompanyInfo("b2b-1623492085");
             var i = 1;
         }
     }
