@@ -10,15 +10,15 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 阿里会员编号
         /// </summary>
-        public string AliMemberId { get; set; }
+        public string AccountId { get; set; }
         /// <summary>
         /// 相册ID
         /// </summary>
-        public string Id { get; set; }
+        public long Id { get; set; }
         /// <summary>
         /// 相册类型.CUSTOM-自定义相册 MY-我的相册 OFF-下架相册
         /// </summary>
-        public AliAlbumType AlbumType { get; set; }
+        public AliAlbumType Type { get; set; }
         /// <summary>
         ///相册名称
         /// </summary>
@@ -71,7 +71,34 @@ namespace ZyLob.Ali1688.Op.Models
         public string Password { get; set; }
 
     }
-
+    /// <summary>
+    /// 相册编辑后返回结果
+    /// </summary>
+    public class AliAlbumEditResult
+    {
+        /// <summary>
+        /// 相册创建时间
+        /// </summary>
+        public DateTime CreateTime { get; set; }
+        /// <summary>
+        /// 相册编号
+        /// </summary>
+        public long AlbumId { get; set; }
+    }
+    /// <summary>
+    /// 相册删除后返回结果
+    /// </summary>
+    public class AliAlbumRemoveResult
+    {
+        /// <summary>
+        /// 相册是否删除成
+        /// </summary>
+        public bool IsSuccess { get; set; }
+        /// <summary>
+        /// 相册编号
+        /// </summary>
+        public long AlbumId { get; set; }
+    }
     /// <summary>
     /// Ali图片信息
     /// </summary>

@@ -8,6 +8,7 @@ using ZyLob.Ali1688.Op.Common;
 using ZyLob.Ali1688.Op.Companys;
 using ZyLob.Ali1688.Op.CustomClassify;
 using ZyLob.Ali1688.Op.Models;
+using ZyLob.Ali1688.Op.PhotoAlbum;
 using ZyLob.Ali1688.Op.Product;
 
 namespace ZyLob.Ali1688.Op.Context
@@ -32,6 +33,7 @@ namespace ZyLob.Ali1688.Op.Context
             Company = new CompanyApi(this);
             Product=new ProductApi(this);
             CustomClassify= new CustomClassifyApi(this);
+            Album=new AlbumApi(this);
         }
         /// <summary>
         /// 静态实例
@@ -59,6 +61,10 @@ namespace ZyLob.Ali1688.Op.Context
         /// 自定义分类接口
         /// </summary>
         public CustomClassifyApi CustomClassify { get; set; }
+        /// <summary>
+        /// 相册接口
+        /// </summary>
+        public AlbumApi Album { get; set; }
 
     }
 }

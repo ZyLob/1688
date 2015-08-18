@@ -48,40 +48,95 @@ namespace ZyLob.Ali1688.Op.PhotoAlbum
         /// <summary>
         /// 根据相册id获取相册信息
         /// </summary>
+        /// <param name="accessToken">阿里访问口令</param>
         /// <param name="albumId">相册id</param>
         /// <returns>相册信息</returns>
-        public AliAlbum Get(string albumId)
+        public AliAlbum Get(string accessToken, string albumId)
         {
-            throw new NotImplementedException();
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/ibank.album.get/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = new Dictionary<string, string>();
+            otherParas.Add("access_token", accessToken);
+            otherParas.Add("albumId", albumId);
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<AliAlbum>>>(url, otherParas);
+            if (results.Result.Total > 0)
+            {
+                return results.Result.ToReturn.First();
+            }
+            return null;
         }
 
         /// <summary>
         /// 实现创建相册功能
         /// </summary>
+        /// <param name="accessToken">阿里访问口令</param>
         /// <param name="aliAlbumEdit">阿里相册编辑实体</param>
         /// <returns>是否创建成功。取值如下：true-成功；false-失败</returns>
-        public bool Create(AliAlbumEdit aliAlbumEdit)
+        public AliAlbumEditResult Create(string accessToken, AliAlbumEdit aliAlbumEdit)
         {
-            throw new NotImplementedException();
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/ibank.album.create/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = new Dictionary<string, string>();
+            otherParas.Add("access_token", accessToken);
+            otherParas.Add("name", aliAlbumEdit.AlbumName);
+            otherParas.Add("description", aliAlbumEdit.Description);
+            otherParas.Add("authority", ((int)aliAlbumEdit.AlbumAuthority)+"");
+            otherParas.Add("password", aliAlbumEdit.Password);
+
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<AliAlbumEditResult>>>(url, otherParas);
+            if (results.Result.Total > 0)
+            {
+                return results.Result.ToReturn.First();
+            }
+            return null;
         }
-        /// <summary>
-        ///修改相册信息功能
-        /// </summary>
+
+        ///  <summary>
+        /// 修改相册信息功能
+        ///  </summary>
+        /// <param name="accessToken">阿里访问口令</param>
         /// <param name="aliAlbumEdit">阿里相册编辑实体</param>
-        /// <returns>是否创建成功。取值如下：true-成功；false-失败</returns>
-        public bool Edit(AliAlbumEdit aliAlbumEdit)
+        ///  <returns>是否创建成功。取值如下：true-成功；false-失败</returns>
+        public bool Edit(string accessToken, AliAlbumEdit aliAlbumEdit)
         {
-            throw new NotImplementedException();
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/ibank.album.modify/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = new Dictionary<string, string>();
+            otherParas.Add("access_token", accessToken);
+            otherParas.Add("albumId", aliAlbumEdit.AlbumId+"");
+            otherParas.Add("name", aliAlbumEdit.AlbumName);
+            otherParas.Add("description", aliAlbumEdit.Description);
+            otherParas.Add("authority", ((int)aliAlbumEdit.AlbumAuthority) + "");
+            otherParas.Add("password", aliAlbumEdit.Password);
+
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<dynamic>>>(url, otherParas);
+            if (results.Result.Total > 0)
+            {
+                //此处返回内容与其它接口不大一样，已反馈给1688技术，待调整后修改
+              return  results.Result.Success;
+            }
+            return false;
         }
 
         /// <summary>
         /// 批量删除相册，每次最多支持删除500个相册
         /// </summary>
+        /// <param name="accessToken">阿里访问口令</param>
         /// <param name="albumIds">相册集合</param>
         /// <returns>被删除相册总数</returns>
-        public int Remove(params string[] albumIds)
+        public List<AliAlbumRemoveResult> Remove(string accessToken, params long[] albumIds)
         {
-            throw new NotImplementedException();
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/ibank.album.delete/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = new Dictionary<string, string>();
+            otherParas.Add("access_token", accessToken);
+            otherParas.Add("albumIds", string.Join(";", albumIds));
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<AliAlbumRemoveResult>>>(url, otherParas);
+            if (results.Result.Total > 0)
+            {
+                return results.Result.ToReturn;
+            }
+            return new List<AliAlbumRemoveResult>();
         }
     }
 }
