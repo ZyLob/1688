@@ -44,7 +44,15 @@ namespace ZyLob.Ali1688.Op.Common
             {
                 return DateTime.MinValue;
             }
-            return DateTime.ParseExact(aliDateStr.Substring(0, 14), "yyyyMMddHHmmss", null);
+            switch (aliDateStr.Length)
+            {
+                case 10:
+                    return DateTime.ParseExact(aliDateStr, "yyyy-MM-dd", null);
+                    break;
+                default:
+                    return DateTime.ParseExact(aliDateStr.Substring(0, 14), "yyyyMMddHHmmss", null);
+                    break;
+            }
         }
 
         #endregion
