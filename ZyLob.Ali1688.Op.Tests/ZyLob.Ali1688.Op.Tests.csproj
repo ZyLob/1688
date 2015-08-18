@@ -56,13 +56,13 @@
     <Compile Include="Authorization\AuthApiTest.cs" />
     <Compile Include="Companys\CompnayApiTest.cs" />
     <Compile Include="CustomClassify\CustomClassifyApiTest.cs" />
+    <Compile Include="PhotoAlbum\AlbumApiTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CustomerRel\" />
     <Folder Include="Member\" />
     <Folder Include="Models\" />
-    <Folder Include="PhotoAlbum\" />
     <Folder Include="Product\" />
     <Folder Include="ServicePlatform\" />
   </ItemGroup>
