@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -82,6 +83,85 @@ namespace ZyLob.Ali1688.Op.CustomClassify
                 return results.Result.ToReturn.First().IsOpened;
             }
             return false;
+        }
+        /// <summary>
+        /// 批量添加多个产品到一个自定义分类下
+        /// </summary>
+        /// <remarks>
+        /// 授权类型：需要授权
+        /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&n=userCategory.offers.add&v=1
+        /// </remarks>
+        /// <param name="classifyId">自定义分类编号</param>
+        /// <param name="offerIds">移除产品编号</param>
+        /// <returns>是否添加成功</returns>
+        public bool AddProductClassify(long classifyId, params long[] offerIds)
+        {
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/userCategory.offers.add/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            otherParas.Add("groupId", classifyId+"");
+            otherParas.Add("offerIds", string.Join(";", offerIds));
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<JObject>>>(url, otherParas);
+            return results.Result.Success;
+        }
+        /// <summary>
+        /// 批量移除多个产品的一个自定义分类
+        /// </summary>
+        /// <remarks>
+        /// 授权类型：需要授权
+        /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&n=userCategory.offers.remove&v=1
+        /// </remarks>
+        /// <param name="classifyId">自定义分类编号</param>
+        /// <param name="offerIds">移除产品编号</param>
+        /// <returns>是否移除成功</returns>
+        public bool RemoveProductClassify(long classifyId, params long[] offerIds)
+        {
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/userCategory.offers.remove/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            otherParas.Add("offerIds", string.Join(";", offerIds));
+            otherParas.Add("groupId", classifyId + "");
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<JObject>>>(url, otherParas);
+            return results.Result.Success;
+        }
+
+        /// <summary>
+        /// 批量获取指定产品所属的自定义分类ID
+        /// </summary>
+        /// <remarks>
+        /// 授权类型：需要授权
+        /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&n=userCategory.get.offerIds&v=1
+        /// </remarks>
+        /// <param name="offerIds">查询的产品id</param>
+        /// <returns>产品及对应的分类编号集合 key 产品编号 value 分类编号集合</returns>
+        public Dictionary<long, List<long>> GetOffersClassify(params long[] offerIds)
+        {
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/userCategory.get.offerIds/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            otherParas.Add("offerIds", string.Join(";", offerIds));
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<JObject>>>(url, otherParas);
+            JObject offRelClassify = null;
+            if (results.Result.ToReturn.Count > 0)
+            {
+                offRelClassify = results.Result.ToReturn.First();
+            }
+            var returnResult = new Dictionary<long, List<long>>();
+            foreach (var offerId in offerIds)
+            {
+                List<long> classifys = null;
+                if (offRelClassify != null && offRelClassify["offerID" + offerId] != null)
+                {
+                    classifys = offRelClassify["offerID" + offerId].ToObject<List<long>>();
+                }
+                else
+                {
+                    classifys = new List<long>();
+                }
+                returnResult.Add(offerId, classifys);
+            }
+            return returnResult;
+
         }
     }
 }
