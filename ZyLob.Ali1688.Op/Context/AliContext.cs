@@ -10,6 +10,7 @@ using ZyLob.Ali1688.Op.CustomClassify;
 using ZyLob.Ali1688.Op.Models;
 using ZyLob.Ali1688.Op.PhotoAlbum;
 using ZyLob.Ali1688.Op.Product;
+using ZyLob.Ali1688.Op.Url;
 
 namespace ZyLob.Ali1688.Op.Context
 {
@@ -72,6 +73,7 @@ namespace ZyLob.Ali1688.Op.Context
             CustomClassify = new CustomClassifyApi(this);
             Album = new AlbumApi(this);
             Photo = new PhotoApi(this);
+            Url=new UrlApi(this);
         }
         /// <summary>
         /// 获取参数集合
@@ -123,6 +125,10 @@ namespace ZyLob.Ali1688.Op.Context
         /// 图片接口
         /// </summary>
         public PhotoApi Photo { get; set; }
+        /// <summary>
+        /// 地址接口
+        /// </summary>
+        public UrlApi Url { get; set; }
 
     }
 }
