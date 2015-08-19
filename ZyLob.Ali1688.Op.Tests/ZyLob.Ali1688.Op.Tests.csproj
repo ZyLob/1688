@@ -61,6 +61,7 @@
     <Compile Include="PhotoAlbum\PhotoApiTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="Url\UrlApiTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CustomerRel\" />
