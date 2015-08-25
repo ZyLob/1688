@@ -58,6 +58,7 @@
     <Compile Include="Companys\CompanyApi.cs" />
     <Compile Include="Context\AliContext.cs" />
     <Compile Include="CustomClassify\CustomClassifyApi.cs" />
+    <Compile Include="Member\MemberApi.cs" />
     <Compile Include="Models\AliApply.cs" />
     <Compile Include="Models\AliResult.cs" />
     <Compile Include="Models\Authorization.cs" />
@@ -77,7 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CustomerRel\" />
-    <Folder Include="Member\" />
+    <Folder Include="Trade\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

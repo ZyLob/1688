@@ -7,6 +7,7 @@ using ZyLob.Ali1688.Op.Authorization;
 using ZyLob.Ali1688.Op.Common;
 using ZyLob.Ali1688.Op.Companys;
 using ZyLob.Ali1688.Op.CustomClassify;
+using ZyLob.Ali1688.Op.Member;
 using ZyLob.Ali1688.Op.Models;
 using ZyLob.Ali1688.Op.PhotoAlbum;
 using ZyLob.Ali1688.Op.Product;
@@ -76,6 +77,7 @@ namespace ZyLob.Ali1688.Op.Context
             Photo = new PhotoApi(this);
             Url=new UrlApi(this);
             Platform = new PlatformApi(this);
+            Member=new MemberApi(this);
         }
         /// <summary>
         /// 获取参数集合
@@ -135,6 +137,10 @@ namespace ZyLob.Ali1688.Op.Context
         /// 服务平台接口
         /// </summary>
         public PlatformApi Platform { get; set; }
+        /// <summary>
+        /// 会员接口
+        /// </summary>
+        public MemberApi Member { get; set; }
 
     }
 }
