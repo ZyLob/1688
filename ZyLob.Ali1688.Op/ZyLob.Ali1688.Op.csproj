@@ -74,11 +74,11 @@
     <Compile Include="Product\ProductApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicePlatform\PlatformApi.cs" />
+    <Compile Include="Trade\OrderApi.cs" />
     <Compile Include="Url\UrlApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CustomerRel\" />
-    <Folder Include="Trade\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
