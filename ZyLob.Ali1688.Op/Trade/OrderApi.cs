@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ZyLob.Ali1688.Op.Common;
 using ZyLob.Ali1688.Op.Context;
+using ZyLob.Ali1688.Op.Models;
 
 namespace ZyLob.Ali1688.Op.Trade
 {
@@ -17,5 +19,11 @@ namespace ZyLob.Ali1688.Op.Trade
         {
             _context = context;
         }
+
+        //public IPagedList<OrderModel> OrderSearch()
+        //{
+            
+        //} 
+
     }
 }
