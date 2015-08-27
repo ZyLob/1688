@@ -12,6 +12,7 @@ using ZyLob.Ali1688.Op.Models;
 using ZyLob.Ali1688.Op.PhotoAlbum;
 using ZyLob.Ali1688.Op.Product;
 using ZyLob.Ali1688.Op.ServicePlatform;
+using ZyLob.Ali1688.Op.Trade;
 using ZyLob.Ali1688.Op.Url;
 
 namespace ZyLob.Ali1688.Op.Context
@@ -78,6 +79,8 @@ namespace ZyLob.Ali1688.Op.Context
             Url=new UrlApi(this);
             Platform = new PlatformApi(this);
             Member=new MemberApi(this);
+            Order=new OrderApi(this);
+            Logistics=new LogisticsApi(this);
         }
         /// <summary>
         /// 获取参数集合
@@ -141,6 +144,12 @@ namespace ZyLob.Ali1688.Op.Context
         /// 会员接口
         /// </summary>
         public MemberApi Member { get; set; }
+        /// <summary>
+        /// 订单接口
+        /// </summary>
+        public OrderApi Order { get; set; }
+
+        public LogisticsApi Logistics { get; set; }
 
     }
 }

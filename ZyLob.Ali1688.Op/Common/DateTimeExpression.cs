@@ -48,6 +48,9 @@ namespace ZyLob.Ali1688.Op.Common
             {
                 case 10:
                     return DateTime.ParseExact(aliDateStr, "yyyy-MM-dd", null);
+                case 19:
+                      return DateTime.ParseExact(aliDateStr, "yyyy-MM-dd HH:mm:ss", null);
+                    break;
                 default:
                     return DateTime.ParseExact(aliDateStr.Substring(0, 14), "yyyyMMddHHmmss", null);
             }

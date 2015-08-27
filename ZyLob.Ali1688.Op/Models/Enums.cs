@@ -307,10 +307,29 @@ namespace ZyLob.Ali1688.Op.Models
     /// </summary>
     public enum TradeType
     {
+        担保交易=1,
+        预付款交易=2,
+        Etc境外收单交易=3,
+        及时到账交易=4,
+        保障金安全交易=5,
         统一交易流程=6,
         分阶段交易=7,
         货到付款交易=8,
         信用凭证支付交易=9,
         帐期支付交易=10
+    }
+    /// <summary>
+    /// 旧交易类型
+    /// </summary>
+    public enum OldTradeType
+    {
+        /// <summary>
+        /// 普通
+        /// </summary>
+        UNIFY,
+        /// <summary>
+        /// 分阶段
+        /// </summary>
+        STEP
     }
 }

@@ -65,16 +65,18 @@
     <Compile Include="Models\CompanyLibrary.cs" />
     <Compile Include="Models\CustomClassify.cs" />
     <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Logistics.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\PhotoAlbum.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ServicePlatform.cs" />
-    <Compile Include="Models\Trade.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="PhotoAlbum\AlbumApi.cs" />
     <Compile Include="PhotoAlbum\PhotoApi.cs" />
     <Compile Include="Product\ProductApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicePlatform\PlatformApi.cs" />
+    <Compile Include="Trade\LogisticsApi.cs" />
     <Compile Include="Trade\OrderApi.cs" />
     <Compile Include="Url\UrlApi.cs" />
   </ItemGroup>
