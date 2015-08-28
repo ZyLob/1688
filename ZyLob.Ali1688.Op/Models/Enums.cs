@@ -1,4 +1,6 @@
-﻿using ZyLob.Ali1688.Op.Common;
+﻿using System;
+using Newtonsoft.Json;
+using ZyLob.Ali1688.Op.Common;
 
 namespace ZyLob.Ali1688.Op.Models
 {
@@ -227,7 +229,7 @@ namespace ZyLob.Ali1688.Op.Models
         WAIT_SELLER_ACT,
 
         /// <SUMMARY>
-        /// WAIT_BUYER_CONFIRM_ACTION
+        /// 等待买家确认操作
         /// </SUMMARY>
         WAIT_BUYER_CONFIRM_ACTION,
 
@@ -255,9 +257,10 @@ namespace ZyLob.Ali1688.Op.Models
         ///  签收失败COD
         /// </SUMMARY>
         SIGN_IN_FAILED
-
+        
 
     }
+
     /// <summary>
     /// 退款状态
     /// </summary>
@@ -331,5 +334,52 @@ namespace ZyLob.Ali1688.Op.Models
         /// 分阶段
         /// </summary>
         STEP
+    }
+
+    /// <summary>
+    /// 交易状态
+    /// </summary>
+    public enum TradeStatus
+    {
+        /// <summary>
+        /// 交易关闭
+        /// </summary>
+        cancel,
+
+        /// <summary>
+        /// 交易成功
+        /// </summary>
+        success,
+
+        /// <summary>
+        /// 等待买家付款
+        /// </summary>
+        waitbuyerpay,
+
+        /// <summary>
+        /// 等待卖家发货
+        /// </summary>
+        waitsellersend,
+        /// <summary>
+        /// 等待买家确认收货
+        /// </summary>
+        waitbuyerreceive,
+
+        /// <summary>
+        /// 分阶段等待卖家操作
+        /// </summary>
+        waitselleract,
+
+        /// <summary>
+        /// 等待买家确认操作
+        /// </summary>
+        waitbuyerconfirmaction,
+
+        /// <summary>
+        /// 分阶段等待卖家推进
+        /// </summary>
+        waitsellerpush,
+
+
     }
 }

@@ -80,14 +80,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// 货品名称
         /// </summary>
         public string ProductName { get; set; }
-        /// <summary>
-        /// 支付时间（查询开始值）, 已废弃
-        /// </summary>
-        public DateTime PayStartTime { get; set; }
-        /// <summary>
-        /// 支付时间（查询结束值），已废弃
-        /// </summary>
-        public DateTime PayEndTime { get; set; }
+       
         /// <summary>
         /// 订单类型
         /// </summary>
@@ -173,7 +166,7 @@ namespace ZyLob.Ali1688.Op.Models
 
         public string SellerSex { get; set; }
 
-        public string StatusStr { get; set; }
+        public TradeStatus StatusStr { get; set; }
         /// <summary>
         /// 买家承担的服务费
         /// </summary>
@@ -802,6 +795,7 @@ namespace ZyLob.Ali1688.Op.Models
     } 
     #endregion
 
+    #region 原订单搜索模型
     /// <summary>
     /// （原）订单详情
     /// </summary>
@@ -861,7 +855,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 订单状态
         /// </summary>
-        public string  Status { get; set; }
+        public TradeStatus Status { get; set; }
         /// <summary>
         /// 运费，单位分
         /// </summary>
@@ -913,13 +907,13 @@ namespace ZyLob.Ali1688.Op.Models
         /// 订单明细单价，单位：分
         /// </summary>
         public long Price { get; set; }
-    
+
         public string OfferSnapshotImageUrl { get; set; }
 
         public string EntryStatus { get; set; }
 
-        public string ProductPic { get; set; }
-         /// <summary>
+        public string[] ProductPic { get; set; }
+        /// <summary>
         /// cod状态。
         /// </summary>
         public CodStatus EntryCodStatus { get; set; }
@@ -946,4 +940,122 @@ namespace ZyLob.Ali1688.Op.Models
         public long SourceId { get; set; }
     }
 
+    /// <summary>
+    /// 交易搜索模型
+    /// </summary>
+    public class TradeSeachModel
+    {
+        public TradeSeachModel()
+        {
+            PageNo = 1;
+            PageSize = 20;
+        }
+        /// <summary>
+        /// 是否查询历史订单，即3个月以前的订单，默认为false，即不查询历史订单
+        /// </summary>
+        public bool IsHis { get; set; }
+        /// <summary>
+        /// 订单创建时间（查询开始值）
+        /// </summary>
+        public DateTime CreateStartTime { get; set; }
+        /// <summary>
+        /// 订单创建时间（查询结束值）
+        /// </summary>
+        public DateTime CreateEndTime { get; set; }
+        /// <summary>
+        /// 买家memberId，买卖家memberId必填其一
+        /// </summary>
+        public string BuyerMemberId { get; set; }
+        /// <summary>
+        /// 卖家memberId，买卖家memberId必填其一
+        /// </summary>
+        public string SellerMemberId { get; set; }
+        /// <summary>
+        /// 货品名称
+        /// </summary>
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// 交易类型
+        /// </summary>
+        public TradeType? TradeType { get; set; }
+        /// <summary>
+        /// 交易状态
+        /// </summary>
+        public TradeStatus? OrderStatus { get; set; }
+        /// <summary>
+        /// 页面大小
+        /// </summary>
+        public int PageSize { get; set; }
+        /// <summary>
+        /// 页码
+        /// </summary>
+        public int PageNo { get; set; }
+        /// <summary>
+        /// 修改时间（查询开始值）
+        /// </summary>
+        public DateTime ModifyStartTime { get; set; }
+        /// <summary>
+        /// 修改时间（查询结束值）
+        /// </summary>
+        public DateTime ModifyEndTime { get; set; }
+        /// <summary>
+        /// 订单编号，指定该参数相当于查询订单明细
+        /// </summary>
+        public long OrderId { get; set; }
+
+    } 
+    #endregion
+
+
+    /// <summary>
+    /// 描述单个订单，卖家对买家的评价信息与星级
+    /// </summary>
+    public class OrderEvaluateModel
+    {
+        /// <summary>
+        /// 评价星级，1-5
+        /// </summary>
+        public int StarLevel { get; set; }
+        /// <summary>
+        /// 评价信息描述,不支持url
+        /// </summary>
+        public string Content { get; set; }
+    }
+    /// <summary>
+    /// 订单评价结果
+    /// </summary>
+    public class OrderEvaluteResult
+    {
+        public Dictionary<long, string> FailedOrder { get; set; }
+    }
+
+    /// <summary>
+    /// 修改订单价格明细
+    /// </summary>
+    public class ModifyOrderPriceDetail
+    {
+        /// <summary>
+        /// 订单编号
+        /// </summary>
+        public long Id { get; set; }
+        /// <summary>
+        ///价格变更幅度 discount=20 该订单涨价20分，如果discount=-20,则意为该订单降价20分 
+        /// </summary>
+        public long Discount { get; set; }
+    }
+    /// <summary>
+    /// 修改订单价格结果
+    /// </summary>
+    public class ModifyOrderPriceResult
+    {
+        /// <summary>
+        /// 是否修改成功
+        /// </summary>
+        public bool Result { get; set; }
+        /// <summary>
+        /// 错误码
+        /// </summary>
+        public string ResultCode { get; set; }
+    }
 }
