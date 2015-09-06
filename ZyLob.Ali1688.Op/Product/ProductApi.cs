@@ -21,13 +21,16 @@ namespace ZyLob.Ali1688.Op.Product
 
         ///  <summary>
         ///  产品搜索
+        /// <para>
+        /// 不需要授权
+        /// </para>
+        /// <para>
+        ///  接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.search&amp;v=1 
+        /// </para>
         ///  </summary>
-        /// <remarks>
-        ///  接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&n=offer.search&v=1 
-        ///  </remarks>
         /// <param name="seachModel">产品搜索参数模型</param>
         ///  <returns>产品分页信息</returns>
-        public  IPagedList<OfferDetailInfo> ProductSeach(ProductSeachModel seachModel)
+        public IPagedList<OfferDetailInfo> ProductSeach(ProductSeachModel seachModel)
         {
             string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.search/{0}".FormatStr(_context.Config.AppKey);
             var otherParas = _context.GetParas();
@@ -103,7 +106,7 @@ namespace ZyLob.Ali1688.Op.Product
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<AliResult<AliResultList<OfferDetailInfo>>>(url, otherParas);
 
-            if (results.Result.Total>0)
+            if (results.Result.Total > 0)
             {
                 return new PagedList<OfferDetailInfo>(results.Result.ToReturn, seachModel.PageNo, seachModel.PageSize, results.Result.Total);
             }
@@ -112,15 +115,145 @@ namespace ZyLob.Ali1688.Op.Product
         }
 
         /// <summary>
+        /// 获取会员已发布的产品信息列表
+        /// <para>
+        /// 需要授权
+        /// </para>
+        /// <para>
+        /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.getPublishOfferList&amp;v=1
+        /// </para>
+        /// </summary>
+        /// <param name="type">商品所属类型</param>
+        /// <param name="categoryId">商品发布类目ID</param>
+        /// <param name="groupIds">卖家自定义的商品分类ID,只支持单个类目id</param>
+        /// <param name="page">页码。取值范围:大于零的整数;默认值为1，即返回第一页数据。</param>
+        /// <param name="pageSize">返回offer列表结果集分页条数。取值范围:大于零的整数;最大值：50;</param>
+        /// <param name="timeStamp">1、如果传了时间戳参数，则按增量返回，即返回按指定获取条件且对应商品信息的最近更新时间(GMTModified)晚于该时间戳的商品列表信息。2、如果没有传时间戳参数，则取所有的满足条件的商品信息；</param>
+        /// <param name="orderBy">只支持gmt_modify</param>
+        /// <param name="returnFields">自定义返回字段，字段为offerDetailInfo子集</param>
+        /// <returns>产品分页信息</returns>
+        public IPagedList<OfferDetailInfo> GetPublishOffers(OfferType type = OfferType.SALE, long categoryId =default(long),
+            long groupIds = default(long), int page = 1, int pageSize = 20, DateTime timeStamp = default(DateTime), string orderBy = "",
+            string returnFields = "offerId,privateProperties,subject,details,imageList,productFeatureList,unit,amountOnSale,saledCount,priceRanges")
+        {
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.getPublishOfferList/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            otherParas.Add("page", page + "");
+            otherParas.Add("pageSize", pageSize + "");
+            otherParas.Add("type", type.ToString());
+            if (categoryId !=default(long))
+            {
+                otherParas.Add("categoryId", categoryId+"");
+                
+            }
+            if (groupIds != default(long))
+            {
+                otherParas.Add("groupIds", groupIds + "");
+
+            }
+            if (orderBy != "")
+            {
+                otherParas.Add("orderBy", orderBy);
+            }
+            if (timeStamp != default(DateTime))
+            {
+                otherParas.Add("timeStamp", timeStamp.ToString("yyyy-MM-dd HH:mm:ss"));
+            }
+            if (returnFields.IsNotNullOrEmpty())
+            {
+                otherParas.Add("returnFields", returnFields);
+                
+            }
+
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<OfferDetailInfo>>>(url, otherParas);
+
+            if (results.Result.Total > 0)
+            {
+                return new PagedList<OfferDetailInfo>(results.Result.ToReturn, page, pageSize, results.Result.Total);
+            }
+            return new PagedList<OfferDetailInfo>(new List<OfferDetailInfo>(), page, pageSize);
+        }
+
+        /// <summary>
+        /// 获取会员所有的产品
+        /// <para>
+        /// 需要授权
+        /// </para>
+        /// <para>
+        /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.getAllOfferList&amp;v=1
+        /// </para>
+        /// </summary>
+        /// <param name="type">商品所属类型,目前只支持SALE</param>
+        /// <param name="categoryId">商品发布类目ID</param>
+        /// <param name="groupIds">卖家自定义的商品分类ID，多个之间用“,”分隔</param>
+        /// <param name="page">页码。取值范围:大于零的整数;默认值为1，即返回第一页数据。</param>
+        /// <param name="pageSize">返回offer列表结果集分页条数。取值范围:大于零的整数;最大值：50。</param>
+        /// <param name="timeStamp">格式:yyyy-MM-dd HH:mm:ss；1、如果传了时间戳参数，则按增量返回，即返回按指定获取条件且对应商品信息的最近更新时间(GMTModified)晚于该时间戳的商品列表信息。2、如果没有传时间戳参数，则取所有的满足条件的商品信息；</param>
+        /// <param name="orderBy">当前支持:gmtexpire:asc|desc,gmt_modified:asc|desc</param>
+        /// <param name="site">站点</param>
+        /// <param name="returnFields">自定义返回字段，字段为offerDetailInfo子集。多个字段以半角','分隔。若此字段为空，则返回offer数组信息为空;其中如下参数无法通过该API获得：amountOnSale、details、detailsUrl、saledCount、skuArray、termOfferProcess、tradingType</param>
+        /// <returns>产品分页信息</returns>
+        public IPagedList<OfferDetailInfo> GetAllOffers(OfferType type = OfferType.SALE, long categoryId = default(long),
+            long[] groupIds = null, int page = 1, int pageSize = 20, DateTime timeStamp = default(DateTime), string orderBy = "", string site = "china",
+            string returnFields = "offerId,privateProperties,subject,details,imageList,productFeatureList,unit,amountOnSale,saledCount,priceRanges")
+        {
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.getAllOfferList/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            otherParas.Add("page", page + "");
+            otherParas.Add("pageSize", pageSize + "");
+            otherParas.Add("type", type.ToString());
+            if (categoryId != default(long))
+            {
+                otherParas.Add("categoryId", categoryId + "");
+
+            }
+            if (groupIds != null)
+            {
+                otherParas.Add("groupIds", groupIds + "");
+
+            }
+            if (orderBy != "")
+            {
+                otherParas.Add("orderBy", orderBy);
+            }
+            if (timeStamp != default(DateTime))
+            {
+                otherParas.Add("timeStamp", timeStamp.ToString("yyyy-MM-dd HH:mm:ss"));
+            }
+            if (returnFields.IsNotNullOrEmpty())
+            {
+                otherParas.Add("returnFields", returnFields);
+
+            }
+            if (site.IsNotNullOrEmpty())
+            {
+                otherParas.Add("site", site);
+
+            }
+
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<OfferDetailInfo>>>(url, otherParas);
+
+            if (results.Result.Total > 0)
+            {
+                return new PagedList<OfferDetailInfo>(results.Result.ToReturn, page, pageSize, results.Result.Total);
+            }
+            return new PagedList<OfferDetailInfo>(new List<OfferDetailInfo>(), page, pageSize);
+        }
+        /// <summary>
         /// 获取单个产品信息 
         /// </summary>
-        /// <remarks>
-        /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&n=offer.get&v=1
-        /// </remarks>
+        /// <para>
+        /// 不需要授权
+        /// </para>
+        /// <para>
+        /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.get&amp;v=1
+        /// </para>
         /// <param name="offerId">产品编号</param>
         /// <param name="returnFields">自定义返回字段。多个字段以半角逗号分隔;默认返回（商品编号,私密属性列举,商品标题,商品详情,商品图片列表,商品属性信息,计量单位,可售数量,已销售量,价格区间 ）</param>
         /// <returns>产品信息 </returns>
-        public  OfferDetailInfo GetProductByOfferId(long offerId,
+        public OfferDetailInfo GetProductByOfferId(long offerId,
             string returnFields =
                 "offerId,privateProperties,subject,details,imageList,productFeatureList,unit,amountOnSale,saledCount,priceRanges")
         {
@@ -128,10 +261,10 @@ namespace ZyLob.Ali1688.Op.Product
             var otherParas = _context.GetParas();
             otherParas.Add("offerId", offerId.ToString());
             otherParas.Add("returnFields", returnFields);
-            _context.Util.AddAliApiUrlSignPara( url, otherParas);
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<AliResult<AliResultList<OfferDetailInfo>>>(url, otherParas);
 
-            if (results.Result.Total>0)
+            if (results.Result.Total > 0)
             {
                 return results.Result.ToReturn.First();
             }
@@ -139,14 +272,18 @@ namespace ZyLob.Ali1688.Op.Product
         }
 
         /// <summary>
-        /// 产品重发
+        /// 通过本接口实现阿里巴巴中文站已登录卖家会员批量重发指定offerID产品信息上网的功能；
+        /// <para>重发规则与网站一致：1、每条供应产品24小时以内，只能重发一次；2、每个客户每天重发产品上限为400条；3、offids 每次最多20个。</para> 
+        /// <para>
+        /// 需要授权
+        /// </para>
+        /// <para>
+        /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.repost&amp;v=1
+        /// </para>
         /// </summary>
-        /// <remarks>
-        /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&n=offer.repost&v=1
-        /// </remarks>
         /// <param name="offerIds">产品编号</param>
         /// <returns>产品重发结果</returns>
-        public  List<ProductRepostResult> OfferRepost( params string[] offerIds)
+        public List<ProductRepostResult> OfferRepost(params long[] offerIds)
         {
             if (offerIds.Length == 0)
             {
@@ -158,7 +295,7 @@ namespace ZyLob.Ali1688.Op.Product
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<AliResult<AliResultList<ProductRepostResult>>>(url, otherParas);
 
-            if ( results.Result.Total > 0)
+            if (results.Result.Total > 0)
             {
                 return results.Result.ToReturn;
             }

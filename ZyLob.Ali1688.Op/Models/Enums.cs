@@ -5,6 +5,24 @@ using ZyLob.Ali1688.Op.Common;
 namespace ZyLob.Ali1688.Op.Models
 {
     /// <summary>
+    /// 商品所属类型
+    /// </summary>
+    public enum OfferType
+    {
+        /// <summary>
+        /// 供应信息
+        /// </summary>
+        SALE,
+        /// <summary>
+        /// 所有产品信息
+        /// </summary>
+        ALL,
+        /// <summary>
+        /// 求购信息
+        /// </summary>
+        BUY
+    }
+    /// <summary>
     /// 阿里相册类型
     /// </summary>
     public enum AliAlbumType

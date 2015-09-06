@@ -35,7 +35,7 @@ namespace ZyLob.Ali1688.Op.MvcDemo.Controllers
         /// <returns></returns>
         public ActionResult ProductOne()
         {
-            var product = AliContext.Static.Product.GetProductByOfferId("899955287");
+            var product = AliContext.Static.Product.GetProductByOfferId(899955287);
             return View();
         }
 

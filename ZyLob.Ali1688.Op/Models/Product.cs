@@ -39,7 +39,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 商品类型。Sale：供应信息，Buy：求购信息
         /// </summary>
-        public string Type { get; set; }
+        public OfferType Type { get; set; }
         /// <summary>
         /// 贸易类型。1：产品，2：加工，3：代理，4：合作，5：商务服务
         /// </summary>
@@ -419,7 +419,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 产品id
         /// </summary>
-        public string OfferId { get; set; }
+        public long OfferId { get; set; }
 
         /// <summary>
         /// 过期时间
