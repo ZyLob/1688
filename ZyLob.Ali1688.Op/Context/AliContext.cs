@@ -7,6 +7,7 @@ using ZyLob.Ali1688.Op.Authorization;
 using ZyLob.Ali1688.Op.Common;
 using ZyLob.Ali1688.Op.Companys;
 using ZyLob.Ali1688.Op.CustomClassify;
+using ZyLob.Ali1688.Op.CustomerRel;
 using ZyLob.Ali1688.Op.Member;
 using ZyLob.Ali1688.Op.Models;
 using ZyLob.Ali1688.Op.PhotoAlbum;
@@ -81,6 +82,7 @@ namespace ZyLob.Ali1688.Op.Context
             Member=new MemberApi(this);
             Order=new OrderApi(this);
             Logistics=new LogisticsApi(this);
+            CustomerRelations= new CustomerRelApi(this);
         }
         /// <summary>
         /// 获取参数集合
@@ -149,7 +151,15 @@ namespace ZyLob.Ali1688.Op.Context
         /// </summary>
         public OrderApi Order { get; set; }
 
+        /// <summary>
+        /// 物流关系接口
+        /// </summary>
         public LogisticsApi Logistics { get; set; }
+
+        /// <summary>
+        /// 客户关系接口
+        /// </summary>
+        public CustomerRelApi CustomerRelations { get; set; }
 
     }
 }

@@ -30,17 +30,20 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 自定义相册
         /// </summary>
-        [EnumDescription("自定义相册", "CUSTOM")] Custom = 0,
+        [EnumDescription("自定义相册", "CUSTOM")]
+        Custom = 0,
 
         /// <summary>
         /// 我的相册
         /// </summary>
-        [EnumDescription("我的相册", "MY")] My = 1,
+        [EnumDescription("我的相册", "MY")]
+        My = 1,
 
         /// <summary>
         /// 下架相册
         /// </summary>
-        [EnumDescription("下架相册", "OFF")] Off = 2
+        [EnumDescription("下架相册", "OFF")]
+        Off = 2
     }
 
     /// <summary>
@@ -72,27 +75,32 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 服务前
         /// </summary>
-        [EnumDescription("服务前")] B = 0,
+        [EnumDescription("服务前")]
+        B = 0,
 
         /// <summary>
         /// 服务中
         /// </summary>
-        [EnumDescription("服务中")] S = 1,
+        [EnumDescription("服务中")]
+        S = 1,
 
         /// <summary>
         /// 挂起
         /// </summary>
-        [EnumDescription("挂起")] P = 2,
+        [EnumDescription("挂起")]
+        P = 2,
 
         /// <summary>
         /// 关闭
         /// </summary>
-        [EnumDescription("关闭")] E = 3,
+        [EnumDescription("关闭")]
+        E = 3,
 
         /// <summary>
         /// 作废
         /// </summary>
-        [EnumDescription("作废")] C = 4,
+        [EnumDescription("作废")]
+        C = 4,
 
     }
 
@@ -104,37 +112,44 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 审核通过
         /// </summary>
-        [EnumDescription("审核通过", "audit_pass")] AuditPass = 0,
+        [EnumDescription("审核通过", "audit_pass")]
+        AuditPass = 0,
 
         /// <summary>
         /// 待发布
         /// </summary>
-        [EnumDescription("待发布", "issue_ready")] IssueReady = 1,
+        [EnumDescription("待发布", "issue_ready")]
+        IssueReady = 1,
 
         /// <summary>
         /// 服务中 
         /// </summary>
-        [EnumDescription("服务中", "service")] Service = 2,
+        [EnumDescription("服务中", "service")]
+        Service = 2,
 
         /// <summary>
         /// 挂
         /// </summary>
-        [EnumDescription("挂", "suspend")] Suspend = 3,
+        [EnumDescription("挂", "suspend")]
+        Suspend = 3,
 
         /// <summary>
         /// 欠费挂起
         /// </summary>
-        [EnumDescription("欠费挂起", "arrear_suspend")] ArrearSuspend = 4,
+        [EnumDescription("欠费挂起", "arrear_suspend")]
+        ArrearSuspend = 4,
 
         /// <summary>
         /// 关闭
         /// </summary>
-        [EnumDescription("关闭", "closed")] Closed = 5,
+        [EnumDescription("关闭", "closed")]
+        Closed = 5,
 
         /// <summary>
         /// 作废
         /// </summary>
-        [EnumDescription("作废", "cancel")] Cancel = 6,
+        [EnumDescription("作废", "cancel")]
+        Cancel = 6,
     }
 
     /// <summary>
@@ -275,7 +290,7 @@ namespace ZyLob.Ali1688.Op.Models
         ///  签收失败COD
         /// </SUMMARY>
         SIGN_IN_FAILED
-        
+
 
     }
 
@@ -283,7 +298,6 @@ namespace ZyLob.Ali1688.Op.Models
     /// 退款状态
     /// </summary>
     public enum RefundStatus
-
     {
         /// <summary>
         /// 等待卖家同意退款协议
@@ -315,12 +329,12 @@ namespace ZyLob.Ali1688.Op.Models
     /// </summary>
     public enum LogisticsStatus
     {
-        未发货=1,
-        已发货=2,
-        已收货交易成功=3,
-        已经退货=4,
-        部分发货交易成功=5,
-        还未创建物流订单=8,
+        未发货 = 1,
+        已发货 = 2,
+        已收货交易成功 = 3,
+        已经退货 = 4,
+        部分发货交易成功 = 5,
+        还未创建物流订单 = 8,
 
     }
     /// <summary>
@@ -328,16 +342,16 @@ namespace ZyLob.Ali1688.Op.Models
     /// </summary>
     public enum TradeType
     {
-        担保交易=1,
-        预付款交易=2,
-        Etc境外收单交易=3,
-        及时到账交易=4,
-        保障金安全交易=5,
-        统一交易流程=6,
-        分阶段交易=7,
-        货到付款交易=8,
-        信用凭证支付交易=9,
-        帐期支付交易=10
+        担保交易 = 1,
+        预付款交易 = 2,
+        Etc境外收单交易 = 3,
+        及时到账交易 = 4,
+        保障金安全交易 = 5,
+        统一交易流程 = 6,
+        分阶段交易 = 7,
+        货到付款交易 = 8,
+        信用凭证支付交易 = 9,
+        帐期支付交易 = 10
     }
     /// <summary>
     /// 旧交易类型
@@ -400,4 +414,25 @@ namespace ZyLob.Ali1688.Op.Models
 
 
     }
+    /// <summary>
+    ///顾客关系来源
+    /// </summary>
+    public enum RelationSource
+    {
+        交易成功 = 1,
+        交易关闭 = 2,
+        手动新增 = 3
+    }
+    /// <summary>
+    /// 会员等级
+    /// </summary>
+    public enum CustomerLevel
+    {
+        所有的=0,
+        普通会员=1,
+        高级会员=2,
+        VIP会员=3,
+        至尊VIP会员=4
+    }
+       
 }
