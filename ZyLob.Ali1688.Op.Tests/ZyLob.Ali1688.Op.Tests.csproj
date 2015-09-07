@@ -59,6 +59,7 @@
     <Compile Include="Authorization\AuthApiTest.cs" />
     <Compile Include="Companys\CompnayApiTest.cs" />
     <Compile Include="CustomClassify\CustomClassifyApiTest.cs" />
+    <Compile Include="CustomerRel\CustomerRelApiTest.cs" />
     <Compile Include="Member\MemberApiTest.cs" />
     <Compile Include="PhotoAlbum\AlbumApiTest.cs" />
     <Compile Include="PhotoAlbum\PhotoApiTest.cs" />
@@ -71,7 +72,6 @@
     <Compile Include="Url\UrlApiTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CustomerRel\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
