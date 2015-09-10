@@ -100,7 +100,12 @@ namespace ZyLob.Ali1688.Op.Common
             try
             {
                 memberPrivateData = wuHelp.DoPost(url, parameters);
-                return JsonConvert.DeserializeObject<T>(memberPrivateData, new AliDatetimeJsonConverter());
+                var result= JsonConvert.DeserializeObject<T>(memberPrivateData, new AliDatetimeJsonConverter());
+                if (result == null)
+                {
+                    throw new AliAccessException(url,memberPrivateData,"解析阿里返回内容未匹配引发的异常");
+                }
+                return result;
             }
             catch (System.Exception ex)
             {

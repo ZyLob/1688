@@ -31,7 +31,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// 请求异常时消息，当Success=false时有效
         /// </summary>
 
-        public string Msg { get; set; }
+        public string Message { get; set; }
         /// <summary>
         /// 结果对象，异常时为空
         /// </summary>

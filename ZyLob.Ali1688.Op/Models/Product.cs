@@ -138,12 +138,15 @@ namespace ZyLob.Ali1688.Op.Models
         /// 发货地址id
         /// </summary>
         public long SendGoodsId { get; set; }
-        //单位重量
-        public long ProductUnitWeight { get; set; }
+
+        /// <summary>
+        /// 单位重量
+        /// </summary>
+        public string ProductUnitWeight { get; set; }
         /// <summary>
         /// T:运费模板 D：运费说明 F：卖家承担运费
         /// </summary>
-        public long FreightType { get; set; }
+        public string FreightType { get; set; }
         /// <summary>
         /// 是否为SKU商品
         /// </summary>
@@ -265,7 +268,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// 货币信息
         /// </summary>
         public Currency Currency { get; set; }
-        
+
     }
     /// <summary>
     /// 货币
@@ -285,11 +288,11 @@ namespace ZyLob.Ali1688.Op.Models
         /// </summary>
         public string Symbol { get; set; }
     }
-  
 
-   /// <summary>
-   /// 产品属性
-   /// </summary>
+
+    /// <summary>
+    /// 产品属性
+    /// </summary>
     public class SkuInfo
     {
         public long Fid { get; set; }
@@ -430,5 +433,43 @@ namespace ZyLob.Ali1688.Op.Models
         /// 重发时间
         /// </summary>
         public DateTime GmtRepublished { get; set; }
+    }
+    /// <summary>
+    /// 产品增量修改
+    /// </summary>
+    public class OfferIncrementAttr
+    {
+        /// <summary>
+        /// 产品编号
+        /// </summary>
+        public long OfferId { get; set; }
+        /// <summary>
+        /// 产品详情
+        /// </summary>
+        public string OfferDetail { get; set; }
+        /// <summary>
+        /// 产品标题
+        /// </summary>
+        public string Subject { get; set; }
+
+        /// <summary>
+        /// sku价格
+        /// </summary>
+        public List<OfferIncrementSku> SkuList { get; set; }
+
+    }
+    /// <summary>
+    /// 产品增量修改--sku价格
+    /// </summary>
+    public class OfferIncrementSku
+    {
+        public Dictionary<string, string> specAttributes { get; set; }
+        public string cargoNumber { get; set; }
+        public long amountOnSale { get; set; }
+        public string specId { get; set; }
+
+        public decimal price { get; set; }
+        public decimal retailPrice { get; set; }
+        public long saleCount { get; set; }
     }
 }

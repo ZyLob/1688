@@ -1,7 +1,8 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ZyLob.Ali1688.Op.Common;
+﻿using Newtonsoft.Json;
+﻿using ZyLob.Ali1688.Op.Common;
 ﻿using ZyLob.Ali1688.Op.Context;
 ﻿using ZyLob.Ali1688.Op.Models;
 
@@ -132,7 +133,7 @@ namespace ZyLob.Ali1688.Op.Product
         /// <param name="orderBy">只支持gmt_modify</param>
         /// <param name="returnFields">自定义返回字段，字段为offerDetailInfo子集</param>
         /// <returns>产品分页信息</returns>
-        public IPagedList<OfferDetailInfo> GetPublishOffers(OfferType type = OfferType.SALE, long categoryId =default(long),
+        public IPagedList<OfferDetailInfo> GetPublishOffers(OfferType type = OfferType.SALE, long categoryId = default(long),
             long groupIds = default(long), int page = 1, int pageSize = 20, DateTime timeStamp = default(DateTime), string orderBy = "",
             string returnFields = "offerId,privateProperties,subject,details,imageList,productFeatureList,unit,amountOnSale,saledCount,priceRanges")
         {
@@ -141,10 +142,10 @@ namespace ZyLob.Ali1688.Op.Product
             otherParas.Add("page", page + "");
             otherParas.Add("pageSize", pageSize + "");
             otherParas.Add("type", type.ToString());
-            if (categoryId !=default(long))
+            if (categoryId != default(long))
             {
-                otherParas.Add("categoryId", categoryId+"");
-                
+                otherParas.Add("categoryId", categoryId + "");
+
             }
             if (groupIds != default(long))
             {
@@ -162,7 +163,7 @@ namespace ZyLob.Ali1688.Op.Product
             if (returnFields.IsNotNullOrEmpty())
             {
                 otherParas.Add("returnFields", returnFields);
-                
+
             }
 
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
@@ -301,7 +302,45 @@ namespace ZyLob.Ali1688.Op.Product
             }
             return new List<ProductRepostResult>();
         }
-
+        /// <summary>
+        /// 产品增量修改
+        /// <para>
+        /// 需要授权
+        /// </para>
+        /// <para>
+        /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.modify.increment&amp;v=1
+        /// </para>
+        /// </summary>
+        /// <param name="incrementAttr">增量修改属性</param>
+        /// <returns>修改结果，返回空代表修改成功</returns>
+        public string OfferIncrementModify(OfferIncrementAttr incrementAttr)
+        {
+            if (incrementAttr == null || incrementAttr.OfferId == default(long))
+            {
+                throw new AliParamException("产品编号为必填参数");
+            }
+            var json = new Dictionary<string, dynamic>();
+            json.Add("offerId", incrementAttr.OfferId.ToString());
+            if (incrementAttr.Subject.IsNotNullOrEmpty())
+            {
+                json.Add("subject", incrementAttr.Subject);                
+            }
+            if (incrementAttr.OfferDetail.IsNotNullOrEmpty())
+            {
+                json.Add("offerDetail", incrementAttr.OfferDetail);
+            }
+            if (incrementAttr.SkuList != null)
+            {
+               json.Add("skuList", incrementAttr.SkuList);
+            }
+            string modifyStr = JsonConvert.SerializeObject(json);
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.modify.increment/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            otherParas.Add("offer", modifyStr);
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<string>>>(url, otherParas);
+            return results.Result.Message??"";
+        }
 
     }
 }

@@ -60,9 +60,9 @@ namespace ZyLob.Ali1688.Op.Common
          /// <summary>
        /// 阿里权限异常构造函数
        /// </summary>
-       /// <param name="apiName">接口名称</param>
-        public AliParamException(string apiName)
-           : base("输入参数异常，{0}，请修正后重新调用 ",apiName)
+        /// <param name="paraDesc">参数描述</param>
+        public AliParamException(string paraDesc)
+            : base("输入参数异常，{0}，请修正后重新调用 ", paraDesc)
        {
 
        }
