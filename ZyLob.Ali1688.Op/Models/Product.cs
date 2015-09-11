@@ -403,6 +403,11 @@ namespace ZyLob.Ali1688.Op.Models
         /// </summary>
         public string GroupIds { get; set; }
 
+        /// <summary>
+        /// Offer状态
+        /// </summary>
+        public OfferStatus Status { get; set; }
+
     }
 
     /// <summary>

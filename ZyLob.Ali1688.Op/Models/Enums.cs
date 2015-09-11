@@ -23,6 +23,28 @@ namespace ZyLob.Ali1688.Op.Models
         BUY
     }
     /// <summary>
+    /// 供品状态
+    /// </summary>
+    public enum OfferStatus
+    {
+        /// <summary>
+        /// 所有上线
+        /// </summary>
+        Tdb,
+        /// <summary>
+        /// 销售中
+        /// </summary>
+        Published,
+        /// <summary>
+        /// 删除
+        /// </summary>
+        Deleted,
+        /// <summary>
+        /// 待审
+        /// </summary>
+        New
+    }
+    /// <summary>
     /// 阿里相册类型
     /// </summary>
     public enum AliAlbumType

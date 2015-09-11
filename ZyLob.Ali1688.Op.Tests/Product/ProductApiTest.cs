@@ -13,8 +13,10 @@ namespace ZyLob.Ali1688.Op.Tests.Product
         {
             var result = AliContext.Static.Product.ProductSeach(new ProductSeachModel()
             {
-                Q="1",
-                MemberId = "b2b-1623492085"
+                Q="",
+                MemberId = "b2b-1623492085",
+                PageSize = 50,
+                Status = OfferStatus.Published
             });
         }
 

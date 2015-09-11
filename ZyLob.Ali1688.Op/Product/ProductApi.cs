@@ -35,8 +35,9 @@ namespace ZyLob.Ali1688.Op.Product
         {
             string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.search/{0}".FormatStr(_context.Config.AppKey);
             var otherParas = _context.GetParas();
-            otherParas.Add("pageNo", seachModel.PageNo + "");
-            otherParas.Add("pageSize", seachModel.PageSize + "");
+            otherParas.Add("pageNo", seachModel.PageNo.ToString());
+            otherParas.Add("pageSize", seachModel.PageSize.ToString());
+            otherParas.Add("status", seachModel.Status.ToString().ToLower());
             if (seachModel.Q.IsNotNullOrEmpty())
             {
                 otherParas.Add("q", seachModel.Q);
