@@ -158,7 +158,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// SKU规格属性信息{fid:value}当有多个值时用"#"联接
         /// </summary>
-        public List<SkuInfo> SkuArray { get; set; }
+        public List<SkuDetail> SkuArray { get; set; }
         /// <summary>
         /// 创建日期
         /// </summary>
@@ -293,13 +293,13 @@ namespace ZyLob.Ali1688.Op.Models
     /// <summary>
     /// 产品属性
     /// </summary>
-    public class SkuInfo
-    {
-        public long Fid { get; set; }
-        public string Value { get; set; }
-        public List<SkuDetail> Children { get; set; }
+    //public class SkuInfo
+    //{
+    //    public long Fid { get; set; }
+    //    public string Value { get; set; }
+    //    public List<SkuDetail> Children { get; set; }
 
-    }
+    //}
     /// <summary>
     /// 产品属性值
     /// </summary>
