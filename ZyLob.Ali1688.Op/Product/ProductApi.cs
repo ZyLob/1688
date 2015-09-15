@@ -105,6 +105,11 @@ namespace ZyLob.Ali1688.Op.Product
             {
                 otherParas.Add("tpYear", seachModel.TpYear);
             }
+            if (seachModel.OfferId != default(long))
+            {
+                otherParas.Add("offerId", seachModel.OfferId + "");
+            }
+
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<AliResult<AliResultList<OfferDetailInfo>>>(url, otherParas);
 
@@ -324,7 +329,7 @@ namespace ZyLob.Ali1688.Op.Product
             json.Add("offerId", incrementAttr.OfferId.ToString());
             if (incrementAttr.Subject.IsNotNullOrEmpty())
             {
-                json.Add("subject", incrementAttr.Subject);                
+                json.Add("subject", incrementAttr.Subject);
             }
             if (incrementAttr.OfferDetail.IsNotNullOrEmpty())
             {
@@ -332,7 +337,7 @@ namespace ZyLob.Ali1688.Op.Product
             }
             if (incrementAttr.SkuList != null)
             {
-               json.Add("skuList", incrementAttr.SkuList);
+                json.Add("skuList", incrementAttr.SkuList);
             }
             string modifyStr = JsonConvert.SerializeObject(json);
             string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.modify.increment/{0}".FormatStr(_context.Config.AppKey);
@@ -340,9 +345,46 @@ namespace ZyLob.Ali1688.Op.Product
             otherParas.Add("offer", modifyStr);
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<AliResult<AliResultList<string>>>(url, otherParas);
-            return results.Result.Message??"";
+            return results.Result.Message ?? "";
         }
-
-
+        /// <summary>
+        /// 增量修改产品库存
+        /// <para>
+        /// 需要授权
+        /// </para>
+        /// <para>
+        /// 接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.modify.stock&amp;v=1
+        /// </para>
+        /// </summary>
+        /// <param name="offerId">产品编号</param>
+        /// <param name="offerAmountChange">总库存改变量</param>
+        /// <param name="skuAmountChange">
+        /// Sku报价产品，指定规格的库存变量，注是所有规格改变量之和要等于offerAmountChange 
+        /// 如果产品没有sku，可以不用填。数据格式{"specId":"number"},key是sku信息中的specId，后者为库存变更量
+        /// </param>
+        /// <returns></returns>
+        public ModifyStockResult OfferModifyStock(long offerId, int offerAmountChange, Dictionary<string, int> skuAmountChange = null)
+        {
+            if (offerId == default(long))
+            {
+                throw new AliParamException("产品编号为必填参数");
+            }
+            if (offerAmountChange == default(long))
+            {
+                throw new AliParamException("总库存改变量为必填参数");
+            }
+            string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.modify.stock/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            otherParas.Add("offerId", offerId.ToString());
+            otherParas.Add("offerAmountChange", offerAmountChange.ToString());
+            if (skuAmountChange != null)
+            {
+                string modifyStr = JsonConvert.SerializeObject(skuAmountChange);
+                otherParas.Add("skuAmountChange", modifyStr);
+            }
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<ModifyStockResult>(url, otherParas);
+            return results;
+        }
     }
 }

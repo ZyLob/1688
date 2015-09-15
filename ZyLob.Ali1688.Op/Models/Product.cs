@@ -158,7 +158,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// SKU规格属性信息{fid:value}当有多个值时用"#"联接
         /// </summary>
-        public List<SkuDetail> SkuArray { get; set; }
+        public List<SkuInfo> SkuArray { get; set; }
         /// <summary>
         /// 创建日期
         /// </summary>
@@ -290,29 +290,22 @@ namespace ZyLob.Ali1688.Op.Models
     }
 
 
-    /// <summary>
-    /// 产品属性
-    /// </summary>
-    //public class SkuInfo
-    //{
-    //    public long Fid { get; set; }
-    //    public string Value { get; set; }
-    //    public List<SkuDetail> Children { get; set; }
-
-    //}
+  
     /// <summary>
     /// 产品属性值
     /// </summary>
-    public class SkuDetail
+    public class SkuInfo
     {
         public long Fid { get; set; }
+        public string Value { get; set; }
         public string RetailPrice { get; set; }
         public string Price { get; set; }
         public int CanBookCount { get; set; }
         public string CargoNumber { get; set; }
         public string SpecId { get; set; }
-        public string Value { get; set; }
+        
         public int SaleCount { get; set; }
+        public List<SkuInfo> Children { get; set; }
 
     }
     /// <summary>
@@ -333,6 +326,11 @@ namespace ZyLob.Ali1688.Op.Models
         /// 返回字段，默认为空，全部返回
         /// </summary>
         public string ReturnFields { get; set; }
+
+        /// <summary>
+        /// 产品编号
+        /// </summary>
+        public long OfferId { get; set; }
         /// <summary>
         /// 每页记录数，默认为20 最大50 
         /// </summary>
@@ -477,4 +475,22 @@ namespace ZyLob.Ali1688.Op.Models
         public decimal retailPrice { get; set; }
         public long saleCount { get; set; }
     }
+    /// <summary>
+    /// 批量修改库存
+    /// </summary>
+    public class ModifyStockResult
+    {
+        /// <summary>
+        /// 错误消息
+        /// </summary>
+        public Dictionary<string,string> errors { get; set; }
+
+        /// <summary>
+        /// 是否操作成功
+        /// </summary>
+        public bool Success { get; set; }
+     
+    }
+
+
 }
