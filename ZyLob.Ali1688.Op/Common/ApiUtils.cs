@@ -97,20 +97,28 @@ namespace ZyLob.Ali1688.Op.Common
 
             var wuHelp = new WebUtils();
             var memberPrivateData = "";
-            try
+            int wrongCount = 1;
+            do
             {
-                memberPrivateData = wuHelp.DoPost(url, parameters);
-                var result= JsonConvert.DeserializeObject<T>(memberPrivateData, new AliDatetimeJsonConverter());
-                if (result == null)
+                try
                 {
-                    throw new AliAccessException(url,memberPrivateData,"解析阿里返回内容未匹配引发的异常");
+                    memberPrivateData = wuHelp.DoPost(url, parameters);
+                    var result = JsonConvert.DeserializeObject<T>(memberPrivateData, new AliDatetimeJsonConverter());
+                    if (result == null)
+                    {
+                        throw new AliAccessException(url, memberPrivateData, "解析阿里返回内容未匹配引发的异常");
+                    }
+                    return result;
                 }
-                return result;
-            }
-            catch (System.Exception ex)
-            {
-                throw new AliAccessException(url, memberPrivateData, ex.Message);
-            }
+                catch (System.Exception ex)
+                {
+                    wrongCount++;
+                    if (wrongCount > AliContext.TolerateWrongCount)
+                        throw new AliAccessException(url, memberPrivateData, ex.Message);
+                }
+            } while (wrongCount < AliContext.TolerateWrongCount);
+
+            throw new AliAccessException(url, memberPrivateData, "调用接口未知错误！");
         }
     }
 

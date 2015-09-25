@@ -8,11 +8,37 @@ namespace ZyLob.Ali1688.Op.Models
     /// <summary>
     /// 应用配置信息
     /// </summary>
-   public class AliApply
+    public class AliApply
     {
-
-       public AliApply()
+        /// <summary>
+        /// 应用配置信息初始化
+        /// </summary>
+        public AliApply()
         {
+            this.Site = "china";
+        }
+        /// <summary>
+        /// 应用配置信息初始化
+        /// </summary>
+        /// <param name="appKey">应用钥匙</param>
+        /// <param name="secretKey">应用密钥</param>
+        public AliApply(string appKey, string secretKey)
+        {
+            AppKey = appKey;
+            SecretKey = secretKey;
+            this.Site = "china";
+        }
+        /// <summary>
+        /// 应用配置信息初始化
+        /// </summary>
+        /// <param name="appKey">应用钥匙</param>
+        /// <param name="secretKey">应用密钥</param>
+        /// <param name="redirectUri">回调地址</param>
+        public AliApply(string appKey, string secretKey, string redirectUri)
+        {
+            RedirectUri = redirectUri;
+            AppKey = appKey;
+            SecretKey = secretKey;
             this.Site = "china";
         }
         /// <summary>

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
 using ZyLob.Ali1688.Op.Authorization;
 using ZyLob.Ali1688.Op.Common;
 using ZyLob.Ali1688.Op.Companys;
@@ -104,6 +101,10 @@ namespace ZyLob.Ali1688.Op.Context
         /// 静态实例
         /// </summary>
         public static AliContext Static = new AliContext();
+        /// <summary>
+        /// 容忍错误(不包涵参数或sdk实现导致的错误)的次数--主要解决阿里偶尔出现域名解析错误的问题。默认为1次即出错后立即抛出
+        /// </summary>
+        public static int TolerateWrongCount = 1;
 
         public ApiUtils Util { get; set; }
         /// <summary>
