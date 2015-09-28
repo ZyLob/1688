@@ -97,7 +97,7 @@ namespace ZyLob.Ali1688.Op.Common
 
             var wuHelp = new WebUtils();
             var memberPrivateData = "";
-            int wrongCount = 1;
+            int wrongCount = 0;
             do
             {
                 try
@@ -113,7 +113,7 @@ namespace ZyLob.Ali1688.Op.Common
                 catch (System.Exception ex)
                 {
                     wrongCount++;
-                    if (wrongCount > AliContext.TolerateWrongCount)
+                    if (wrongCount >= AliContext.TolerateWrongCount)
                         throw new AliAccessException(url, memberPrivateData, ex.Message);
                 }
             } while (wrongCount < AliContext.TolerateWrongCount);

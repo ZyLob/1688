@@ -109,7 +109,7 @@ namespace ZyLob.Ali1688.Op.Trade
             }
             if (seachModel.OrderStatusEnum != null)
             {
-                otherParas.Add("orderStatus", seachModel.OrderStatusEnum + "");
+                otherParas.Add("orderStatusEnum", seachModel.OrderStatusEnum + "");
             }
             if (seachModel.SellerRateStatus != null)
             {
@@ -134,15 +134,15 @@ namespace ZyLob.Ali1688.Op.Trade
             }
             if (seachModel.CreateEndTime != default(DateTime))
             {
-                otherParas.Add("createEndTime", seachModel.CreateEndTime.ToString("yyyy-MM-dd HH:mm:ss") + "");
+                otherParas.Add("createEndTime", seachModel.CreateEndTime.ToAliDate() + "");
             }
             if (seachModel.ModifyStartTime != default(DateTime))
             {
-                otherParas.Add("modifyStartTime", seachModel.ModifyStartTime.ToString("yyyy-MM-dd HH:mm:ss") + "");
+                otherParas.Add("modifyStartTime", seachModel.ModifyStartTime.ToAliDate() + "");
             }
             if (seachModel.ModifyEndTime != default(DateTime))
             {
-                otherParas.Add("modifyEndTime", seachModel.ModifyEndTime.ToString("yyyy-MM-dd HH:mm:ss") + "");
+                otherParas.Add("modifyEndTime", seachModel.ModifyEndTime.ToAliDate() + "");
             }
 
             if (seachModel.OrderIdSet != null && seachModel.OrderIdSet.Length > 0)

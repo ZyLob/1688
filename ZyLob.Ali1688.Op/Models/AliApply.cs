@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ZyLob.Ali1688.Op.Models
+﻿namespace ZyLob.Ali1688.Op.Models
 {
     /// <summary>
     /// 应用配置信息
