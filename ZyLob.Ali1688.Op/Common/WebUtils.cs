@@ -17,7 +17,7 @@ namespace ZyLob.Ali1688.Op.Common
         private int _timeout = 100000;
 
         /// <summary>
-        /// 请求与响应的超时时间
+        /// 请求与响应的超时时间(单位：毫秒)
         /// </summary>
         public int Timeout
         {

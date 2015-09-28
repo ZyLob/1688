@@ -96,6 +96,8 @@ namespace ZyLob.Ali1688.Op.Common
         {
 
             var wuHelp = new WebUtils();
+            //默认超时时间为15秒
+            wuHelp.Timeout = 15000;
             var memberPrivateData = "";
             int wrongCount = 0;
             do
