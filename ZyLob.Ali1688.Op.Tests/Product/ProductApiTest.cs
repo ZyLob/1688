@@ -7,26 +7,26 @@ using ZyLob.Ali1688.Op.Models;
 namespace ZyLob.Ali1688.Op.Tests.Product
 {
     [TestClass]
-    public class ProductApiTest:TestBase
+    public class ProductApiTest : TestBase
     {
         [TestMethod]
         public void ProductSeachTest()
         {
             var result = AliContext.Static.Product.ProductSeach(new ProductSeachModel()
             {
-                Q="",
-                OfferId = 521260330042,
+                Q = "",
+                // OfferId = 521260330042,
                 MemberId = "b2b-1623492085",
                 PageSize = 50,
                 Status = OfferStatus.Published,
-                ReturnFields = "skuArray"
+                ReturnFields = "skuArray,imageList"
             });
         }
 
         [TestMethod]
         public void GetPublishOffersTest()
         {
-           var result= AliContext.Static.Product.GetPublishOffers();
+            var result = AliContext.Static.Product.GetPublishOffers();
         }
         [TestMethod]
         public void GetAllOffersTest()
@@ -48,11 +48,17 @@ namespace ZyLob.Ali1688.Op.Tests.Product
         [TestMethod]
         public void OfferModifyStockTest()
         {
-          // var result = AliContext.Static.Product.OfferModifyStock(521927009549, 200, new Dictionary<string, int>() { { "c2f485e135fb40c1e87c0a9393803ed4", 10 } });
+            // var result = AliContext.Static.Product.OfferModifyStock(521927009549, 200, new Dictionary<string, int>() { { "c2f485e135fb40c1e87c0a9393803ed4", 10 } });
             var result = AliContext.Static.Product.OfferModifyStock(521927009549, 200);
 
         }
-        
+
+        [TestMethod]
+        public void OfferRepostTest()
+        {
+            var result = AliContext.Static.Product.OfferRepost(522058408179);
+        }
+
 
     }
 }
