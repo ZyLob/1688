@@ -80,6 +80,7 @@ namespace ZyLob.Ali1688.Op.Context
             Order=new OrderApi(this);
             Logistics=new LogisticsApi(this);
             CustomerRelations= new CustomerRelApi(this);
+            Timeout = 15;
         }
         /// <summary>
         /// 获取参数集合
@@ -97,6 +98,10 @@ namespace ZyLob.Ali1688.Op.Context
         /// 阿里访问口令
         /// </summary>
         public string  AccessToken { get; set; }
+        /// <summary>
+        /// 请求超时时间，单位：秒
+        /// </summary>
+        public int Timeout { get; set; }
         /// <summary>
         /// 静态实例
         /// </summary>
