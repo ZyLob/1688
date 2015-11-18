@@ -211,8 +211,8 @@ namespace ZyLob.Ali1688.Op.Models
     /// </summary>
     public enum EvaluateStatus
     {
-        未评论 = 4,
-        已评论 = 5,
+        未评论 = 5,
+        已评论 = 4,
         不需要评论 = 6
     }
 

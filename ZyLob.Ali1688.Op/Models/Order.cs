@@ -636,7 +636,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// </summary>
         public DateTime GmtCreate { get; set; }
         /// <summary>
-        /// 买家评价状态(4:未评论,5:已评论,6;不需要评论)
+        /// 买家评论状态(4:未评论,5:已评论,6;不需要评论)
         /// </summary>
         public EvaluateStatus BuyerRateStatus { get; set; }
         /// <summary>
