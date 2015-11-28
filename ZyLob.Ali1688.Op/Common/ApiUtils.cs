@@ -91,8 +91,9 @@ namespace ZyLob.Ali1688.Op.Common
         /// </summary>
         /// <param name="url">接口模块名称</param>
         /// <param name="parameters">参数集合</param>
+        /// <param name="isTolerance">是否支持容错</param>
         /// <returns>请求结果信息</returns>
-        public T Send<T>(string url, Dictionary<string, string> parameters)
+        public T Send<T>(string url, Dictionary<string, string> parameters,bool isTolerance=true)
         {
 
             var wuHelp = new WebUtils();
@@ -115,7 +116,7 @@ namespace ZyLob.Ali1688.Op.Common
                 catch (System.Exception ex)
                 {
                     wrongCount++;
-                    if (wrongCount >= AliContext.TolerateWrongCount)
+                    if (wrongCount >= AliContext.TolerateWrongCount || !isTolerance)
                         throw new AliAccessException(url, memberPrivateData, ex.Message);
                 }
             } while (wrongCount < AliContext.TolerateWrongCount);

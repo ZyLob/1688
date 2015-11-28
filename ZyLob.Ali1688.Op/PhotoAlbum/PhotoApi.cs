@@ -108,7 +108,7 @@ namespace ZyLob.Ali1688.Op.PhotoAlbum
             otherParas.Add("imageBytes", Convert.ToBase64String(photoBytes));
             otherParas.Add("drawTxt", isWatermark.ToString());
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
-            var results = _context.Util.Send<AliResult<AliResultList<AliPhoto>>>(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<AliPhoto>>>(url, otherParas,false);
             if (results.Result.Total > 0)
             {
                 var currPhoto = results.Result.ToReturn.First();
