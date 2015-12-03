@@ -387,7 +387,12 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 分阶段
         /// </summary>
-        STEP
+        STEP,
+        /// <summary>
+        /// 未知
+        /// </summary>
+        UNKNOW
+
     }
 
     /// <summary>
