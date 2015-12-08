@@ -449,6 +449,46 @@ namespace ZyLob.Ali1688.Op.Models
         /// 订单(产品)名称
         /// </summary>
         public string ProductName { get; set; }
+
+        /// <summary>
+        /// 卖家备注
+        /// </summary>
+        public OrderMemo SellerOrderMemo { get; set; }
+    }
+    /// <summary>
+    /// 订单备注
+    /// </summary>
+    public class OrderMemo
+    {
+        /// <summary>
+        /// 最后修改时间
+        /// </summary>
+        public DateTime GmtModified { get; set; }
+
+        /// <summary>
+        /// 备注创建时间
+        /// </summary>
+        public DateTime GmtCreate { get; set; }
+
+        /// <summary>
+        /// 备注内容
+        /// </summary>
+        public string Remark { get; set; }
+
+        /// <summary>
+        /// 备注图标
+        /// </summary>
+        public int RemarkIcon { get; set; }
+
+        /// <summary>
+        /// 备注人编号
+        /// </summary>
+        public string MemberId { get; set; }
+
+        /// <summary>
+        /// 订单号
+        /// </summary>
+        public long OrderId { get; set; }
     }
 
     /// <summary>
