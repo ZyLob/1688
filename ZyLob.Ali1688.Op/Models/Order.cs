@@ -348,7 +348,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// </summary>
         public string SellerLoginId { get; set; }
 
-        public JObject OrderOfferEntries { get; set; }
+        public JArray OrderOfferEntries { get; set; }
 
         public OrderPaymentSign OrderPaymentSign { get; set; }
 
