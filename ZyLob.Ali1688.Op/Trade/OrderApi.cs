@@ -113,11 +113,11 @@ namespace ZyLob.Ali1688.Op.Trade
             }
             if (seachModel.SellerRateStatus != null)
             {
-                otherParas.Add("sellerRateStatus", seachModel.SellerRateStatus + "");
+                otherParas.Add("sellerRateStatus", (int)seachModel.SellerRateStatus + "");
             }
             if (seachModel.BuyerRateStatus != null)
             {
-                otherParas.Add("buyerRateStatus", seachModel.BuyerRateStatus + "");
+                otherParas.Add("buyerRateStatus", (int)seachModel.BuyerRateStatus + "");
             }
             if (seachModel.RefundStatus != null)
             {
