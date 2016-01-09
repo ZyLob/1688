@@ -153,7 +153,7 @@ namespace ZyLob.Ali1688.Op.Trade
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<AliOrderSearchResult>(url, otherParas);
 
-            if (results.OrderListResult.TotalCount > 0)
+            if (results!=null&&results.OrderListResult.TotalCount > 0)
             {
                 return new PagedList<OrderModel>(results.OrderListResult.ModelList, seachModel.Page, seachModel.PageSize, results.OrderListResult.TotalCount);
             }
