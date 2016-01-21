@@ -491,6 +491,107 @@ namespace ZyLob.Ali1688.Op.Models
         public bool Success { get; set; }
      
     }
+    /// <summary>
+    /// 产品入参信息,新发修改时的产品入参结构
+    /// </summary>
+    public class OfferNew
+    {
+        public Dictionary<string, List<Dictionary<string,string>>> skuPics { get; set; }
+        /// <summary>
+        /// 贸易类型。1：产品，2：加工，3：代理，4：合作，5：商务服务 不传入默认按照产品发布
+        /// </summary>
+        public int bizType { get; set; }
+        /// <summary>
+        /// 产品属性列表。key是属性id， value是值。所有的属性值都需要传入，包括产品属性和除价格之外的交易属性
+        /// </summary>
+        public Dictionary<string,string> productFeatures { get; set; }
+        /// <summary>
+        /// 自定义类目信息。如果有父ID ，则格式为：父id:子ID
+        /// </summary>
+        public List<string> userCategorys { get; set; }
+        /// <summary>
+        /// 类目ID
+        /// </summary>
+        public long categoryID { get; set; }
+        /// <summary>
+        /// 是否支持网上交易。true：支持 false：不支持
+        /// </summary>
+        public bool supportOnlineTrade { get; set; }
+        /// <summary>
+        /// 是否SKU信息
+        /// </summary>
+        public bool skuTradeSupport { get; set; }
+
+        /// <summary>
+        /// 是否图片私密信息
+        /// </summary>
+        public bool pictureAuthOffer { get; set; }
+
+        /// <summary>
+        /// 是否价格私密信息
+        /// </summary>
+        public bool priceAuthOffer { get; set; }
+
+        /// <summary>
+        /// 是否支持混批
+        /// </summary>
+        public bool mixWholeSale { get; set; }
+        /// <summary>
+        /// 信息有效期
+        /// </summary>
+        public int periodOfValidity { get; set; }
+        /// <summary>
+        /// 商品详情信息
+        /// </summary>
+        public string offerDetail { get; set; }
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public string subject { get; set; }
+        /// <summary>
+        /// 图片地址
+        /// </summary>
+        public List<string> imageUriList { get; set; }
+
+        /// <summary>
+        /// 运费类型。T（运费模板） D（运费说明） F（卖家承担运费）
+        /// </summary>
+        public string freightType { get; set; }
+
+        /// <summary>
+        /// 发货地址ID
+        /// </summary>
+        public long sendGoodsAddressId { get; set; }
+
+        /// <summary>
+        /// 物流模板。卖家承担时模板ID为61
+        /// </summary>
+        public long freightTemplateId { get; set; }
+
+        /// <summary>
+        /// 可售数量
+        /// </summary>
+        public int amountOnSale { get; set; }
+
+        /// <summary>
+        /// 区间价格。每个区间之间用`分割，冒号前面是起订量，后面是价格 20:10`30:9`40:8
+        /// </summary>
+        public string priceRanges { get; set; }
+
+        /// <summary>
+        ///  单位重量
+        /// </summary>
+        public double offerWeight { get; set; }
+        /// <summary>
+        /// SKU信息。
+        /// </summary>
+        public List<OfferIncrementSku> skuList { get; set; }
+        /// <summary>
+        /// 计量单位
+        /// </summary>
+
+        public string unit { get; set; }
+    }
 
 
 }

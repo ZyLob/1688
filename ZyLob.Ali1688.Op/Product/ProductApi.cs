@@ -386,5 +386,23 @@ namespace ZyLob.Ali1688.Op.Product
             var results = _context.Util.Send<ModifyStockResult>(url, otherParas);
             return results;
         }
+        /// <summary>
+        /// 本接口通过数据接口的形式，实现阿里巴巴中文站登录会员发布offer的功能。每个客户每天最多新发布1000个产品。
+        /// </summary>
+        public long? OfferNew(OfferNew model)
+        {
+            string url = "http://gw.open.1688.com:80/openapi/param2/1/cn.alibaba.open/offer.new/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            if (model != null)
+            {
+                string offerStr = JsonConvert.SerializeObject(model);
+                otherParas.Add("offer", offerStr);
+            }
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send <AliResult<AliResultList<long>>>(url, otherParas);
+            if (results.Result == null || !results.Result.Success)
+                return null;
+            return results.Result.ToReturn.First();
+        }
     }
 }
