@@ -585,7 +585,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// SKU信息。
         /// </summary>
-        public List<OfferIncrementSku> skuArray { get; set; }
+        public List<OfferIncrementSku> skuList { get; set; }
         /// <summary>
         /// 计量单位
         /// </summary>
