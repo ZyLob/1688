@@ -591,6 +591,10 @@ namespace ZyLob.Ali1688.Op.Models
         /// </summary>
 
         public string unit { get; set; }
+        /// <summary>
+        /// 是否支持按照规格报价
+        /// </summary>
+        public bool IsSkuTradeSupported { get; set; }
     }
 
 
