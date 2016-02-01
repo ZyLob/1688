@@ -399,7 +399,7 @@ namespace ZyLob.Ali1688.Op.Product
                 otherParas.Add("offer", offerStr);
             }
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
-            var results = _context.Util.Send <AliResult<AliResultList<long>>>(url, otherParas);
+            var results = _context.Util.Send <AliResult<AliResultList<long?>>>(url, otherParas);
             if (results.Result == null || !results.Result.Success)
                 return null;
             return results.Result.ToReturn.First();
