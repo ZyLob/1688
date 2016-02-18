@@ -11,6 +11,10 @@ namespace ZyLob.Ali1688.Op.Models
     public class AliResult<T>
     {
         public T Result { get; set; }
+        /// <summary>
+        /// 消息
+        /// </summary>
+        public string[] Message { get; set; }
     }
     /// <summary>
     /// 列表结果集

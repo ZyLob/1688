@@ -596,6 +596,33 @@ namespace ZyLob.Ali1688.Op.Models
         /// </summary>
         public bool IsSkuTradeSupported { get; set; }
     }
+    /// <summary>
+    /// 供品过期结果
+    /// </summary>
+    public class OfferExpireResult
+    {
+        /// <summary>
+        /// 错误提醒
+        /// </summary>
+        public string Failure { get; set; }
+        /// <summary>
+        /// 过期时间
+        /// </summary>
+        public DateTime GMTExpire { get; set; }
+        /// <summary>
+        /// 是否下架成功
+        /// </summary>
+        public bool IsSuccess { get; set; }
+        /// <summary>
+        /// 最后修改时间
+        /// </summary>
+        public DateTime GMTModified { get; set; }
 
+        /// <summary>
+        /// 供品编号
+        /// </summary>
+        public long OfferId { get; set; }
+
+    }
 
 }

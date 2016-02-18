@@ -400,9 +400,35 @@ namespace ZyLob.Ali1688.Op.Product
             }
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send <AliResult<AliResultList<long?>>>(url, otherParas);
+            if (results.Message != null && results.Message.Length > 0)
+            {
+                throw new AliResultException(string.Join(",",results.Message));
+            }
             if (results.Result == null || !results.Result.Success)
                 return null;
             return results.Result.ToReturn.First();
+        }
+        /// <summary>
+        /// 通过本接口实现阿里巴巴中文站已登录卖家会员批量的设置指定offerID产品信息为过期商品的功能；转为过期的业务规则现有网站的业务逻辑保持一致；
+        /// </summary>
+        public List<OfferExpireResult> OfferExpire(params long[] offerIds)
+        {
+            string url = "http://gw.open.1688.com:80/openapi/param2/1/cn.alibaba.open/offer.expire/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            if (offerIds.Count()>0)
+            {
+
+                otherParas.Add("offerIds", string.Join(";",offerIds));
+            }
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<OfferExpireResult>>>(url, otherParas);
+            if (results.Message != null && results.Message.Length > 0)
+            {
+                throw new AliResultException(string.Join(",", results.Message));
+            }
+            if (results.Result == null )
+                return new List<OfferExpireResult>();
+            return results.Result.ToReturn;
         }
     }
 }

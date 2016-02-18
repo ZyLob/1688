@@ -64,4 +64,18 @@ namespace ZyLob.Ali1688.Op.Common
 
        }
     }
+    /// <summary>
+    /// 操作结果错误
+    /// </summary>
+    public sealed class AliResultException : AliException
+    {
+        /// <summary>
+        /// 阿里异常构造函数
+        /// </summary>
+        /// <param name="msg">消息模版参数</param>
+        public AliResultException(string msg)
+            : base("{0}", msg)
+        {
+        }
+    }
 }
