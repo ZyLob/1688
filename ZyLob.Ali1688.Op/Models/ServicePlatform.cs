@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ZyLob.Ali1688.Op.Models
 {
@@ -10,11 +11,11 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 订单详细状态
         /// </summary>
-        public AliApplyDetailOrderState DetailOrderState { get; set; }
+        public AliApplyDetailOrderState BizStatusExt { get; set; }
         /// <summary>
         /// 阿里会员编号
         /// </summary>
-        public string AliMemberId { get; set; }
+        public string MemberId { get; set; }
         /// <summary>
         /// 产品名称
         /// </summary>
@@ -22,15 +23,15 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// 下单时间
         /// </summary>
-        public DateTime CreateDate { get; set; }
+        public DateTime GmtCreate { get; set; }
         /// <summary>
         /// 到期时间
         /// </summary>
-        public DateTime ValidityDate { get; set; }
+        public DateTime GmtServiceEnd { get; set; }
         /// <summary>
         /// 订单状态
         /// </summary>
-        public AliApplyOrderState OrderState { get; set; }
+        public AliApplyOrderState BizStatus { get; set; }
         /// <summary>
         /// 到帐金额
         /// </summary>
@@ -39,5 +40,12 @@ namespace ZyLob.Ali1688.Op.Models
         /// 执行金额
         /// </summary>
         public double ExecutePrice { get; set; }
+    }
+
+    public class ApplyOrderList
+    {
+        public string ReturnClassName { get; set; }
+        public bool Successed { get; set; }
+        public List<AliApplyOrder> ReturnValue { get; set; }
     }
 }

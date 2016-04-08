@@ -55,10 +55,11 @@ namespace ZyLob.Ali1688.Op.ServicePlatform
                 otherParas.Add("bizStatusList", "[{0}]".FormatStr(statesStr.Substring(1)));
             }
             _context.Util.AddAliApiUrlSignPara( url, otherParas);
-            var results=  _context.Util.Send<AliResult<AliResultList<AliApplyOrder>>>(url, otherParas);
-            if (results.Result.Total > 0)
+            var results = _context.Util.Send<ApplyOrderList>(url, otherParas);
+            if (results.ReturnValue != null && results.ReturnValue.Count > 0)
             {
-                return new PagedList<AliApplyOrder>(results.Result.ToReturn, pageIndex,pageSize, results.Result.Total);
+                int total = results.ReturnValue.Count;//先特殊处理目前api没有返回
+                return new PagedList<AliApplyOrder>(results.ReturnValue, pageIndex, pageSize, total);
             }
             return new PagedList<AliApplyOrder>(new List<AliApplyOrder>(), pageIndex, pageSize);
         }
