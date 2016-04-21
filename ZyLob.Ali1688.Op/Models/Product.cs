@@ -624,5 +624,108 @@ namespace ZyLob.Ali1688.Op.Models
         public long OfferId { get; set; }
 
     }
+    /// <summary>
+    /// 获取某个卖家的相关橱窗信息(目前诚信通用户可用)
+    /// </summary>
+    public class ShowWindowModel
+    {
+        /// <summary>
+        /// 已用橱窗数
+        /// </summary>
+        public int swUsedCount { get; set; }
+        /// <summary>
+        /// 橱窗总数
+        /// </summary>
+        public int swTotalCount { get; set; }
+         /// <summary>
+        /// 基准橱窗数
+        /// </summary>
+        public int swBaseCount { get; set; }
+         /// <summary>
+        /// 奖励橱窗数
+        /// </summary>
+        public int swAwardCount { get; set; }
+         /// <summary>
+        /// 扣减橱窗数
+        /// </summary>
+        public int swReduceCount { get; set; }
+         /// <summary>
+        /// 剩余橱窗数
+        /// </summary>
+        public int swRemainCount { get; set; }
+         /// <summary>
+        /// 活动奖励橱窗数
+        /// </summary>
+        public int swActivityCount { get; set; }
+         /// <summary>
+        /// 版本ID
+        /// </summary>
+        public int versionId { get; set; }
+        /// <summary>
+        /// 会员ID
+        /// </summary>
+        public string memberId { get; set; }
+        /// <summary>
+        /// 基准橱窗数原因
+        /// </summary>
+        public string swBaseCountReason { get; set; }
+        /// <summary>
+        /// 奖励橱窗数原因
+        /// </summary>
+        public string swAwardCountReason { get; set; }
+        /// <summary>
+        /// 扣减橱窗数原因
+        /// </summary>
+        public string swReduceCountReason { get; set; }
+        /// <summary>
+        /// 是否黑名单会员，true为黑名单，false不为黑名单
+        /// </summary>
+        public bool blackListMemberStatus { get; set; }
+        /// <summary>
+        /// 橱窗运算时间
+        /// </summary>
+        public DateTime gmtCreate { get; set; }
+        
+    }
+    /// <summary>
+    /// 推荐一个产品为橱窗产品(目前诚信通用户可用)
+    /// </summary>
+    public class RecommendOfferResult
+    {
+        public DateTime modifyTime { get; set; }
+        public long offerId { get; set; }
+    }
+    /// <summary>
+    /// 橱窗错误信息
+    /// </summary>
+    public class ShowWindowError
+    {
+        public string error_code { get; set; }
+        public string error_message { get; set; }
+        public string exception { get; set; }
+        public string request_id { get; set; }
+    }
+    /// <summary>
+    /// 获取某个卖家的相关橱窗信息结果模型
+    /// </summary>
+    public class ShowWindowResult : ShowWindowError
+    {
+        public ShowWindowModel showWindowModel { get; set; }
+    }
+    /// <summary>
+    /// 推荐一个产品为橱窗产品(目前诚信通用户可用)
+    /// </summary>
+    public class ShowWindowDoRecommendOfferResult : ShowWindowError
+    {
+        public RecommendOfferResult resultMap { get; set; }
+    }
+    /// <summary>
+    /// 获取某个卖家已经推荐的橱窗产品列表
+    /// </summary>
+    public class ShowWindowDoQueryRecommOfferListResult : ShowWindowError
+    {
+        public List<OfferDetailInfo> showWindowOfferList { get; set; }
+    }
+
 
 }

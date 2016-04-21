@@ -399,10 +399,10 @@ namespace ZyLob.Ali1688.Op.Product
                 otherParas.Add("offer", offerStr);
             }
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
-            var results = _context.Util.Send <AliResult<AliResultList<long?>>>(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<long?>>>(url, otherParas);
             if (results.Message != null && results.Message.Length > 0)
             {
-                throw new AliResultException(string.Join(",",results.Message));
+                throw new AliResultException(string.Join(",", results.Message));
             }
             if (results.Result == null || !results.Result.Success)
                 return null;
@@ -415,10 +415,10 @@ namespace ZyLob.Ali1688.Op.Product
         {
             string url = "http://gw.open.1688.com:80/openapi/param2/1/cn.alibaba.open/offer.expire/{0}".FormatStr(_context.Config.AppKey);
             var otherParas = _context.GetParas();
-            if (offerIds.Count()>0)
+            if (offerIds.Count() > 0)
             {
 
-                otherParas.Add("offerIds", string.Join(";",offerIds));
+                otherParas.Add("offerIds", string.Join(";", offerIds));
             }
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<AliResult<AliResultList<OfferExpireResult>>>(url, otherParas);
@@ -426,9 +426,82 @@ namespace ZyLob.Ali1688.Op.Product
             {
                 throw new AliResultException(string.Join(",", results.Message));
             }
-            if (results.Result == null )
+            if (results.Result == null)
                 return new List<OfferExpireResult>();
             return results.Result.ToReturn;
         }
+        #region 橱窗
+        /// <summary>
+        /// 获取卖家的相关橱窗信息
+        /// </summary>
+        /// <returns></returns>
+        public ShowWindowModel IndustryShowwindowQuery()
+        {
+            string url = "http://gw.open.1688.com:80/openapi/param2/1/cn.alibaba.open/industry.showwindow.query/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<ShowWindowResult>(url, otherParas);
+            return results.showWindowModel;
+        }
+        /// <summary>
+        /// 推荐一个产品为橱窗产品(目前诚信通用户可用)
+        /// </summary>
+        /// <param name="offerId">产品编号</param>
+        /// <returns></returns>
+        public RecommendOfferResult IndustryShowwindowDoRecommendOffer(long offerId)
+        {
+            string url = "http://gw.open.1688.com:80/openapi/param2/1/cn.alibaba.open/industry.showwindow.doRecommendOffer/{0}".FormatStr(_context.Config.AppKey);
+           var otherParas = _context.GetParas();
+            otherParas.Add("offerId", offerId.ToString());
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<ShowWindowDoRecommendOfferResult>(url, otherParas);
+            if (results.error_code != null )
+            {
+                throw new AliResultException(results.error_message);
+            }
+
+            return results.resultMap;
+        }
+        /// <summary>
+        /// 取消一个橱窗推荐产品(目前诚信通用户可用)
+        /// </summary>
+        /// <param name="offerId">产品编号</param>
+        /// <returns></returns>
+        public RecommendOfferResult IndustryShowwindowCancelRecommendOffer(long offerId)
+        {
+            string url = "http://gw.open.1688.com:80/openapi/param2/1/cn.alibaba.open/industry.showwindow.cancelRecommendOffer/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            otherParas.Add("offerId", offerId.ToString());
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<ShowWindowDoRecommendOfferResult>(url, otherParas);
+            if (results.error_code != null)
+            {
+                throw new AliResultException( results.error_message);
+            }
+
+            return results.resultMap;
+        }
+         /// <summary>
+        /// 获取某个卖家已经推荐的橱窗产品列表
+        /// </summary>
+        /// <returns></returns>
+        public List<OfferDetailInfo> DoQueryRecommOfferList()
+        {
+            string url = "http://gw.open.1688.com:80/openapi/param2/1/cn.alibaba.open/industry.showwindow.doQueryRecommOfferList/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<ShowWindowDoQueryRecommOfferListResult>(url, otherParas);
+            if (!string.IsNullOrEmpty(results.error_code))
+            {
+                throw new AliResultException( results.error_message);
+            }
+             if (results.showWindowOfferList == null)
+             {
+                 results.showWindowOfferList=new List<OfferDetailInfo>();
+             }
+            return results.showWindowOfferList;
+        }
+        
+        #endregion
     }
 }
