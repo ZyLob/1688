@@ -60,12 +60,14 @@
     <Compile Include="Common\WebUtils.cs" />
     <Compile Include="Companys\CompanyApi.cs" />
     <Compile Include="Context\AliContext.cs" />
+    <Compile Include="Classify\CategoryApi.cs" />
     <Compile Include="CustomClassify\CustomClassifyApi.cs" />
     <Compile Include="CustomerRel\CustomerRelApi.cs" />
     <Compile Include="Member\MemberApi.cs" />
     <Compile Include="Models\AliApply.cs" />
     <Compile Include="Models\AliResult.cs" />
     <Compile Include="Models\Authorization.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CompanyLibrary.cs" />
     <Compile Include="Models\CustomClassify.cs" />
     <Compile Include="Models\Customer.cs" />

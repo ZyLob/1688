@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using ZyLob.Ali1688.Op.Authorization;
+using ZyLob.Ali1688.Op.Classify;
 using ZyLob.Ali1688.Op.Common;
 using ZyLob.Ali1688.Op.Companys;
 using ZyLob.Ali1688.Op.CustomClassify;
@@ -80,6 +81,7 @@ namespace ZyLob.Ali1688.Op.Context
             Order=new OrderApi(this);
             Logistics=new LogisticsApi(this);
             CustomerRelations= new CustomerRelApi(this);
+            Category=new CategoryApi(this);
             Timeout = 15;
         }
         /// <summary>
@@ -166,6 +168,10 @@ namespace ZyLob.Ali1688.Op.Context
         /// 客户关系接口
         /// </summary>
         public CustomerRelApi CustomerRelations { get; set; }
+        /// <summary>
+        /// 商品类目
+        /// </summary>
+        public CategoryApi Category { get; set; }
 
 
 
