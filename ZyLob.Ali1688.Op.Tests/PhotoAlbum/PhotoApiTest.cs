@@ -26,10 +26,11 @@ namespace ZyLob.Ali1688.Op.Tests.PhotoAlbum
         [TestMethod]
         public void UploadPhotoTest()
         {
-            var img = Image.FromFile("f:\\test.jpg");
+            var img = Image.FromFile("f:\\1.jpg");
             var stream = new MemoryStream();
             img.Save(stream, img.RawFormat);
-            var results = AliContext.Static.Photo.UploadPhoto(41597988, "测试图片上传功能-1", stream.ToArray());
+            AliContext.Static.Timeout = 30;
+            var results = AliContext.Static.Photo.UploadPhoto(1624713353, "测试图片上传功能-1", stream.ToArray());
 
         }
         [TestMethod]

@@ -58,7 +58,56 @@ namespace ZyLob.Ali1688.Op.Tests.Product
         {
             var result = AliContext.Static.Product.OfferRepost(522058408179);
         }
+        
+        [TestMethod]
+        public void   OfferNewTest()
+        {
+            var model = new OfferNew();
+            model.amountOnSale = 100;
+            model.bizType = 1;
+            model.categoryID = 1048305;
+            model.freightTemplateId = 61;
+            model.freightType = "F";
+            model.mixWholeSale = true;
+            model.supportOnlineTrade = true;
+            model.subject = "测试产品，勿买";
+            model.priceRanges = "1000:20`2000:19";
+            model.sendGoodsAddressId = 7655580;
+            model.priceAuthOffer = false;
+            model.pictureAuthOffer = false;
+            model.offerWeight = 0.5;
+            var result = AliContext.Static.Product.OfferNew(model);
+        }
+        [TestMethod]
+        public void OfferExpireTest()
+        {
 
+            var result = AliContext.Static.Product.OfferExpire(527115880487, 525423472366, 522836198359);
+        }
+        [TestMethod]
+        public void IndustryShowwindowQueryTest()
+        {
 
+            var result = AliContext.Static.Product.IndustryShowwindowQuery();
+        }
+        [TestMethod]
+        public void IndustryShowwindowDoRecommendOfferTest()
+        {
+
+            var result = AliContext.Static.Product.IndustryShowwindowDoRecommendOffer(524638517261);
+        }
+        [TestMethod]
+        public void DoQueryRecommOfferListTest()
+        {
+
+            var result = AliContext.Static.Product.DoQueryRecommOfferList();
+        }
+        [TestMethod]
+        public void IndustryShowwindowCancelRecommendOfferTest()
+        {
+
+            var result = AliContext.Static.Product.IndustryShowwindowCancelRecommendOffer(524638517261);
+        }
+        
     }
 }

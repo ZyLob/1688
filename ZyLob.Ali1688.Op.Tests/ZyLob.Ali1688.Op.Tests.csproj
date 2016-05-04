@@ -57,6 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Authorization\AuthApiTest.cs" />
+    <Compile Include="Classify\CategoryApiTest.cs" />
     <Compile Include="Companys\CompnayApiTest.cs" />
     <Compile Include="CustomClassify\CustomClassifyApiTest.cs" />
     <Compile Include="CustomerRel\CustomerRelApiTest.cs" />

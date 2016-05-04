@@ -12,18 +12,37 @@ namespace ZyLob.Ali1688.Op.Tests.Trade
         [TestMethod]
         public void OrderSearchTest()
         {
-            var results = AliContext.Static.Order.OrderSearch(new OrderSeachModel
-             {
-                 CreateStartTime = DateTime.MinValue,
-                 OrderStatusEnum = OrderStatus.SUCCESS,
-                 PageSize = 50,
-                 SellerMemberId = "b2b-1976248184"
-             });
+            bool isLoadNext = true;
+            int page = 3;
+            do
+            {
+                try
+                {
+                    var results = AliContext.Static.Order.OrderSearch(new OrderSeachModel
+                    {
+                        ModifyStartTime = DateTime.MinValue,
+                        OrderStatusEnum = OrderStatus.SUCCESS,
+                        SellerRateStatus=EvaluateStatus.已评论,
+                        PageSize = 50,
+                        SellerMemberId = "b2b-2262433538",
+                        Page = page
+                        
+                    });
+                    isLoadNext = results.HasNextPage;
+                    page++;
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            } while (isLoadNext);
+            
         }
         [TestMethod]
         public void GetOrderDetailTest()
         {
-            var results = AliContext.Static.Order.GetOrderDetail(1170259893000799);
+            var results = AliContext.Static.Order.GetOrderDetail(1276650775832295);
         }
         [TestMethod]
         public void GetWholesaleSettingTest()
@@ -48,16 +67,16 @@ namespace ZyLob.Ali1688.Op.Tests.Trade
         public void OrderEvaluateTest()
         {
             var paras = new Dictionary<long, OrderEvaluateModel[]>();
-            paras.Add(1170259893000799, new OrderEvaluateModel[]{ new OrderEvaluateModel()
+            paras.Add(1431896000890216, new OrderEvaluateModel[]{ new OrderEvaluateModel()
                {
-                   Content = "好",
+                   Content = "亲，您的好评是对我们最大的支持和鼓励，我们将努力做得更好！记得收藏我们的店铺哦，同时期待您再次光临本店！",
                    StarLevel = 5
                }});
-            paras.Add(1145809440038108, new OrderEvaluateModel[]{  new OrderEvaluateModel()
-               {
-                   Content = "好",
-                   StarLevel = 5
-               }});
+            //paras.Add(1280186152417889, new OrderEvaluateModel[]{  new OrderEvaluateModel()
+            //   {
+            //       Content = "亲，您的好评是对我们最大的支持和鼓励，我们将努力做得更好！记得收藏我们的店铺哦，同时期待您再次光临本店！",
+            //       StarLevel = 5
+            //   }});
             var results = AliContext.Static.Order.OrderEvaluate(paras);
         }
         [TestMethod]

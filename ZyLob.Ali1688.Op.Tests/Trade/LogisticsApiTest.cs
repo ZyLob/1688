@@ -19,6 +19,12 @@ namespace ZyLob.Ali1688.Op.Tests.Trade
 
             var results = AliContext.Static.Logistics.GetSendGoodsAddresses();
         }
+           [TestMethod]
+          public void GetLogisticsTemplatesTest()
+        {
+
+            var results = AliContext.Static.Logistics.GetLogisticsTemplates();
+        }
         
     }
 }
