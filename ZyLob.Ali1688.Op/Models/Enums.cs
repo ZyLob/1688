@@ -135,43 +135,43 @@ namespace ZyLob.Ali1688.Op.Models
         /// 审核通过
         /// </summary>
         [EnumDescription("审核通过", "audit_pass")]
-        AuditPass = 0,
+        audit_pass = 0,
 
         /// <summary>
         /// 待发布
         /// </summary>
         [EnumDescription("待发布", "issue_ready")]
-        IssueReady = 1,
+        issue_ready = 1,
 
         /// <summary>
         /// 服务中 
         /// </summary>
         [EnumDescription("服务中", "service")]
-        Service = 2,
+        service = 2,
 
         /// <summary>
         /// 挂
         /// </summary>
         [EnumDescription("挂", "suspend")]
-        Suspend = 3,
+        suspend = 3,
 
         /// <summary>
         /// 欠费挂起
         /// </summary>
         [EnumDescription("欠费挂起", "arrear_suspend")]
-        ArrearSuspend = 4,
+        arrear_suspend = 4,
 
         /// <summary>
         /// 关闭
         /// </summary>
         [EnumDescription("关闭", "closed")]
-        Closed = 5,
+        closed = 5,
 
         /// <summary>
         /// 作废
         /// </summary>
         [EnumDescription("作废", "cancel")]
-        Cancel = 6,
+        cancel = 6,
     }
 
     /// <summary>
