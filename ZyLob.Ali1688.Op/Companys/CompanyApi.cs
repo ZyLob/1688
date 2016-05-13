@@ -38,7 +38,7 @@ namespace ZyLob.Ali1688.Op.Companys
             }
             _context.Util.AddAliApiUrlSignPara( url, otherParas);
             var results = _context.Util.Send<AliResult<AliResultList<AliCompanyInfo>>>(url, otherParas);
-            if (results.Result.ToReturn.Count > 0)
+            if (results != null && results.Result!=null && results.Result.ToReturn.Count > 0)
             {
                 return results.Result.ToReturn.First();
             }
