@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Authorization\AuthApi.cs" />
     <Compile Include="Common\AliException.cs" />
+    <Compile Include="Common\ApiStatistics.cs" />
     <Compile Include="Common\ApiUtils.cs" />
     <Compile Include="Common\DateTimeExpression.cs" />
     <Compile Include="Common\EnumUtils.cs" />
