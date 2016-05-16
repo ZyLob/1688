@@ -22,7 +22,10 @@ namespace ZyLob.Ali1688.Op.Common
         {
             _context = context;
         }
-
+        /// <summary>
+        /// 成功发送请求数
+        /// </summary>
+        public long SendCount { get; set; }
         /// <summary>
         /// 请求地址签名
         /// <param name="signDivisor">签名因子 具体规则详询 http://open.1688.com/doc/api/cn/sys_signature.htm?ns=cn.alibaba.open </param>
@@ -106,6 +109,7 @@ namespace ZyLob.Ali1688.Op.Common
                 try
                 {
                     memberPrivateData = wuHelp.DoPost(url, parameters);
+                    SendCount++;
                     var result = JsonConvert.DeserializeObject<T>(memberPrivateData, new AliDatetimeJsonConverter());
                     if (result == null)
                     {
