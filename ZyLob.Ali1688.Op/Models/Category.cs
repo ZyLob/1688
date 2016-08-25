@@ -276,6 +276,10 @@ namespace ZyLob.Ali1688.Op.Models
         /// </summary>
         public int outputType { get; set; }
         /// <summary>
+        /// 子属性id列表
+        /// </summary>
+        public List<long> childrenFids { get; set; }
+        /// <summary>
         /// 子属性id和值对
         /// </summary>
         public List<CategoryFeatureIdValue> featureIdValues { get; set; }
