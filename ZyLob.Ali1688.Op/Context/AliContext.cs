@@ -10,6 +10,7 @@ using ZyLob.Ali1688.Op.Member;
 using ZyLob.Ali1688.Op.Models;
 using ZyLob.Ali1688.Op.PhotoAlbum;
 using ZyLob.Ali1688.Op.Product;
+using ZyLob.Ali1688.Op.Search;
 using ZyLob.Ali1688.Op.ServicePlatform;
 using ZyLob.Ali1688.Op.Trade;
 using ZyLob.Ali1688.Op.Url;
@@ -82,6 +83,7 @@ namespace ZyLob.Ali1688.Op.Context
             Logistics=new LogisticsApi(this);
             CustomerRelations= new CustomerRelApi(this);
             Category=new CategoryApi(this);
+            Search = new SearchApi(this);
             Timeout = 15;
         }
         /// <summary>
@@ -172,6 +174,10 @@ namespace ZyLob.Ali1688.Op.Context
         /// 商品类目
         /// </summary>
         public CategoryApi Category { get; set; }
+        /// <summary>
+        /// 搜索类目
+        /// </summary>
+        public SearchApi Search { get; set; }
 
 
 
