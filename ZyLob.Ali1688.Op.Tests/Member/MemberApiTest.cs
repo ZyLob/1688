@@ -21,7 +21,7 @@ namespace ZyLob.Ali1688.Op.Tests.Member
         [TestMethod]
         public void GetMemberInfoTest()
         {
-            var results = AliContext.Static.Member.GetMemberInfo("b2b-1116603396");
+            var results = AliContext.Static.Member.GetMemberInfo("b2b-1712654535", "memberId,winportAddress,mobilePhone,sex,email,addressLocation");
         }
            [TestMethod]
         public void GetMemberIntegrityInfoTest()

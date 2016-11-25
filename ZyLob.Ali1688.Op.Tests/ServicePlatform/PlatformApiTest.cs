@@ -15,7 +15,7 @@ namespace ZyLob.Ali1688.Op.Tests.ServicePlatform
         [TestMethod]
         public void GetApplyOrdersByBeginDateTest()
         {
-            var result = AliContext.Static.Platform.GetApplyOrdersByBeginDate(DateTime.Now, "b2b-281578129382433");
+            var result = AliContext.Static.Platform.GetApplyOrdersByBeginDate(DateTime.Now, "");
         }
     }
 }

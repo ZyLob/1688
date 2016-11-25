@@ -1,0 +1,5023 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ZyLob.Ali1688.Op</name>
+    </assembly>
+    <members>
+        <member name="T:ZyLob.Ali1688.Op.Authorization.AuthApi">
+            <summary>
+            1688授权Api
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Authorization.AuthApi.GetAuthorizeUri(System.String,System.String)">
+            <summary>
+            获取授权地址
+            </summary>
+            <param name="redirectUri">可选,回调地址 默认使用配置地址</param>
+            <param name="state">自定义参数，回跳到redirectUri时，会原样返回</param>
+            <returns>授权地址</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Authorization.AuthApi.GetAliToken(System.String,System.Boolean,System.String)">
+            <summary>
+            获取令牌
+            </summary>
+            <param name="code">必填 授权完成后返回的一次性令牌，code有效期（2分钟）或者已经使用code获取了一次令牌，code都将失效，需要返回重新获取code返回令牌 </param>
+            <param name="needRefreshToken">是否需要返回refresh_token，如果返回了refresh_token，原来获取的refresh_token也不会失效，除非超过半年有效期。默认为True</param>
+            <param name="grantType">授权类型，默认为authorization_code</param>
+            <returns>令牌信息(Json) 说明：resource_owner为登录id，memberId为会员接口id，aliId为阿里巴巴集团统一的id，uid在查询订单等场景时需要使用，具体见相关api入参；refresh_token_timeout表示refreshToken的过期时间</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Authorization.AuthApi.UpdateAccessToken(System.String)">
+             <summary>
+             更新存取令牌
+             </summary>
+             <param name="refreshToken">更新令牌 如果refreshToken有效并且accessToken已经过期（超过10小时），那么可以使用refresh_token换取access_token，不用重新进行授权，然后访问用户隐私数据。
+            如果refreshToken已经超过了半年的有效期，用户修改密码，用户订购到期或者用户通过取消授权工具取消了对app的授权，那么都需要用户重新授权获取refreshToken</param>
+             <returns>新存取令牌</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Authorization.AuthApi.UpdateRefreshToken(System.String,System.String)">
+            <summary>
+            重新获取令牌
+            </summary>
+            <param name="accessToken">原存取令牌</param>
+            <param name="refreshToken">更新令牌，如果refreshToken的有效期和当前时间的差值小于30天，那么调用此接口后当前使用的refreshToken失效，返回一个新的refreshToken</param>
+            <returns>令牌信息(Json) 说明：resource_owner为登录id，memberId为会员接口id，aliId为阿里巴巴集团统一的id，uid在查询订单等场景时需要使用，具体见相关api入参；refresh_token_timeout表示refreshToken的过期时间</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.AliException">
+            <summary>
+            阿里接口异常基类
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.AliException.#ctor(System.String,System.Object[])">
+            <summary>
+            阿里异常构造函数
+            </summary>
+            <param name="msgFormat">消息模版</param>
+            <param name="paras">消息模版参数</param>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.AliAccessException">
+            <summary>
+            阿里访问异常
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.AliAccessException.#ctor(System.String,System.String,System.String)">
+             <summary>
+            阿里异常构造函数
+             </summary>
+             <param name="url"> 请求地址</param>
+             <param name="aliResult">阿里返回结果</param>
+             <param name="message">消息</param>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.AliTokenException">
+            <summary>
+            阿里口令异常
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.AliTokenException.#ctor(System.String)">
+            <summary>
+            阿里权限异常构造函数
+            </summary>
+            <param name="apiName">接口名称</param>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.AliParamException">
+            <summary>
+            阿里接口输入参数异常
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.AliParamException.#ctor(System.String)">
+            <summary>
+            阿里权限异常构造函数
+            </summary>
+            <param name="paraDesc">参数描述</param>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.AliResultException">
+            <summary>
+            操作结果错误
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.AliResultException.#ctor(System.String)">
+            <summary>
+            阿里异常构造函数
+            </summary>
+            <param name="msg">消息模版参数</param>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.ApiStatistics">
+            <summary>
+            接口统计
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.ApiStatistics.SendCounts">
+            <summary>
+            成功发送请求数
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.ApiStatistics.SendRecord(ZyLob.Ali1688.Op.Models.AliApply)">
+            <summary>
+            成功发送记录
+            <param name="app">应用信息</param>
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.ApiStatistics.WrongRecord(ZyLob.Ali1688.Op.Models.AliApply)">
+            <summary>
+            错误发送记录
+            <param name="app">应用信息</param>
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.StatisticsInfo">
+            <summary>
+            统计信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.StatisticsInfo.Date">
+            <summary>
+            统计日期
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.StatisticsInfo.AppKey">
+            <summary>
+            应用钥匙
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.StatisticsInfo.SendCount">
+            <summary>
+            成功发送次数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.StatisticsInfo.WrongCount">
+            <summary>
+            错误次数
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.ApiUtils">
+            <summary>
+            签名辅助
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.ApiUtils.Sign(System.String)">
+            <summary>
+            请求地址签名
+            <param name="signDivisor">签名因子 具体规则详询 http://open.1688.com/doc/api/cn/sys_signature.htm?ns=cn.alibaba.open </param>
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.ApiUtils.ParameterFilter(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            过滤空请求参数
+            </summary>
+            <param name="paras">请求参数</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.ApiUtils.GetUriParametersString(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            拼接参数窜
+            </summary>
+            <param name="parameters">参数集合</param>
+            <returns>参数窜</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.ApiUtils.AddAliApiUrlSignPara(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            添加阿里接口地址签名参数
+            </summary>
+            <param name="url">url 中的一部分，我们称之为urlPath，从协议（param2）开始截取，到“?”为止</param>
+            <param name="paras">请求参数</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.ApiUtils.Send``1(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            发送接口请求
+            </summary>
+            <param name="url">接口模块名称</param>
+            <param name="parameters">参数集合</param>
+            <param name="isTolerance">是否支持容错</param>
+            <returns>请求结果信息</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.AliApplyConfigHandler">
+            <summary>
+            加载阿里应用配置
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.DateTimeExpression">
+            <summary>
+            日期扩展
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.DateTimeExpression.ToAliDate(System.DateTime)">
+            <summary>
+            转阿里时间标准格式字符串
+            </summary>
+            <param name="currDateTime">要转换时间</param>
+            <returns>阿里时间标准格式字符串</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.AliDatetimeJsonConverter">
+            <summary>
+            阿里api日期特殊处理
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.AliDatetimeJsonConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Reads the JSON representation of the object.
+            </summary>
+            <param name="reader">The <see cref="T:Newtonsoft.Json.JsonReader"/> to read from.</param><param name="objectType">Type of the object.</param><param name="existingValue">The existing value of object being read.</param><param name="serializer">The calling serializer.</param>
+            <returns>
+            The object value.
+            </returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.EnumDescription">
+            <summary>
+            枚举标注特性
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.EnumDescription.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.EnumDescription.TextTag">
+            <summary>
+            文本标识,枚举内唯一标识可用来转换
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.EnumUtils">
+            <summary>
+            枚举帮助类
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.EnumUtils.FindAll``1">
+            <summary>
+            枚举转为字典(枚举特性)
+            </summary>
+            <typeparam name="TEnum">枚举类型</typeparam>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.EnumUtils.GetDescription``1(System.Int32,System.String)">
+            <summary>
+            获取指定枚举值的描述
+            </summary>
+            <param name="value">枚举值</param>
+            <param name="nullValue">没有找到时的返回值</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.EnumUtils.FindAll``2">
+            <summary>
+            枚举转为字典(枚举特性)
+            </summary>
+            <typeparam name="TEnum">枚举类型</typeparam>
+            <typeparam name="TEnumDesc">标识属性类型</typeparam>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.EnumUtils.GetDescription``2(``0)">
+            <summary>
+            获取指定枚举值的描述
+            </summary>
+            <param name="value">枚举值</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.EnumUtils.TextTagToEnum``1(System.String)">
+            <summary>
+            通过文本标识转换成指定类型的枚举
+            </summary>
+            <typeparam name="TEnum">指定类型的枚举</typeparam>
+            <param name="textTag">EnumDescription中的文本标识</param>
+            <returns>指定类型的枚举</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.IPagedList`1">
+             <summary>
+            列表分页接口
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.IPagedList`1.PageIndex">
+            <summary>
+            当前页
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.IPagedList`1.PageSize">
+            <summary>
+            每页显示条数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.IPagedList`1.TotalCount">
+            <summary>
+            总记录数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.IPagedList`1.TotalPages">
+            <summary>
+            总页数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.IPagedList`1.HasPreviousPage">
+            <summary>
+            是否存在上一页
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.IPagedList`1.HasNextPage">
+            <summary>
+            是否存在下一页
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.PagedList`1">
+            <summary>
+            列表分页
+            </summary>
+            <typeparam name="T">分页项类型</typeparam>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.PagedList`1.#ctor(System.Linq.IQueryable{`0},System.Int32,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="source">数据源</param>
+            <param name="pageIndex">当前页</param>
+            <param name="pageSize">每页显示条数</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.PagedList`1.#ctor(System.Collections.Generic.IList{`0},System.Int32,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="source">数据源</param>
+            <param name="pageIndex">当前页</param>
+            <param name="pageSize">每页显示条数</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.PagedList`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="source">数据源</param>
+            <param name="pageIndex">当前页</param>
+            <param name="pageSize">每页显示条数</param>
+            <param name="totalCount">总记录数</param>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.PagedList`1.PageIndex">
+            <summary>
+            当前页
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.PagedList`1.PageSize">
+            <summary>
+            每页显示条数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.PagedList`1.TotalCount">
+            <summary>
+            总记录数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.PagedList`1.TotalPages">
+            <summary>
+            总页数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.PagedList`1.HasPreviousPage">
+            <summary>
+            是否存在上一页
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.PagedList`1.HasNextPage">
+            <summary>
+            是否存在下一页
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.StringExpression">
+            <summary>
+            字符串扩展
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.ToEnum``1(System.String)">
+            <summary>
+            将字符串转换为指定枚举类型
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.IsNullOrEmpty(System.String)">
+            <summary>
+            判断字符串是否为Null或空
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.IsNullOrWhiteSpace(System.String)">
+            <summary>
+            指示指定的字符串是 null、空还是仅由空白字符组成
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.IsNotNullOrEmpty(System.String)">
+            <summary>
+            判断字符串是否不为Null或空
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.ToInt(System.String,System.Int32)">
+            <summary>
+            转为整型
+            </summary>
+            <param name="str"></param>
+            <param name="defaultInt">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.ToStr(System.String)">
+             <summary>
+            转为字符
+             </summary>
+             <param name="str">字符串</param>
+             <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.ToDateTime(System.String,System.DateTime)">
+            <summary>
+            转为日期类型
+            </summary>
+            <param name="str"></param>
+            <param name="defaultDateTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.ToDateTime(System.String)">
+            <summary>
+            转为日期类型
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.ToDouble(System.String)">
+            <summary>
+            转为双精度数
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.ToInt(System.String)">
+            <summary>
+            转为整型
+            </summary>
+            <param name="str"></param>
+            <remarks>转换失败时，默认为0</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.Split(System.String,System.String)">
+            <summary>
+            字符串分割
+            </summary>
+            <param name="str"></param>
+            <param name="split">分割的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.Split(System.String,System.Char)">
+            <summary>
+            字符串分割
+            </summary>
+            <param name="str"></param>
+            <param name="split">分割的字符</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.Exists(System.String,System.String)">
+            <summary>
+            验证是否存在指定字符串
+            </summary>
+            <param name="str"></param>
+            <param name="existsStr">验证字符串</param>
+            <returns>是否存在</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.ToMd5(System.String)">
+            <summary>
+            转换为MD5
+            </summary>
+            <param name="origin"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StringExpression.FormatStr(System.String,System.Object[])">
+            <summary>
+            字符串格式化
+            </summary>
+            <param name="formatStr">字符串格式</param>
+            <param name="args">站位参数</param>
+            <returns>格式化字符串</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.StrUtils">
+            <summary>
+            字符串操作帮助类
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.SqlFilter(System.String)">
+            <summary>
+            SQL 特殊字符过滤,防SQL注入
+            </summary>
+            <param name="contents">过滤文本内容</param>
+            <returns>过滤结果</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.IsStringDate(System.String)">
+            <summary>
+            检查字符串是否能转为日期
+            </summary>
+            <param name="value">验证的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.IsNumeric(System.String)">
+             <summary>
+            检查字符串是否是纯数字构成
+             </summary>
+             <param name="value">需要验证的字符串</param>
+             <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.IsLetterOrNumber(System.String)">
+            <summary>
+            检查字符串是否由字符和数字构成
+            </summary>
+            <param name="value">需要验证的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.IsNumber(System.String)">
+            <summary>
+            检查字符串是否是数字，包含小数和整数
+            </summary>
+            <param name="value">需要验证的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.IsEmail(System.String)">
+            <summary>
+            检查字符串是否是邮件
+            </summary>
+            <param name="value">需要验证的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.IsMobile(System.String)">
+            <summary>
+            检查字符串是否为手机号码
+            </summary>
+            <param name="value">需要验证的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.IsTelephone(System.String)">
+            <summary>
+            检查字符串是否为电话号码
+            </summary>
+            <param name="value">需要验证的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.ValidDate(System.String)">
+            <summary>
+            检查日期是否过期
+            </summary>
+            <param name="myDate">检查的日期</param>
+            <returns>过期返回True，</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.StrToDate(System.String,System.DateTime)">
+            <summary>
+            把字符串转为日期
+            </summary>
+            <param name="value">转换字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.StrToInt(System.String,System.Int32)">
+            <summary>
+            把字符串转为整型
+            </summary>
+            <param name="value">转换字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.StrToDouble(System.String,System.Double)">
+            <summary>
+            把字符串转为Double类型
+            </summary>
+            <param name="value">转换字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.CompareDate(System.String,System.String)">
+            <summary>
+            比较两个时间的大小
+            </summary>
+            <param name="firstDate">第一个日期</param>
+            <param name="secondDate">第二个日期</param>
+            <returns>返回：0-相等 1-大于 -1-小于</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.StrToIntArray(System.String[])">
+            <summary>
+            字符串数组转换整型数组
+            </summary>
+            <param name="arrStr">字符串数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.StrToDoubleArray(System.String[])">
+            <summary>
+            字符串数组转换Double数组
+            </summary>
+            <param name="arrStr">字符串数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.HtmlEncode(System.String)">
+            <summary>
+            替换html中的特殊字符
+            </summary>
+            <param name="theString">需要进行替换的文本。</param>
+            <returns>替换完的文本。</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.HtmlDecode(System.String)">
+            <summary>
+            恢复html中的特殊字符
+            </summary>
+            <param name="theString">需要恢复的文本。</param>
+            <returns>恢复好的文本。</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.NoHtml(System.String)">
+            <summary>   
+            去除HTML标记   
+            </summary>   
+            <param name="htmlstring">包括HTML的源码</param>
+            <returns>已经去除后的文字</returns>   
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.RemoveHtml(System.String,System.Int32)">
+            <summary>
+            替换所有html
+            </summary>
+            <param name="strContent">html文本</param>
+            <param name="length">截取长度</param>
+            <returns>替换后指定长度文本</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.SplitString(System.String,System.String)">
+            <summary>
+            分割字符串
+            </summary>
+            <param name="str">待分割的字符串</param>
+            <param name="split">分割的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.StrUtils.SplitString(System.String,System.Char)">
+            <summary>
+            分割字符串
+            </summary>
+            <param name="str">待分割的字符串</param>
+            <param name="split">分割的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.WebUtils">
+            <summary>
+            网络工具类。
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Common.WebUtils.Timeout">
+            <summary>
+            请求与响应的超时时间(单位：毫秒)
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.WebUtils.DoPost(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Text.Encoding)">
+            <summary>
+            执行HTTP POST请求。
+            </summary>
+            <param name="url">请求地址</param>
+            <param name="parameters">请求参数</param>
+            <param name="rspEncoding">响应编码</param>
+            <returns>HTTP响应</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.WebUtils.DoGet(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Text.Encoding)">
+            <summary>
+            执行HTTP GET请求。
+            </summary>
+            <param name="url">请求地址</param>
+            <param name="parameters">请求参数</param>
+            <param name="rspEncoding">响应编码</param>
+            <returns>HTTP响应</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.WebUtils.DoPost(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IDictionary{System.String,ZyLob.Ali1688.Op.Common.FileItem})">
+            <summary>
+            执行带文件上传的HTTP POST请求。
+            </summary>
+            <param name="url">请求地址</param>
+            <param name="textParams">请求文本参数</param>
+            <param name="fileParams">请求文件参数</param>
+            <returns>HTTP响应</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.WebUtils.GetResponseAsString(System.Net.HttpWebResponse,System.Text.Encoding)">
+            <summary>
+            把响应流转换为文本。
+            </summary>
+            <param name="rsp">响应流对象</param>
+            <param name="encoding">编码方式</param>
+            <returns>响应文本</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.WebUtils.BuildGetUrl(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            组装GET请求URL。
+            </summary>
+            <param name="url">请求地址</param>
+            <param name="parameters">请求参数</param>
+            <returns>带参数的GET请求URL</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.WebUtils.BuildQuery(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            组装普通文本请求参数。
+            </summary>
+            <param name="parameters">Key-Value形式请求参数字典</param>
+            <returns>URL编码后的请求数据</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Common.FileItem">
+            <summary>
+            文件元数据。
+            可以使用以下几种构造方法：
+            本地路径：new FileItem("C:/temp.jpg");
+            本地文件：new FileItem(new FileInfo("C:/temp.jpg"));
+            字节流：new FileItem("abc.jpg", bytes);
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.FileItem.#ctor(System.IO.FileInfo)">
+            <summary>
+            基于本地文件的构造器。
+            </summary>
+            <param name="fileInfo">本地文件</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.FileItem.#ctor(System.String)">
+            <summary>
+            基于本地文件全路径的构造器。
+            </summary>
+            <param name="filePath">本地文件全路径</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.FileItem.#ctor(System.String,System.Byte[])">
+            <summary>
+            基于文件名和字节流的构造器。
+            </summary>
+            <param name="fileName">文件名称（服务端持久化字节流到磁盘时的文件名）</param>
+            <param name="content">文件字节流</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.FileItem.#ctor(System.String,System.Byte[],System.String)">
+            <summary>
+            基于文件名、字节流和媒体类型的构造器。
+            </summary>
+            <param name="fileName">文件名（服务端持久化字节流到磁盘时的文件名）</param>
+            <param name="content">文件字节流</param>
+            <param name="mimeType">媒体类型</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.FileItem.GetMimeType(System.Byte[])">
+            <summary>
+            获取文件的真实媒体类型。目前只支持JPG, GIF, PNG, BMP四种图片文件。
+            </summary>
+            <param name="fileData">文件字节流</param>
+            <returns>媒体类型</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.FileItem.GetMimeType(System.String)">
+            <summary>
+            根据文件后缀名获取文件的媒体类型。
+            </summary>
+            <param name="fileName">带后缀的文件名或文件全名</param>
+            <returns>媒体类型</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Common.FileItem.GetFileSuffix(System.Byte[])">
+            <summary>
+            获取文件的真实后缀名。目前只支持JPG, GIF, PNG, BMP四种图片文件。
+            </summary>
+            <param name="fileData">文件字节流</param>
+            <returns>JPG, GIF, PNG or null</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Companys.CompanyApi">
+            <summary>
+            阿里公司库操作Api
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Companys.CompanyApi.GetAliCompanyInfo(System.String,System.String)" -->
+        <member name="T:ZyLob.Ali1688.Op.Context.AliContext">
+            <summary>
+            阿里接口上下文
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Context.AliContext.#ctor">
+            <summary>
+            实例化阿里接口上下文
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Context.AliContext.#ctor(System.String)">
+            <summary>
+            实例化阿里接口上下文
+            </summary>
+            <param name="accessToken">阿里访问口令</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Context.AliContext.#ctor(ZyLob.Ali1688.Op.Models.AliApply)">
+            <summary>
+            实例化阿里接口上下文
+            </summary>
+            <param name="aliApply">阿里应用配置</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Context.AliContext.#ctor(System.String,ZyLob.Ali1688.Op.Models.AliApply)">
+            <summary>
+            实例化阿里接口上下文
+            </summary>
+            <param name="accessToken">阿里访问口令</param>
+            <param name="aliApply">阿里应用配置</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Context.AliContext.Init">
+            <summary>
+            初始化上下文
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Context.AliContext.GetParas">
+            <summary>
+            获取参数集合
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.AccessToken">
+            <summary>
+            阿里访问口令
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Timeout">
+            <summary>
+            请求超时时间，单位：秒
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Context.AliContext.Static">
+            <summary>
+            静态实例
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Context.AliContext.TolerateWrongCount">
+            <summary>
+            容忍错误(不包涵参数或sdk实现导致的错误)的次数--主要解决阿里偶尔出现域名解析错误的问题。默认为1次即出错后立即抛出
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Config">
+            <summary>
+            阿里应用配置
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Auth">
+            <summary>
+            授权接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Company">
+            <summary>
+            公司接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Product">
+            <summary>
+            产品接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.CustomClassify">
+            <summary>
+            自定义分类接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Album">
+            <summary>
+            相册接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Photo">
+            <summary>
+            图片接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Url">
+            <summary>
+            地址接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Platform">
+            <summary>
+            服务平台接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Member">
+            <summary>
+            会员接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Order">
+            <summary>
+            订单接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Logistics">
+            <summary>
+            物流关系接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.CustomerRelations">
+            <summary>
+            客户关系接口
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Category">
+            <summary>
+            商品类目
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Context.AliContext.Search">
+            <summary>
+            搜索类目
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Classify.CategoryApi.GetPostCatList(System.Int64[])">
+            <summary>
+            根据类目ID获取发布类目信息
+            </summary>
+            <param name="catIds">类目ID集合</param>
+            <returns>发布类目信息集合</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Classify.CategoryApi.GetCatListByParentId(System.Int64,System.String)">
+            <summary>
+            根据父类目ID获取其子类目信息
+            </summary>
+            <param name="categoryId">父类目ID</param>
+            <param name="getAllChildren">获取该父类目的所有子类目 取值“T” （取全部子类目信息）或 “F”（只取一级子类目信息），默认“F”。	</param>
+            <returns>子类目信息集合</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Classify.CategoryApi.GetCatePath(System.Int64)">
+            <summary>
+            通过大市场叶子类目id，获取该类目的发布类目路径
+            </summary>
+            <param name="categoryId">类目id</param>
+            <returns>类目信息集合（从根目录往下）</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Classify.CategoryApi.GetProductAttributes(System.Int64)">
+            <summary>
+            通过输入中文站大市场发布的叶子类目，返回其对应的产品属性信息（建议使用API“根据类目ID获取类目发布属性信息offerPostFeatures.get ”，获得所有发布相关属性信息）
+            </summary>
+            <param name="categoryId">类目id</param>
+            <returns>属性集合</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Classify.CategoryApi.GetOfferPostFeatures(System.Int64)">
+            <summary>
+            根据叶子类目ID获取类目发布属性信息
+            </summary>
+            <param name="categoryId">类目Id</param>
+            <returns>类目属性集合</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Classify.CategoryApi.GetSpubyattribute(System.Int64,System.String)">
+            <summary>
+            通过输入用户填写的某个类目关键产品属性，返回该类目产品属性的SPU信息
+            </summary>
+            <param name="categoryId">叶子类目ID</param>
+            <param name="keyAttributes">产品关键属性和值，以“>”为分隔符，输入格式如示例 ：属性:属性值>属性:属性值</param>
+            <returns>类目产品属性的SPU信息</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Classify.CategoryApi.GetCategoryAttrLevel(System.Int64,System.String)">
+            <summary>
+            根据类目属性名和值获取子属性名和值域
+            </summary>
+            <param name="categoryId">叶子类目ID</param>
+            <param name="pathValues">属性名和属性值以冒号隔开，子属性以大于号隔开。如offer发布连衣裙类目中，要获取 货源类别: 现货 > 是否库存: 是 下面的属性名和属性值，传入 100000691:46874>7108:21958	</param>
+            <returns>类目属性集合</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Classify.CategoryApi.Search(System.String)">
+            <summary>
+            输入关键词,搜索相关的类目ID
+            </summary>
+            <param name="keyWord">关键词</param>
+            <returns>类目ID集合</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.CustomClassify.CustomClassifyApi">
+            <summary>
+            自定义分类
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.CustomClassify.CustomClassifyApi.GetCustomClassifys(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.CustomClassify.CustomClassifyApi.SetOfferGroup(ZyLob.Ali1688.Op.Models.OfferGroupSwitchType)" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.CustomClassify.CustomClassifyApi.HasOpened(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.CustomClassify.CustomClassifyApi.AddProductClassify(System.Int64,System.Int64[])" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.CustomClassify.CustomClassifyApi.RemoveProductClassify(System.Int64,System.Int64[])" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.CustomClassify.CustomClassifyApi.GetOffersClassify(System.Int64[])" -->
+        <member name="T:ZyLob.Ali1688.Op.CustomerRel.CustomerRelApi">
+            <summary>
+            客户关系接口
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.CustomerRel.CustomerRelApi.GetCustomerByTrade(System.Int64,System.Int64,System.DateTime,System.DateTime,System.Int32,System.Int32,System.Int64,System.Int64,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            根据交易信息获取当前卖家的顾客信息
+            </summary>
+            <param name="tradeAmountStart">交易总额下限</param>
+            <param name="tradeAmountEnd">交易总额上线</param>
+            <param name="lastestTimeStart">交易时间下限</param>
+            <param name="lastestTimeEnd">交易时间上限</param>
+            <param name="tradeCountStart">交易笔数下限</param>
+            <param name="tradeCountEnd">交易笔数上限</param>
+            <param name="avgPriceStart">平均客单价下限</param>
+            <param name="avgPriceEnd">平均客单价上限</param>
+            <param name="itemNumStart">累计货品数量下限</param>
+            <param name="itemNumEnd">累计货品数量上限</param>
+            <param name="province">省份，用0-35表示</param>
+            <param name="pageSize">页面大小</param>
+            <param name="pageNum">页码</param>
+            <returns>顾客关系列表</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.CustomerRel.CustomerRelApi.GetGroups">
+            <summary>
+            获取会员所有分组标签
+            <para>
+            需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=acrm.groups.get&amp;v=1
+            </para>
+            </summary>
+            <returns>会员所有分组标签</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.CustomerRel.CustomerRelApi.GetCustomerByGroup(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            根据标签获取当前卖家的顾客列表
+            <para>
+            需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=acrm.customer.group.get&amp;v=1
+            </para>
+            </summary>
+            <param name="groupId">分组id</param>
+            <param name="pageNum">页面大小 默认最大20</param>
+            <param name="pageSize">页号</param>
+            <returns>卖家的顾客列表</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.CustomerRel.CustomerRelApi.GetCustomerByLevel(ZyLob.Ali1688.Op.Models.CustomerLevel,System.Int32,System.Int32)">
+            <summary>
+            根据等级获取当前卖家的顾客列表
+            <para>
+            需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=acrm.customer.relation.get&amp;v=1
+            </para>
+            </summary>
+            <param name="level">会员等级</param>
+            <param name="pageNum">页面大小 默认最大20</param>
+            <param name="pageSize">页号</param>
+            <returns>卖家的顾客列表</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Member.MemberApi">
+            <summary>
+            会员接口
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Member.MemberApi.LoginIdToMemberId(System.String[])" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Member.MemberApi.MemberIdToLoginId(System.String[])" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Member.MemberApi.GetMemberInfo(System.String,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Member.MemberApi.GetMemberIntegrityInfo(System.String[])" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Member.MemberApi.GetAreaCode" -->
+        <member name="T:ZyLob.Ali1688.Op.Models.AliApply">
+            <summary>
+            应用配置信息
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Models.AliApply.#ctor">
+            <summary>
+            应用配置信息初始化
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Models.AliApply.#ctor(System.String,System.String)">
+            <summary>
+            应用配置信息初始化
+            </summary>
+            <param name="appKey">应用钥匙</param>
+            <param name="secretKey">应用密钥</param>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Models.AliApply.#ctor(System.String,System.String,System.String)">
+            <summary>
+            应用配置信息初始化
+            </summary>
+            <param name="appKey">应用钥匙</param>
+            <param name="secretKey">应用密钥</param>
+            <param name="redirectUri">回调地址</param>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApply.AppKey">
+            <summary>
+            应用钥匙
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApply.SecretKey">
+            <summary>
+            应用密钥
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApply.Site">
+            <summary>
+             当前授权的站点，默认china
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApply.RedirectUri">
+            <summary>
+             授权成功跳转到应用的地址，授权临时令牌会以queryString的形式跟在该url后返回
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliResult`1">
+            <summary>
+            阿里基础
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliResult`1.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliResultList`1">
+            <summary>
+            列表结果集
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliResultList`1.Success">
+            <summary>
+            请求是否成功返回
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliResultList`1.Total">
+            <summary>
+            总记录数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliResultList`1.Message">
+            <summary>
+            请求异常时消息，当Success=false时有效
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliResultList`1.ToReturn">
+            <summary>
+            结果对象，异常时为空
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliAuthToken">
+            <summary>
+            阿里授权令牌信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAuthToken.AliId">
+            <summary>
+            阿里巴巴集团统一的id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAuthToken.Resource_Owner">
+            <summary>
+            登录帐号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAuthToken.MemberId">
+            <summary>
+            阿里会员编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAuthToken.Expires_In">
+            <summary>
+            有效时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAuthToken.Refresh_Token">
+            <summary>
+            刷新令牌
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAuthToken.Refresh_Token_Timeout">
+            <summary>
+             刷新令牌的过期时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAuthToken.Access_Token">
+            <summary>
+            访问令牌
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.CategoryTradeType">
+            <summary>
+            类目发布类型
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.CategoryTradeType.product">
+            <summary>
+            产品
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.CategoryTradeType.process">
+            <summary>
+            加工
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.CategoryTradeType.agent">
+            <summary>
+            代理
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.CategoryTradeType.cooperation">
+            <summary>
+            合作
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.CategoryTradeType.business">
+            <summary>
+            商务服务
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.Category">
+            <summary>
+            发布类目信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Category.catsId">
+            <summary>
+            类目ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Category.catsName">
+            <summary>
+            类目名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Category.supportMixWholesale">
+            <summary>
+            是否支持混批
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Category.applySpu">
+            <summary>
+            是否支持SPU
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Category.supportSKUPrice">
+            <summary>
+            是否支持SKU报价
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Category.supportOnlineTrade">
+            <summary>
+            是否支持网上订购
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Category.tradeType">
+            <summary>
+            发布类型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Category.leaf">
+            <summary>
+            是否叶子类目
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Category.catsDescription">
+            <summary>
+            类目描述
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Category.parentCats">
+            <summary>
+            父类目数组，包含order与parentCatsId两个元素
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ParentCategory.order">
+            <summary>
+            父类目排序号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ParentCategory.parentCatsId">
+            <summary>
+            父类目ID
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ProductAttributesInfo">
+            <summary>
+            类目产品属性信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.fid">
+            <summary>
+            产品属性ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.unit">
+            <summary>
+            产品属性单位
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.valueIds">
+            <summary>
+            属性值ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.values">
+            <summary>
+            产品属性枚举值.当‘填写类型’为单选或者多选时，该变量有效。多个枚举值之间使用;号（半角分号）分隔
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.inputMaxLength">
+            <summary>
+            填写输入的长度限制，比如‘30’。若无限制，则返回null
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.name">
+            <summary>
+            产品属性名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.showType">
+            <summary>
+            填写类型枚举值。 -1: 数字输入框; 0: 文本输入框（input）;1=下拉（list_box）;2=多选（check_box）;3=单选（radio）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.required">
+            <summary>
+            该属性是否为必填项。true：必填；false：非必填
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.order">
+            <summary>
+            显示顺序
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.fieldFlag">
+            <summary>
+            交易Flag
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.aspect">
+            <summary>
+            属性类型。0:产品属性 3:交易属性 5:SPU属性
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.note">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.offerType">
+            <summary>
+            Offer类型。2:供应
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.precomment">
+            <summary>
+            引导文案
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.defaultValueId">
+            <summary>
+            默认的属性值ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.defaultValue">
+            <summary>
+            默认值
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.categoryId">
+            <summary>
+            类目ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.keyAttr">
+            <summary>
+            是否关键属性
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.specAttr">
+            <summary>
+            是否规格属性
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.suggestType">
+            <summary>
+            是否输入建议框
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.supportDefinedValues">
+            <summary>
+            是否支持自定义属性
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductAttributesInfo.specExtendedAttr">
+            <summary>
+            是否是规格扩展属性（和规格属性相关的属性，目前包括：价格、可售数量、建议零售价、已售数量）
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.CategoryFeature">
+             <summary>
+            类目属性信息
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.fid">
+            <summary>
+            属性ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.parentId">
+            <summary>
+            父属性id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.unit">
+            <summary>
+            产品属性单位
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.name">
+            <summary>
+            属性名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.fieldType">
+            <summary>
+            属性类别
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.order">
+            <summary>
+            属性排列顺序
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.isNeeded">
+            <summary>
+            是否必填
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.isKeyAttr">
+            <summary>
+            是否关键属性
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.isSuggestion">
+            <summary>
+            是否建议属性
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.isSpecAttr">
+            <summary>
+            是否特殊属性
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.isSupportDefinedValues">
+            <summary>
+            是否支持预定义值域
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.isSpecExtendedAttr">
+            <summary>
+            是否支持扩展属性
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.isSpecPicAttr">
+            <summary>
+            是否图片属性
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.featureType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.precomment">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.attrType">
+            <summary>
+            属性类型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.standardType">
+            <summary>
+            标准类型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.standardUnit">
+            <summary>
+            标准单位
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.outputType">
+            <summary>
+            展示类型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.childrenFids">
+            <summary>
+            子属性id列表
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeature.featureIdValues">
+            <summary>
+            子属性id和值对
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.CategoryFeatureIdValue">
+            <summary>
+            类目属性键值对
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeatureIdValue.vid">
+            <summary>
+            属性键
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CategoryFeatureIdValue.value">
+            <summary>
+            属性值
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.CategoryFeatureResult">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.StandardSpuAttrValues">
+            <summary>
+            SPU对象信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.StandardSpuAttrValues.fid">
+            <summary>
+            属性ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.StandardSpuAttrValues.unit">
+            <summary>
+            属性单位
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.StandardSpuAttrValues.value">
+            <summary>
+            属性值
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.StandardSpuAttrValues.name">
+            <summary>
+            属性名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.StandardSpuAttrValues.key">
+            <summary>
+            该属性是否为关键属性
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.SpubyattributeResult">
+            <summary>
+            类目产品属性的SPU信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SpubyattributeResult.spuId">
+            <summary>
+             SPU Id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SpubyattributeResult.standardSpuAttrValues">
+            <summary>
+             SPU对象信息
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliCompanyInfo">
+            <summary>
+            公司信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.MemberId">
+            <summary>
+            会员ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.CompanyId">
+            <summary>
+            公司库ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.CompanyStatus">
+            <summary>
+            公司库状态。Auditing：等待审核；FailAudited：审核未通过；Published：已发布
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.CompanyName">
+            <summary>
+            公司基本信息（对于匿名访客和非本人登录会员：只有公司库状态处于发布状态才能返回，下同）-公司名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.CompanyNameEn">
+            <summary>
+            公司基本信息-公司英文名
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.LegalStatus">
+            <summary>
+            公司基本信息-企业类型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.BizModel">
+            <summary>
+            公司基本信息-经营模式
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.BizPlace">
+            <summary>
+            公司基本信息-主要经营地点
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.ProductionService">
+            <summary>
+            公司基本信息-主营产品
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.CompanyCategoryInfo">
+            <summary>
+            公司基本信息-主营行业
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.Profile">
+            <summary>
+            公司基本信息-公司简介
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.HomepageUrl">
+            <summary>
+            公司基本信息-公司网址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.RegCapital">
+            <summary>
+            公司详细信息（对于匿名访客和非本人登录会员：只有公司库状态处于发布状态才能返回，下同）-注册资本
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.EstablishedYear">
+            <summary>
+            公司详细信息-公司成立年份
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.FoundedPlace">
+            <summary>
+            公司详细信息-公司注册地
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.Principal">
+            <summary>
+            公司详细信息-法定代表人/负责人
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.Bank">
+            <summary>
+            公司详细信息-开户银行
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.Account">
+            <summary>
+            公司详细信息-帐号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.FactorySize">
+            <summary>
+            公司详细信息-厂房面积
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.EmployeesCount">
+            <summary>
+            公司详细信息-员工人数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.RndStaffNum">
+            <summary>
+            公司详细信息-研发部门人数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.BrandName">
+            <summary>
+            公司详细信息-品牌名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.ProductionCapacity">
+            <summary>
+            公司详细信息-月产量
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.AnnualRevenue">
+            <summary>
+            公司详细信息-年营业额
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.AnnualImportAmount">
+            <summary>
+            公司详细信息-年进口额
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.AnnualExportAmount">
+            <summary>
+            公司详细信息-年出口额
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.Certification">
+            <summary>
+            公司详细信息-管理体系认证
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.QaQc">
+            <summary>
+            公司详细信息-质量控制
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.TradeRegionInfo">
+            <summary>
+            公司详细信息-主要市场
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.KeyClients">
+            <summary>
+            公司详细信息-主要客户群
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCompanyInfo.OemOdm">
+            <summary>
+            公司详细信息-是否提供OEM代加工
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.CustomClassifyResult">
+             <summary>
+            自定义分类返回结果
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CustomClassifyResult.ShowFlag">
+            <summary>
+            显示标识
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CustomClassifyResult.SellerCats">
+            <summary>
+            自定义分类集合
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliCustomClassify">
+            <summary>
+            阿里产品分类信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCustomClassify.Id">
+            <summary>
+            分类编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCustomClassify.GmtModified">
+            <summary>
+            最后修改时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCustomClassify.GmtCreate">
+            <summary>
+            分类创建时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCustomClassify.Name">
+            <summary>
+            分类名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCustomClassify.IconUrl">
+            <summary>
+            分类图片
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCustomClassify.Children">
+            <summary>
+            下级分类
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCustomClassify.Ordering">
+            <summary>
+            分类显示顺序
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliCustomClassify.MemberId">
+            <summary>
+            阿里会员编号
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliResultSetOfferGroup">
+            <summary>
+            会员开启或关闭自定义分类功能返回结果
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliResultSetOfferGroup.IsSuccess">
+            <summary>
+            是否设置成功
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliResultHasOpened">
+            <summary>
+            会员是否已经开启自定义分类功能返回结果
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliResultHasOpened.IsOpened">
+            <summary>
+            是否已经开启自定义分类功能
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.CustomerRelation">
+            <summary>
+            客户关系
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CustomerRelation.RelationSource">
+            <summary>
+            关系来源
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.CustomerGroup">
+            <summary>
+            顾客标签
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.CustomerSearchResult`1.Models">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OfferType">
+            <summary>
+            商品所属类型
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OfferType.SALE">
+            <summary>
+            供应信息
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OfferType.ALL">
+            <summary>
+            所有产品信息
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OfferType.BUY">
+            <summary>
+            求购信息
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OfferStatus">
+            <summary>
+            供品状态
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OfferStatus.Tdb">
+            <summary>
+            所有上线
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OfferStatus.Published">
+            <summary>
+            销售中
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OfferStatus.Deleted">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OfferStatus.New">
+            <summary>
+            待审
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliAlbumType">
+            <summary>
+            阿里相册类型
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliAlbumType.Custom">
+            <summary>
+            自定义相册
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliAlbumType.My">
+            <summary>
+            我的相册
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliAlbumType.Off">
+            <summary>
+            下架相册
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliAlbumAuthority">
+            <summary>
+            阿里相册访问权限
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliAlbumAuthority.PrivateAlbum">
+            <summary>
+            不公开的相册
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliAlbumAuthority.PublicAlbum">
+            <summary>
+            公开的相册
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliAlbumAuthority.PasswordAlbum">
+            <summary>
+            密码访问的相册
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliApplyOrderState">
+            <summary>
+            应用购买订单服务状态
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyOrderState.B">
+            <summary>
+            服务前
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyOrderState.S">
+            <summary>
+            服务中
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyOrderState.P">
+            <summary>
+            挂起
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyOrderState.E">
+            <summary>
+            关闭
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyOrderState.C">
+            <summary>
+            作废
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliApplyDetailOrderState">
+            <summary>
+            应用购买订单详细状态
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyDetailOrderState.audit_pass">
+            <summary>
+            审核通过
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyDetailOrderState.issue_ready">
+            <summary>
+            待发布
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyDetailOrderState.service">
+            <summary>
+            服务中 
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyDetailOrderState.suspend">
+            <summary>
+            挂
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyDetailOrderState.arrear_suspend">
+            <summary>
+            欠费挂起
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyDetailOrderState.closed">
+            <summary>
+            关闭
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliApplyDetailOrderState.cancel">
+            <summary>
+            作废
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliMemberStatus">
+            <summary>
+            阿里会员状态
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliMemberStatus.Enabled">
+            <summary>
+            有效
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.AliMemberStatus.Disabled">
+            <summary>
+            无效
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OfferGroupSwitchType">
+             <summary>
+            会员开启或关闭自定义分类
+             </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OfferGroupSwitchType.On">
+            <summary>
+            On对应设置显示标记的开启，即：显示
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OfferGroupSwitchType.Off">
+            <summary>
+            Off对应显示标记的关闭，即：不显示
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.EvaluateStatus">
+            <summary>
+            卖家评价状态
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.CodStatus">
+            <summary>
+             cod状态
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.PayStatus">
+            <summary>
+            支付状态
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OrderStatus">
+            <summary>
+            订单状态
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.CANCEL">
+            <SUMMARY>
+            交易关闭
+            </SUMMARY>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.SUCCESS">
+            <SUMMARY>
+            交易成功
+            </SUMMARY>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.WAIT_BUYER_PAY">
+            <SUMMARY>
+            等待买家付款
+            </SUMMARY>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.WAIT_SELLER_SEND">
+            <SUMMARY>
+            等待卖家发货
+            </SUMMARY>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.WAIT_BUYER_RECEIVE">
+            <SUMMARY>
+            等待买家确认收货
+            </SUMMARY>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.WAIT_SELLER_ACT">
+            <SUMMARY>
+            分阶段等待卖家操作
+            </SUMMARY>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.WAIT_BUYER_CONFIRM_ACTION">
+            <SUMMARY>
+            等待买家确认操作
+            </SUMMARY>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.WAIT_SELLER_PUSH">
+            <SUMMARY>
+            分阶段等待卖家推进
+            </SUMMARY>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.WAIT_LOGISTICS_TAKE_IN">
+            <SUMMARY>
+            等待物流公司揽件COD
+            </SUMMARY>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.WAIT_BUYER_SIGN">
+            <SUMMARY>
+            等待买家签收COD
+            </SUMMARY>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.SIGN_IN_SUCCESS">
+            <SUMMARY>
+            买家已签收COD
+            </SUMMARY>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OrderStatus.SIGN_IN_FAILED">
+            <SUMMARY>
+             签收失败COD
+            </SUMMARY>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.RefundStatus">
+            <summary>
+            退款状态
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.RefundStatus.WAIT_SELLER_AGREE">
+            <summary>
+            等待卖家同意退款协议
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.RefundStatus.REFUND_SUCCESS">
+            <summary>
+            退款成功
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.RefundStatus.REFUND_CLOSED">
+            <summary>
+            退款关闭
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.RefundStatus.WAIT_BUYER_MODIFY">
+            <summary>
+            等待买家修改
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.RefundStatus.WAIT_BUYER_SEND">
+            <summary>
+            等待买家退货
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.RefundStatus.WAIT_SELLER_RECEIVE">
+            <summary>
+            等待卖家确认收货
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.LogisticsStatus">
+            <summary>
+            物流状态
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.TradeType">
+            <summary>
+            交易类型
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OldTradeType">
+            <summary>
+            旧交易类型
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OldTradeType.UNIFY">
+            <summary>
+            普通
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OldTradeType.STEP">
+            <summary>
+            分阶段
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.OldTradeType.UNKNOW">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.TradeStatus">
+            <summary>
+            交易状态
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.TradeStatus.cancel">
+            <summary>
+            交易关闭
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.TradeStatus.success">
+            <summary>
+            交易成功
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.TradeStatus.waitbuyerpay">
+            <summary>
+            等待买家付款
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.TradeStatus.waitsellersend">
+            <summary>
+            等待卖家发货
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.TradeStatus.waitbuyerreceive">
+            <summary>
+            等待买家确认收货
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.TradeStatus.waitselleract">
+            <summary>
+            分阶段等待卖家操作
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.TradeStatus.waitbuyerconfirmaction">
+            <summary>
+            等待买家确认操作
+            </summary>
+        </member>
+        <member name="F:ZyLob.Ali1688.Op.Models.TradeStatus.waitsellerpush">
+            <summary>
+            分阶段等待卖家推进
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.RelationSource">
+             <summary>
+            顾客关系来源
+             </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.CustomerLevel">
+            <summary>
+            会员等级
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.LogisticsCompanyModel">
+            <summary>
+            物流公司模型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsCompanyModel.Id">
+            <summary>
+            主键id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsCompanyModel.IsSupportPrint">
+            <summary>
+            是否支持打印
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsCompanyModel.CompanyNo">
+            <summary>
+            物流公司编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsCompanyModel.CompanyName">
+            <summary>
+            物流公司名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsCompanyModel.CompanyPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.SendGoodsAddress">
+            <summary>
+            送货地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SendGoodsAddress.DeliveryAddressId">
+            <summary>
+            标识
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SendGoodsAddress.Mobilephone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SendGoodsAddress.IsCommonUse">
+            <summary>
+            是否是常用发货地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SendGoodsAddress.Address">
+            <summary>
+            详细地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SendGoodsAddress.Location">
+            <summary>
+            省,市,县
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SendGoodsAddress.UpdateTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SendGoodsAddress.ContactName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SendGoodsAddress.Postcode">
+            <summary>
+            邮政编码
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.LogisticsTemplate">
+            <summary>
+            运费模板基础描述
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsTemplate.templateId">
+            <summary>
+            运费模板ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsTemplate.templateName">
+            <summary>
+            运费模板名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsTemplate.fromProvinceName">
+            <summary>
+            发货省份名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsTemplate.fromCityName">
+            <summary>
+            发货城市名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsTemplate.fromCountyName">
+            <summary>
+            发货区县名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsTemplate.descn">
+            <summary>
+            模板备注
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.LogisticsTemplate.serviceTypes">
+            <summary>
+            包含服务类型，0为：快递，1为：货运，2为：COD
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliMemberInfo">
+            <summary>
+            会员详细信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.MemberId">
+            <summary>
+            阿里会员ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.Status">
+            <summary>
+            会员状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsTp">
+            <summary>
+            会员账户类型。true：诚信通会员；false：免费账户会员
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.HaveSite">
+            <summary>
+            是否开通了网站。true：已开通；false：未开通
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsPersonalTp">
+            <summary>
+            是否个人诚信通。true：个人诚信通会员；false：非个人诚信通会员
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsEnterpriseTp">
+            <summary>
+            是否企业诚信通。true：企业诚信通会员；false：非企业诚信通会员
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsMarketTp">
+            <summary>
+            是否专业市场诚信通会员。true：专业市场诚信通会员；false：非专业市场诚信通会员
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsEtctp">
+            <summary>
+            是否ETC会员。true：ETC海外诚信通会员；false：非ETC海外诚信通会员
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.HaveDistribution">
+            <summary>
+            会员是否具有开通分销平台资格。true：具有分销平台资格；false：没有分销平台资格
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsDistribution">
+            <summary>
+            会员是否已经开通分销平台。true：已开通；false：未开通
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsMobileBind">
+            <summary>
+            是否绑定了手机登录。true：是；false：否
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsEmailBind">
+            <summary>
+            是否绑定了Email登录。true：是；false：否
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.HavePrecharge">
+            <summary>
+            是否具有预存款的权限。true：具有预存款权限；false：没有预存款权限
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsPrecharge">
+            <summary>
+            是否已经开通预存款服务。true：已开通；false：未开通
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsCreditProtection">
+            <summary>
+            是否参加诚信保障。true：参加诚信保障；false：没有参加诚信保障
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsPublishedCompany">
+            <summary>
+            是否已发布公司库。true：已发布；false：未发布
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.IsAlipayBind">
+            <summary>
+            是否绑定支付宝账户。true：已经绑定了支付宝；false：没有绑定支付宝
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.PersonalFileAddress">
+            <summary>
+            会员档案地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.WinportAddress">
+            <summary>
+            商铺地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.DomainAddress">
+            <summary>
+            旺铺地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.TrustScore">
+            <summary>
+            诚信通指数。只有TP会员才有效
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.TrustProductAddress">
+            <summary>
+            诚信档案地址。只有TP会员才有效
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.CompanyAddress">
+            <summary>
+            公司库地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.CreateTime">
+            <summary>
+            注册时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.LastLogin">
+            <summary>
+            最近登录时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.CompanyName">
+            <summary>
+            公司信息-公司名称 
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.Industry">
+            <summary>
+            公司信息-主营行业
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.Product">
+            <summary>
+            公司信息-主营产品
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.HomepageUrl">
+            <summary>
+            公司信息-网页地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.SellerName">
+            <summary>
+            联系信息-姓名
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.Sex">
+            <summary>
+            联系信息-性别
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.Department">
+            <summary>
+            联系信息-部门
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.OpenJobTitle">
+            <summary>
+            联系信息-职位
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.Email">
+            <summary>
+            联系信息-电子邮箱
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.Telephone">
+            <summary>
+            联系信息-司电话
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.Fax">
+            <summary>
+            联系信息-传真
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.MobilePhone">
+            <summary>
+            联系信息-手机
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberInfo.AddressLocation">
+            <summary>
+            联系信息-所在地信息
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AddressLocation">
+            <summary>
+            所在地信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AddressLocation.Address">
+            <summary>
+            详细地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AddressLocation.Province">
+            <summary>
+            省
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AddressLocation.District">
+            <summary>
+            县
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AddressLocation.Country">
+            <summary>
+            国家
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AddressLocation.City">
+            <summary>
+            市
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliMemberIntegrityInfo">
+            <summary>
+            阿里会员诚信信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberIntegrityInfo.TpYear">
+            <summary>
+            诚信通会员年数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberIntegrityInfo.TpLogo">
+            <summary>
+            诚信通logo
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberIntegrityInfo.AuthInfos">
+            <summary>
+            阿里认证信息集合
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberIntegrityInfo.TpType">
+            <summary>
+            诚信通类型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberIntegrityInfo.CreditBalanceMoney">
+            <summary>
+            保障金
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliMemberIntegrityInfo.MemberId">
+            <summary>
+            阿里会员编号
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliAuthInfo">
+            <summary>
+            阿里认证信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAuthInfo.AuthPassDate">
+            <summary>
+            认证通过日期
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAuthInfo.Type">
+            <summary>
+            认证类型
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliAlbum">
+            <summary>
+            1688相册
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbum.AccountId">
+            <summary>
+            阿里会员编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbum.Id">
+            <summary>
+            相册ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbum.Type">
+            <summary>
+            相册类型.CUSTOM-自定义相册 MY-我的相册 OFF-下架相册
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbum.Name">
+             <summary>
+            相册名称
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbum.Description">
+            <summary>
+            相册描述
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbum.CreateDate">
+            <summary>
+            相册创建时间,格式为“yyyy-MM-dd”
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbum.ImageCount">
+             <summary>
+            相册中图片数量
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbum.CoverPicUrl">
+            <summary>
+            相册封面图片URL
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbum.CoverPicId">
+            <summary>
+            相册封面图片ID
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliAlbumEdit">
+             <summary>
+            阿里相册编辑实体
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbumEdit.AlbumId">
+            <summary>
+            相册ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbumEdit.AlbumName">
+            <summary>
+            相册名称。最长30个中文字符
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbumEdit.Description">
+            <summary>
+            相册描述。最长2000个中文字符
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbumEdit.AlbumAuthority">
+            <summary>
+            相册访问权限。只有开通旺铺的会员可以设置相册访问权限为“1-公开”和“2-密码访问”，未开通旺铺的会员相册访问权限限制为“0-不公开”。
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbumEdit.Password">
+            <summary>
+            相册访问密码。4-16位非中文字符。当AlbumAuthority 为PasswordAlbum-密码访问时必填。
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliAlbumEditResult">
+            <summary>
+            相册编辑后返回结果
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbumEditResult.CreateTime">
+            <summary>
+            相册创建时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbumEditResult.AlbumId">
+            <summary>
+            相册编号
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliAlbumRemoveResult">
+            <summary>
+            相册删除后返回结果
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbumRemoveResult.IsSuccess">
+            <summary>
+            相册是否删除成功
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliAlbumRemoveResult.AlbumId">
+            <summary>
+            相册编号
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliPhoto">
+            <summary>
+            阿里图片信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhoto.AccountId">
+            <summary>
+            阿里会员ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhoto.Id">
+            <summary>
+            图片ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhoto.Name">
+            <summary>
+            图片名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhoto.Description">
+            <summary>
+            图片描述	
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhoto.Url">
+            <summary>
+            图片URL(原图)，图片的相对路径（即除去http://server:port部分，如:img/ibank/15/02/60/15026073.jpg）	img/ibank/15/02/60/15026073.jpg
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhoto.UrlMini">
+            <summary>
+            图片URL(缩略图)，图片的相对路径（即除去http://server:port部分，如:img/ibank/15/02/60/15026073.jpg）	img/ibank/15/02/60/15026073.jpg
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhoto.Url310X310">
+             <summary>
+            图片URL(310x310)，图片的相对路径（即除去http://server:port部分，如:img/ibank/15/02/60/15026073.jpg）	img/ibank/15/02/60/15026073.jpg
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhoto.Url220X220">
+             <summary>
+            图片URL(220x220)，图片的相对路径（即除去http://server:port部分，如:img/ibank/15/02/60/15026073.jpg）	img/ibank/15/02/60/15026073.jpg
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhoto.Url64X64">
+             <summary>
+            图片URL(64x64)，图片的相对路径（即除去http://server:port部分，如:img/ibank/15/02/60/15026073.jpg）	img/ibank/15/02/60/15026073.jpg
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhoto.CreateTime">
+             <summary>
+            图片上传时间
+             </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:ZyLob.Ali1688.Op.Models.AliPhoto.Size" -->
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhoto.AlbumId">
+             <summary>
+            图片所属相册
+             </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliPhotoRemoveResult">
+            <summary>
+            阿里图片移除返回结果
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhotoRemoveResult.IsSuccess">
+            <summary>
+            图片是否删除成功
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliPhotoRemoveResult.ImageId">
+            <summary>
+            图片编号
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.PhotoSpace">
+            <summary>
+            图片空间信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.PhotoSpace.AccountId">
+            <summary>
+            阿里会员编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.PhotoSpace.UsedSpace">
+            <summary>
+            已使用空间，单位为字节	
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.PhotoSpace.TotalSpace">
+            <summary>
+            总空间，单位为字节
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.PhotoSpace.IsFull">
+             <summary>
+            空间是否已满，true：已满 false：未满	
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.PhotoSpace.SpaceUsage">
+            <summary>
+            已使用空间占总空间百分比，精确到小数点后两位。如占用30.31%，返回值为30.31
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OfferDetailInfo">
+            <summary>
+            产品详细信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.IsPrivateOffer">
+            <summary>
+            是否有私密信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.IsPriceAuthOffer">
+            <summary>
+            是否价格私密
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.IsPicAuthOffer">
+            <summary>
+            是否图片私密
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.OfferId">
+            <summary>
+            商品ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.IsPrivate">
+            <summary>
+            是否为私密offer的标志位。true：私密产品 false：普通产品
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.DetailsUrl">
+            <summary>
+            商品详情地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.Type">
+            <summary>
+            商品类型。Sale：供应信息，Buy：求购信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.TradeType">
+            <summary>
+            贸易类型。1：产品，2：加工，3：代理，4：合作，5：商务服务
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.PostCategryId">
+            <summary>
+            所属叶子类目ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.OfferStatus">
+            <summary>
+            状态。auditing：审核中；online：已上网；FailAudited：审核未通过；outdated：已过期；member delete(d)：用户删除；delete：审核删除
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.MemberId">
+            <summary>
+            卖家会员ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.Subject">
+            <summary>
+            商品标题
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.Details">
+            <summary>
+            详情说明
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.QualityLevel">
+            <summary>
+            商品信息质量星级( 取值为1到5)。1：一星；2：二星；3：三星；4：四星；5：五星
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.ImageList">
+            <summary>
+            商品图片列表
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.ProductFeatureList">
+            <summary>
+            商品属性信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.IsOfferSupportOnlineTrade">
+            <summary>
+            是否支持网上交易。
+            首先需要类目支持，如果类目支持，需要有价格，供货总量，最小起订量。true：支持网上订购；false：不支持网上订购
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.TradingType">
+            <summary>
+            支持的交易方式。
+            当isOfferSupportOnlineTrade为true的时候本字段有效：
+            Escrow:支付宝担保交易； 
+            PreCharge：支付宝预存款交易；
+            ForexPay：支付宝境外支付交易；
+            多种交易方式间通过;分隔。
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.IsSupportMix">
+            <summary>
+            是否支持混批。true：支持混批；false：不支持混批
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.Unit">
+            <summary>
+            计量单位
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.PriceUnit">
+            <summary>
+            交易币种
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.Amount">
+            <summary>
+            供货量
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.AmountOnSale">
+            <summary>
+            可售数量
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.SaledCount">
+            <summary>
+            已销售量
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.RetailPrice">
+            <summary>
+            建议零售价
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.UnitPrice">
+            <summary>
+            单价
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.PriceRanges">
+            <summary>
+            价格区间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.TermOfferProcess">
+            <summary>
+            有效期(单位：天)
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.FreightTemplateId">
+            <summary>
+            物流模板id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.SendGoodsId">
+            <summary>
+            发货地址id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.ProductUnitWeight">
+            <summary>
+            单位重量
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.FreightType">
+            <summary>
+            T:运费模板 D：运费说明 F：卖家承担运费
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.IsSkuOffer">
+            <summary>
+            是否为SKU商品
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.IsSkuTradeSupported">
+            <summary>
+            是否支持按照规格报价
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.SkuArray">
+            <summary>
+            SKU规格属性信息{fid:value}当有多个值时用"#"联接
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.GmtCreate">
+            <summary>
+            创建日期
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.GmtModified">
+            <summary>
+            最近修改时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.GmtLastRepost">
+            <summary>
+            最近重发时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.GmtApproved">
+            <summary>
+            审核通过时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferDetailInfo.GmtExpire">
+            <summary>
+            过期日期
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OfferImageInfo">
+            <summary>
+            商品图片
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferImageInfo.ImageUri">
+            <summary>
+            图片URL（推荐用这个）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferImageInfo.OriginalImageUri">
+            <summary>
+            原图URL
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferImageInfo.Size64X64Url">
+             <summary>
+            图片URL
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferImageInfo.SummUrl">
+            <summary>
+            图片URL
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferImageInfo.Size310X310Url">
+            <summary>
+            图片URL
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ProductFeatureInfo">
+            <summary>
+            商品属性信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductFeatureInfo.Fid">
+            <summary>
+            属性ID。
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductFeatureInfo.Values">
+            <summary>
+            属性值集合
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductFeatureInfo.Name">
+            <summary>
+            属性名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductFeatureInfo.Value">
+            <summary>
+            属性值
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.PriceRangeInfo">
+            <summary>
+            价格区间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.PriceRangeInfo.Range">
+            <summary>
+            最小起订量
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.PriceRangeInfo.ConvertPrice">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.PriceRangeInfo.Price">
+            <summary>
+            价格。商品批发价格
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ProductPrice">
+            <summary>
+            建议零售价
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductPrice.Amount">
+            <summary>
+            总额
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductPrice.Cent">
+            <summary>
+            分
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductPrice.CentFactor">
+            <summary>
+            分的计数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductPrice.Currency">
+            <summary>
+            货币信息
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.Currency">
+            <summary>
+            货币
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Currency.DefaultFractionDigits">
+            <summary>
+            默认编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Currency.CurrencyCode">
+            <summary>
+            货币代码
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.Currency.Symbol">
+            <summary>
+            交易货币符号
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.SkuInfo">
+            <summary>
+            产品属性值
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ProductSeachModel">
+            <summary>
+            产品搜索模型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.PageNo">
+            <summary>
+            当分页查询时指定请求的数据页
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.ReturnFields">
+            <summary>
+            返回字段，默认为空，全部返回
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.OfferId">
+            <summary>
+            产品编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.PageSize">
+            <summary>
+            每页记录数，默认为20 最大50 
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.OrderBy">
+            <summary>
+            排序字段：gmtexpire:asc|desc,gmt_modified:asc|desc
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.Q">
+            <summary>
+            搜索关键字，现在主要支持按标题搜索
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.Category">
+            <summary>
+            发布类目编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.GmtModifiedBegin">
+            <summary>
+            查询修改时间结束时刻.要求 gmtModifedBegin 早于 gmtModifiedEnd
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.GmtModifiedEnd">
+            <summary>
+            查询修改时间结束时刻.要求 gmtModifedEnd 晚于 gmtModifiedBegin
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.Address">
+            <summary>
+            供货地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.MemberId">
+            <summary>
+            会员ID 
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.TpYear">
+            <summary>
+            诚信通开能年限
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.CreditMoney">
+            <summary>
+            诚信保障金额
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.SoldQuantity">
+            <summary>
+            最低销售额
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.Province">
+            <summary>
+            省份中文名
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.City">
+            <summary>
+            城市中文名                  
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.Price">
+            <summary>
+            价格区间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.QualityLevel">
+            <summary>
+            供应产品星级
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.QuantityBegin">
+            <summary>
+            最小起批量
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.GroupIds">
+            <summary>
+            会员自定义类别ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductSeachModel.Status">
+            <summary>
+            Offer状态
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ProductRepostResult">
+            <summary>
+            产品重发结果
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductRepostResult.IsSuccess">
+            <summary>
+            是否成功标记位
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductRepostResult.Failure">
+            <summary>
+            失败原因
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductRepostResult.OfferId">
+            <summary>
+            产品id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductRepostResult.GmtExpire">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ProductRepostResult.GmtRepublished">
+            <summary>
+            重发时间
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OfferIncrementAttr">
+            <summary>
+            产品增量修改
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferIncrementAttr.OfferId">
+            <summary>
+            产品编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferIncrementAttr.OfferDetail">
+            <summary>
+            产品详情
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferIncrementAttr.Subject">
+            <summary>
+            产品标题
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferIncrementAttr.SkuList">
+            <summary>
+            sku价格
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OfferIncrementSku">
+            <summary>
+            产品增量修改--sku价格
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ModifyStockResult">
+            <summary>
+            批量修改库存
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ModifyStockResult.errors">
+            <summary>
+            错误消息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ModifyStockResult.Success">
+            <summary>
+            是否操作成功
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OfferNew">
+            <summary>
+            产品入参信息,新发修改时的产品入参结构
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.bizType">
+            <summary>
+            贸易类型。1：产品，2：加工，3：代理，4：合作，5：商务服务 不传入默认按照产品发布
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.productFeatures">
+            <summary>
+            产品属性列表。key是属性id， value是值。所有的属性值都需要传入，包括产品属性和除价格之外的交易属性
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.userCategorys">
+            <summary>
+            自定义类目信息。如果有父ID ，则格式为：父id:子ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.categoryID">
+            <summary>
+            类目ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.supportOnlineTrade">
+            <summary>
+            是否支持网上交易。true：支持 false：不支持
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.skuTradeSupport">
+            <summary>
+            是否SKU信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.pictureAuthOffer">
+            <summary>
+            是否图片私密信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.priceAuthOffer">
+            <summary>
+            是否价格私密信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.mixWholeSale">
+            <summary>
+            是否支持混批
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.periodOfValidity">
+            <summary>
+            信息有效期
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.offerDetail">
+            <summary>
+            商品详情信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.subject">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.imageUriList">
+            <summary>
+            图片地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.freightType">
+            <summary>
+            运费类型。T（运费模板） D（运费说明） F（卖家承担运费）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.sendGoodsAddressId">
+            <summary>
+            发货地址ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.freightTemplateId">
+            <summary>
+            物流模板。卖家承担时模板ID为61
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.amountOnSale">
+            <summary>
+            可售数量
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.priceRanges">
+            <summary>
+            区间价格。每个区间之间用`分割，冒号前面是起订量，后面是价格 20:10`30:9`40:8
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.offerWeight">
+            <summary>
+             单位重量
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.skuList">
+            <summary>
+            SKU信息。
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.unit">
+            <summary>
+            计量单位
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferNew.IsSkuTradeSupported">
+            <summary>
+            是否支持按照规格报价
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OfferExpireResult">
+            <summary>
+            供品过期结果
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferExpireResult.Failure">
+            <summary>
+            错误提醒
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferExpireResult.GMTExpire">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferExpireResult.IsSuccess">
+            <summary>
+            是否下架成功
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferExpireResult.GMTModified">
+            <summary>
+            最后修改时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferExpireResult.OfferId">
+            <summary>
+            供品编号
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OfferCanModifyResult">
+            <summary>
+            产品是否可以修改的信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferCanModifyResult.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferCanModifyResult.IsEditable">
+            <summary>
+            是否可修改
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OfferCanModifyResult.OfferId">
+            <summary>
+            产品编号
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ShowWindowModel">
+            <summary>
+            获取某个卖家的相关橱窗信息(目前诚信通用户可用)
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.swUsedCount">
+            <summary>
+            已用橱窗数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.swTotalCount">
+            <summary>
+            橱窗总数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.swBaseCount">
+            <summary>
+            基准橱窗数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.swAwardCount">
+            <summary>
+            奖励橱窗数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.swReduceCount">
+            <summary>
+            扣减橱窗数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.swRemainCount">
+            <summary>
+            剩余橱窗数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.swActivityCount">
+            <summary>
+            活动奖励橱窗数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.versionId">
+            <summary>
+            版本ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.memberId">
+            <summary>
+            会员ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.swBaseCountReason">
+            <summary>
+            基准橱窗数原因
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.swAwardCountReason">
+            <summary>
+            奖励橱窗数原因
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.swReduceCountReason">
+            <summary>
+            扣减橱窗数原因
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.blackListMemberStatus">
+            <summary>
+            是否黑名单会员，true为黑名单，false不为黑名单
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ShowWindowModel.gmtCreate">
+            <summary>
+            橱窗运算时间
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.RecommendOfferResult">
+            <summary>
+            推荐一个产品为橱窗产品(目前诚信通用户可用)
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ShowWindowError">
+            <summary>
+            橱窗错误信息
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ShowWindowResult">
+            <summary>
+            获取某个卖家的相关橱窗信息结果模型
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ShowWindowDoRecommendOfferResult">
+            <summary>
+            推荐一个产品为橱窗产品(目前诚信通用户可用)
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ShowWindowDoQueryRecommOfferListResult">
+            <summary>
+            获取某个卖家已经推荐的橱窗产品列表
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliApplyOrder">
+            <summary>
+            应用购买订单信息
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApplyOrder.BizStatusExt">
+            <summary>
+            订单详细状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApplyOrder.MemberId">
+            <summary>
+            阿里会员编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApplyOrder.ProductName">
+            <summary>
+            产品名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApplyOrder.GmtCreate">
+            <summary>
+            下单时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApplyOrder.GmtServiceEnd">
+            <summary>
+            到期时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApplyOrder.BizStatus">
+            <summary>
+            订单状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApplyOrder.PaymentAmount">
+            <summary>
+            到帐金额
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliApplyOrder.ExecutePrice">
+            <summary>
+            执行金额
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.WholesaleSetting">
+            <summary>
+            批发设置
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.WholesaleSetting.Id">
+            <summary>
+            标识
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.WholesaleSetting.GmtModified">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.WholesaleSetting.MixNumber">
+             <summary>
+            混批设置 数量要求：订单货品总数大于等于MixNumber件
+             </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.WholesaleSetting.MixAmount">
+            <summary>
+            混批设置 金额要求： 订单货品总价大于等于MixAmount元
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.WholesaleSetting.GmtCreate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.WholesaleSetting.MemberId">
+            <summary>
+            会员编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.WholesaleSetting.SupportInvoice">
+            <summary>
+            是否支持发票
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OrderSeachModel">
+            <summary>
+            订单搜索模型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.His">
+            <summary>
+            是否历史订单
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.CreateStartTime">
+            <summary>
+            订单创建时间（查询开始值）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.CreateEndTime">
+            <summary>
+            订单创建时间（查询结束值）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.BuyerMemberId">
+            <summary>
+            买家memberId，买卖家memberId必填其一
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.SellerMemberId">
+            <summary>
+            卖家memberId，买卖家memberId必填其一
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.ProductName">
+            <summary>
+            货品名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.TradeTypeEnum">
+            <summary>
+            订单类型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.OrderStatusEnum">
+            <summary>
+            订单状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.PageSize">
+            <summary>
+            页面大小
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.Page">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.ModifyStartTime">
+            <summary>
+            修改时间（查询开始值）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.ModifyEndTime">
+            <summary>
+            修改时间（查询结束值）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.OrderIdSet">
+            <summary>
+            订单id列表，不能多于20个
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.SellerRateStatus">
+            <summary>
+            卖家评论状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.BuyerRateStatus">
+            <summary>
+            买家评论状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderSeachModel.RefundStatus">
+            <summary>
+            退款状态
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.AliOrderSearchResult">
+            <summary>
+            阿里订单搜索结果
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.AliOrderSearchResult.OrderListResult">
+            <summary>
+            订单搜索结果
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OrderListResult">
+            <summary>
+            订单列表结果
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderListResult.TotalCount">
+            <summary>
+            总记录数
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderListResult.ModelList">
+            <summary>
+            订单集合
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OrderDetailResult">
+            <summary>
+            订单详情结果
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OrderModel">
+            <summary>
+            阿里订单
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.CodBuyerFee">
+            <summary>
+            买家承担的服务费
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.StepPayAll">
+            <summary>
+            是否一次性付款
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.BuyerLoginId">
+            <summary>
+            买家登录id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.GmtPayment">
+            <summary>
+            支付时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.CodStatus">
+            <summary>
+            cod状态。
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.AlipayTradeId">
+            <summary>
+            支付宝交易号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.TrustDeceit">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.BuyerEmail">
+            <summary>
+            买家email
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.SellerPhone">
+            <summary>
+            卖家电话
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.Discount">
+            <summary>
+            折扣，单位分
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.ToArea">
+            <summary>
+            收货人地址
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.PayStatus">
+            <summary>
+            支付状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.GmtModified">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.TradeType">
+            <summary>
+            交易类型。UNIFY统一交易流程，STEPPAY分阶段交易，COD货到付款交易，CERTIFICATE信用凭证支付交易（注：该字段已不再维护，替换为tradeTypeStr，请新业务使用新字段）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.OrderFrom">
+            <summary>
+            订单来源(已废弃)
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.GmtCompleted">
+            <summary>
+            明细完成时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.BuyerRateStatus">
+            <summary>
+            买家评价状态。5未评价，4已评价
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.BuyerAlipayId">
+            <summary>
+            买家支付宝id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.BuyerMemberId">
+            <summary>
+            买家阿里会员编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.CodActualFee">
+            <summary>
+            cod交易的实付款（买家实际支付给物流的费用）	
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.GmtGoodsSend">
+            <summary>
+            发货时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.BuyerPhone">
+            <summary>
+            买家电话
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.BuyerUserId">
+            <summary>
+            买家数字id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.SellerUserId">
+            <summary>
+            卖家数字id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.BuyerCompanyName">
+            <summary>
+            买家公司名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.SellerAlipayId">
+            <summary>
+            卖家支付宝id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.CodAudit">
+            <summary>
+            是否COD订单并且清算成功
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.Carriage">
+            <summary>
+            运费，单位分
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.Status">
+            <summary>
+            订单状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.SellerName">
+            <summary>
+            卖家名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.BuyerMobile">
+            <summary>
+            买家手机号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.SellerMemberId">
+            <summary>
+            卖家会员编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.SellerLoginId">
+            <summary>
+            卖家登录id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.SumProductPayment">
+            <summary>
+            总货品金额
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.ToPost">
+            <summary>
+            收货人邮编
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.CodBuyerInitFee">
+            <summary>
+            买家承担的服务费初始值
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.SumPayment">
+            <summary>
+            付款总金额，单位（分）订单需要支付的总金额=产品总金额+运费-折扣金额-抵价券（如果有的话），如果是COD订单，不包括COD服务费
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.SellerRateStatus">
+            <summary>
+            卖家评价状态。5未评价，4已评价
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.CodFee">
+            <summary>
+            cod服务费
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.Id">
+            <summary>
+            订单号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.RefundStatus">
+            <summary>
+            退款状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.LogisticsStatus">
+            <summary>
+            物流状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.TradeTypeStr">
+            <summary>
+             交易类型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.GmtSign">
+            <summary>
+            买家签收时间(COD)
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.GmtCreate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.SellerCompanyName">
+            <summary>
+            卖家公司名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.BuyerName">
+            <summary>
+            买家名字
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.CodSellerFee">
+            <summary>
+            卖家承担的服务费
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.RefundPayment">
+            <summary>
+            退款金额，单位分
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.ProductName">
+            <summary>
+            订单(产品)名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderModel.SellerOrderMemo">
+            <summary>
+            卖家备注
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OrderMemo">
+            <summary>
+            订单备注
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderMemo.GmtModified">
+            <summary>
+            最后修改时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderMemo.GmtCreate">
+            <summary>
+            备注创建时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderMemo.Remark">
+            <summary>
+            备注内容
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderMemo.RemarkIcon">
+            <summary>
+            备注图标
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderMemo.MemberId">
+            <summary>
+            备注人编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderMemo.OrderId">
+            <summary>
+            订单号
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OrderEntry">
+            <summary>
+            订单明细模型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.BuyerUserId">
+            <summary>
+            买家数字id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.UnitPrice">
+            <summary>
+            明细单价
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.SnapshotImages">
+            <summary>
+            快照图片组
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.Amount">
+            <summary>
+            产品金额
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.EntryPayStatus">
+            <summary>
+            支付状态，与淘宝一致
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.EntryRefundStatus">
+            <summary>
+            子订单退款状态，waitselleragree等待卖家同意，refundsuccess退款成功，refundclose退款关闭，waitbuyermodify待买家修改，waitbuyersend等待买家退货，waitsellerreceive等待卖家确认收货
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.EntryStatusStr">
+            <summary>
+            子订单状态，取值范围同主订单状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.Quantity">
+            <summary>
+            数量  
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.SellerUserId">
+            <summary>
+            卖家数字id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.CodStatus">
+            <summary>
+            COD物流状态，与淘宝一致
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.SpecInfoModel">
+            <summary>
+            商品规格属性数据模型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.CategoryId">
+            <summary>
+            offer的类目id；非offer订单为空
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.BuyerSecuritySupport">
+            <summary>
+            该订单明细是否有买家保障服务
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.DiscountPrice">
+            <summary>
+            产品打折单价
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.ProductPics">
+            <summary>
+            产品图片
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.Discount">
+            <summary>
+            折扣价
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.Price">
+            <summary>
+            订单明细单价，单位：分
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.SnapshotId">
+            <summary>
+            快照ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.GmtModified">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.OrderFrom">
+            <summary>
+            订单来源(已废弃)
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.ActualPayFee">
+            <summary>
+            付款时分摊后的每笔子订单金额
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.OrderSourceType">
+            <summary>
+            该订单明细订购的来源，比如大额批发、普通大市场或者拿样，对应Detail的来源不同
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.SellerRateStatus">
+            <summary>
+            卖家评价状态(4:未评论,5:已评论,6;不需要评论)
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.SourceId">
+            <summary>
+            订单明细来源ID，如offer的id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.EntryDiscount">
+            <summary>
+            订单明细涨价或折扣
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.Id">
+            <summary>
+            订单明细ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.LogisticsStatus">
+            <summary>
+            物流状态，取值范围同主订单物流状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.PromotionsFee">
+            <summary>
+             优惠价格 - 如满100立减
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.GmtCompleted">
+            <summary>
+            明细完成时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.OrderId">
+            <summary>
+            订单ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.CurrencyCode">
+            <summary>
+            货币种类
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.GmtCreate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.BuyerRateStatus">
+            <summary>
+            买家评论状态(4:未评论,5:已评论,6;不需要评论)
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.ComplaintStatus">
+            <summary>
+            售后投诉状态，'-'初始值，'1'首次投诉中，'0'投诉自行撤销，'2'投诉后台无效，'3'再次投诉中，'8'投诉资格关闭，'9'投诉处理完成
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.BizSign">
+            <summary>
+            订单明细业务标识
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.Unit">
+            <summary>
+            货物单位
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.RefundId">
+            <summary>
+            售中退款单ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.SpecId">
+            <summary>
+            商品规格属性ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.Attributes">
+            <summary>
+            明细扩展属性,用于保存交易不关心，但需要打在订单上的属性。目前只有“是否已导入行业产品库"
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.ProductName">
+            <summary>
+            订单明细(产品)名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEntry.GuaranteeSupport">
+            <summary>
+            该订单明细是否有保障卡支持
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.SnapshotImageModel">
+            <summary>
+            快照图片模型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SnapshotImageModel.ImageUrl">
+            <summary>
+            大图图片：全路径
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SnapshotImageModel.SummImageUrl">
+            <summary>
+            小图图片：全路径，目前动态生成小图规格：64x64
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SnapshotImageModel.MidImageUrl">
+             <summary>
+            小图图片：全路径，目前动态生成小图规格：64x64
+             </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.SpecInfoModel">
+            <summary>
+            商品规格属性数据模型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SpecInfoModel.SpecItems">
+            <summary>
+            规格属性条目列表
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.SpecItem">
+            <summary>
+            规格属性条目
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SpecItem.SpecName">
+            <summary>
+            规格属性名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SpecItem.SpecValue">
+            <summary>
+            规格属性值
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.SpecItem.Unit">
+            <summary>
+            规格属性单位
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ComplaintStatus">
+            <summary>
+            售后投诉状态
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.BizSign">
+            <summary>
+            订单明细业务标识
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.TradeDetail">
+            <summary>
+            （原）订单详情
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.GmtModified">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.TradeType">
+            <summary>
+             交易类型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.BuyerUserId">
+            <summary>
+            买家数字id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.SumProductPayment">
+            <summary>
+            总货品金额
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.SellerRateStatus">
+            <summary>
+            卖家评论状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.Id">
+            <summary>
+            订单ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.GmtPayment">
+            <summary>
+            支付时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.SellerUserId">
+            <summary>
+            卖家数字id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.SellerAlipayId">
+            <summary>
+            卖家支付宝id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.AlipayTradeId">
+            <summary>
+            支付宝交易号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.GmtCreate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.BuyerRateStatus">
+            <summary>
+            买家评论状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.Status">
+            <summary>
+            订单状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.Carriage">
+            <summary>
+            运费，单位分
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.SellerCompanyName">
+            <summary>
+            卖家公司名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.SellerPhone">
+            <summary>
+            卖家电话
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.BuyerAlipayId">
+            <summary>
+            买家支付宝id
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.BuyerMemberId">
+            <summary>
+            买家会员编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.Discount">
+            <summary>
+            折扣，单位分
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.BuyerPhone">
+            <summary>
+            买家电话
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.SellerMemberId">
+            <summary>
+            卖家会员编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeDetail.RefundPayment">
+            <summary>
+            退款金额，单位分
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.TradeEntry">
+            <summary>
+            （原）订单明细
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeEntry.Id">
+            <summary>
+            订单明细ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeEntry.Price">
+            <summary>
+            订单明细单价，单位：分
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeEntry.EntryCodStatus">
+            <summary>
+            cod状态。
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeEntry.SpecId">
+            <summary>
+            商品规格属性ID
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeEntry.Quantity">
+            <summary>
+            数量  
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeEntry.ProductName">
+            <summary>
+            货品名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeEntry.EntryDiscount">
+            <summary>
+            订单明细涨价或折扣
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeEntry.SourceId">
+            <summary>
+            订单明细来源ID，如offer的id
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.TradeSeachModel">
+            <summary>
+            交易搜索模型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.IsHis">
+            <summary>
+            是否查询历史订单，即3个月以前的订单，默认为false，即不查询历史订单
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.CreateStartTime">
+            <summary>
+            订单创建时间（查询开始值）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.CreateEndTime">
+            <summary>
+            订单创建时间（查询结束值）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.BuyerMemberId">
+            <summary>
+            买家memberId，买卖家memberId必填其一
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.SellerMemberId">
+            <summary>
+            卖家memberId，买卖家memberId必填其一
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.ProductName">
+            <summary>
+            货品名称
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.TradeType">
+            <summary>
+            交易类型
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.OrderStatus">
+            <summary>
+            交易状态
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.PageSize">
+            <summary>
+            页面大小
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.PageNo">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.ModifyStartTime">
+            <summary>
+            修改时间（查询开始值）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.ModifyEndTime">
+            <summary>
+            修改时间（查询结束值）
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.TradeSeachModel.OrderId">
+            <summary>
+            订单编号，指定该参数相当于查询订单明细
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OrderEvaluateModel">
+            <summary>
+            描述单个订单，卖家对买家的评价信息与星级
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEvaluateModel.StarLevel">
+            <summary>
+            评价星级，1-5
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.OrderEvaluateModel.Content">
+            <summary>
+            评价信息描述,不支持url
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.OrderEvaluteResult">
+            <summary>
+            订单评价结果
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ModifyOrderPriceDetail">
+            <summary>
+            修改订单价格明细
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ModifyOrderPriceDetail.Id">
+            <summary>
+            订单编号
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ModifyOrderPriceDetail.Discount">
+             <summary>
+            价格变更幅度 discount=20 该订单涨价20分，如果discount=-20,则意为该订单降价20分 
+             </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Models.ModifyOrderPriceResult">
+            <summary>
+            修改订单价格结果
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ModifyOrderPriceResult.Result">
+            <summary>
+            是否修改成功
+            </summary>
+        </member>
+        <member name="P:ZyLob.Ali1688.Op.Models.ModifyOrderPriceResult.ResultCode">
+            <summary>
+            错误码
+            </summary>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.PhotoAlbum.AlbumApi">
+            <summary>
+            阿里相册操作接口
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.PhotoAlbum.AlbumApi.GetAlbums(ZyLob.Ali1688.Op.Models.AliAlbumType,System.Int32,System.Int32)">
+            <summary>
+            获取相册列表
+            </summary>
+            <param name="albumType">相册类型CUSTOM-自定义相册；MY-我的相册；</param>
+            <param name="pageIndex">页码</param>
+            <param name="pageSize">每页显示条数</param>
+            <returns>相册信息列表</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.PhotoAlbum.AlbumApi.Get(System.Int64)">
+            <summary>
+            根据相册id获取相册信息
+            </summary>
+            <param name="albumId">相册id</param>
+            <returns>相册信息</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.PhotoAlbum.AlbumApi.Create(ZyLob.Ali1688.Op.Models.AliAlbumEdit)">
+            <summary>
+            实现创建相册功能
+            </summary>
+            <param name="aliAlbumEdit">阿里相册编辑实体</param>
+            <returns>是否创建成功。取值如下：true-成功；false-失败</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.PhotoAlbum.AlbumApi.Edit(ZyLob.Ali1688.Op.Models.AliAlbumEdit)">
+             <summary>
+            修改相册信息功能
+             </summary>
+            <param name="aliAlbumEdit">阿里相册编辑实体</param>
+             <returns>是否创建成功。取值如下：true-成功；false-失败</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.PhotoAlbum.AlbumApi.Remove(System.Int64[])">
+            <summary>
+            批量删除相册，每次最多支持删除500个相册
+            </summary>
+            <param name="albumIds">相册集合</param>
+            <returns>被删除相册总数</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.PhotoAlbum.PhotoApi">
+            <summary>
+            阿里图片操作接口
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.PhotoAlbum.PhotoApi.GetPhotos(System.Int64,System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.PhotoAlbum.PhotoApi.Get(System.Int64)" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.PhotoAlbum.PhotoApi.UploadPhoto(System.Int64,System.String,System.Byte[],System.String,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.PhotoAlbum.PhotoApi.UpdatePhoto(System.Int64,System.String,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.PhotoAlbum.PhotoApi.RemovePhotos(System.Int64[])" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.PhotoAlbum.PhotoApi.GetPhotoSpaceInfo" -->
+        <member name="T:ZyLob.Ali1688.Op.Product.ProductApi">
+            <summary>
+            阿里产品操作接口
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.ProductSeach(ZyLob.Ali1688.Op.Models.ProductSeachModel)">
+             <summary>
+             产品搜索
+            <para>
+            不需要授权
+            </para>
+            <para>
+             接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.search&amp;v=1 
+            </para>
+             </summary>
+            <param name="seachModel">产品搜索参数模型</param>
+             <returns>产品分页信息</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.GetPublishOffers(ZyLob.Ali1688.Op.Models.OfferType,System.Int64,System.Int64,System.Int32,System.Int32,System.DateTime,System.String,System.String)">
+            <summary>
+            获取会员已发布的产品信息列表
+            <para>
+            需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.getPublishOfferList&amp;v=1
+            </para>
+            </summary>
+            <param name="type">商品所属类型</param>
+            <param name="categoryId">商品发布类目ID</param>
+            <param name="groupIds">卖家自定义的商品分类ID,只支持单个类目id</param>
+            <param name="page">页码。取值范围:大于零的整数;默认值为1，即返回第一页数据。</param>
+            <param name="pageSize">返回offer列表结果集分页条数。取值范围:大于零的整数;最大值：50;</param>
+            <param name="timeStamp">1、如果传了时间戳参数，则按增量返回，即返回按指定获取条件且对应商品信息的最近更新时间(GMTModified)晚于该时间戳的商品列表信息。2、如果没有传时间戳参数，则取所有的满足条件的商品信息；</param>
+            <param name="orderBy">只支持gmt_modify</param>
+            <param name="returnFields">自定义返回字段，字段为offerDetailInfo子集</param>
+            <returns>产品分页信息</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.GetAllOffers(ZyLob.Ali1688.Op.Models.OfferType,System.Int64,System.Int64[],System.Int32,System.Int32,System.DateTime,System.String,System.String,System.String)">
+            <summary>
+            获取会员所有的产品
+            <para>
+            需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.getAllOfferList&amp;v=1
+            </para>
+            </summary>
+            <param name="type">商品所属类型,目前只支持SALE</param>
+            <param name="categoryId">商品发布类目ID</param>
+            <param name="groupIds">卖家自定义的商品分类ID，多个之间用“,”分隔</param>
+            <param name="page">页码。取值范围:大于零的整数;默认值为1，即返回第一页数据。</param>
+            <param name="pageSize">返回offer列表结果集分页条数。取值范围:大于零的整数;最大值：50。</param>
+            <param name="timeStamp">格式:yyyy-MM-dd HH:mm:ss；1、如果传了时间戳参数，则按增量返回，即返回按指定获取条件且对应商品信息的最近更新时间(GMTModified)晚于该时间戳的商品列表信息。2、如果没有传时间戳参数，则取所有的满足条件的商品信息；</param>
+            <param name="orderBy">当前支持:gmtexpire:asc|desc,gmt_modified:asc|desc</param>
+            <param name="site">站点</param>
+            <param name="returnFields">自定义返回字段，字段为offerDetailInfo子集。多个字段以半角','分隔。若此字段为空，则返回offer数组信息为空;其中如下参数无法通过该API获得：amountOnSale、details、detailsUrl、saledCount、skuArray、termOfferProcess、tradingType</param>
+            <returns>产品分页信息</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.GetProductByOfferId(System.Int64,System.String)">
+            <summary>
+            获取单个产品信息 
+            </summary>
+            <para>
+            不需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.get&amp;v=1
+            </para>
+            <param name="offerId">产品编号</param>
+            <param name="returnFields">自定义返回字段。多个字段以半角逗号分隔;默认返回（商品编号,私密属性列举,商品标题,商品详情,商品图片列表,商品属性信息,计量单位,可售数量,已销售量,价格区间 ）</param>
+            <returns>产品信息 </returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.OfferRepost(System.Int64[])">
+            <summary>
+            通过本接口实现阿里巴巴中文站已登录卖家会员批量重发指定offerID产品信息上网的功能；
+            <para>重发规则与网站一致：1、每条供应产品24小时以内，只能重发一次；2、每个客户每天重发产品上限为400条；3、offids 每次最多20个。</para> 
+            <para>
+            需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.repost&amp;v=1
+            </para>
+            </summary>
+            <param name="offerIds">产品编号</param>
+            <returns>产品重发结果</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.OfferIncrementModify(ZyLob.Ali1688.Op.Models.OfferIncrementAttr)">
+            <summary>
+            产品增量修改
+            <para>
+            需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.modify.increment&amp;v=1
+            </para>
+            </summary>
+            <param name="incrementAttr">增量修改属性</param>
+            <returns>修改结果，返回空代表修改成功</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.OfferModifyStock(System.Int64,System.Int32,System.Collections.Generic.Dictionary{System.String,System.Int32})">
+            <summary>
+            增量修改产品库存
+            <para>
+            需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=offer.modify.stock&amp;v=1
+            </para>
+            </summary>
+            <param name="offerId">产品编号</param>
+            <param name="offerAmountChange">总库存改变量</param>
+            <param name="skuAmountChange">
+            Sku报价产品，指定规格的库存变量，注是所有规格改变量之和要等于offerAmountChange 
+            如果产品没有sku，可以不用填。数据格式{"specId":"number"},key是sku信息中的specId，后者为库存变更量
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.OfferNew(ZyLob.Ali1688.Op.Models.OfferNew)">
+            <summary>
+            本接口通过数据接口的形式，实现阿里巴巴中文站登录会员发布offer的功能。每个客户每天最多新发布1000个产品。
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.OfferExpire(System.Int64[])">
+            <summary>
+            通过本接口实现阿里巴巴中文站已登录卖家会员批量的设置指定offerID产品信息为过期商品的功能；转为过期的业务规则现有网站的业务逻辑保持一致；
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.OfferCanModify(System.Int64[])">
+            <summary>
+            通过本接口实现阿里巴巴中文站已登录会员获取指定产品是否可以修改的信息
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.IndustryShowwindowQuery">
+            <summary>
+            获取卖家的相关橱窗信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.IndustryShowwindowDoRecommendOffer(System.Int64)">
+            <summary>
+            推荐一个产品为橱窗产品(目前诚信通用户可用)
+            </summary>
+            <param name="offerId">产品编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.IndustryShowwindowCancelRecommendOffer(System.Int64)">
+            <summary>
+            取消一个橱窗推荐产品(目前诚信通用户可用)
+            </summary>
+            <param name="offerId">产品编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Product.ProductApi.DoQueryRecommOfferList">
+            <summary>
+            获取某个卖家已经推荐的橱窗产品列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Search.SearchApi">
+            <summary>
+            阿里搜索栏目api
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Search.SearchApi.TitleStuffing(System.String,System.String)">
+            <summary>
+            标题堆砌，用来检测offer标题中是否存在堆砌多个关键词的情况，包括产品词堆砌，型号词堆砌，品牌堆砌等
+            </summary>
+            <param name="title">Offer标题,对应为offer的标题，字段名为title</param>
+            <param name="catId">Offer 发布类目id,对应为offer的发布类目id，字段名为catid</param>
+            <returns>对于检测到作弊的，会在 type中标示具体的作弊类型(CP|XH|PP|XSC)，否则为none，CP对应产品词堆砌，XH对应型号词堆砌，PP对于品牌词堆砌，XSC对应产品修饰词修饰。相对应的，会有具体字段提示引起堆砌的词具体信息。</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Search.SearchApi.TitlePropertiesInconsistent(System.String,System.String,System.String)">
+            <summary>
+            标题属性不一致
+            用来判断，用户标题和属性中填写的信息是否一致，是否存在冲突的关键属性
+            </summary>
+            <param name="title">Offer标题,对应为offer的标题，字段名为title</param>
+            <param name="brief">Offer属性,对应为offer的属性，字段名为brief。brief的字段格式要求为： key：value 多个间空格分开</param>
+            <param name="catId">Offer 发布类目id,对应为offer的发布类目id，字段名为catid</param>
+            <returns>对于存在不一致的，会在TYPE输出对应的作弊程度，没有作弊的会标示为NONE.其他字段比如ANTIVAL，KEY标示具体的属性KEY下存在冲突的VAL。</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Search.SearchApi.PropertiesAbuse(System.String,System.String)">
+            <summary>
+            属性滥用
+            判断用户填写的属性是否存在滥用，比如属性值多个重复使用，属性值过长，以及属性值无意义等。
+            </summary> 
+            <param name="catid">Offer 发布类目id,对应为offer的发布类目id，字段名为catid</param>
+            <param name="brief">Offer属性,对应为offer的属性，字段名为brief。brief的字段格式要求为： key：value 多个间空格分开</param>
+            <returns>对于存在属性滥用的，会在OFFERLEVEL输出对应的作弊程度，没有作弊的会标示为NONE.其他字段会标示具体的引起属性滥用的原因以及具体的属性KEY和VALUE</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Search.SearchApi.CategoryCheating(System.String,System.String,System.String)">
+            <summary>
+            类目作弊
+            用户在发布offer时候，需要选择对应的发布类目，类目作弊就是用来检测选择的类目跟发布的offer信息是否匹配
+            </summary>
+            <param name="title">Offer标题,对应为offer的标题，字段名为title</param>
+            <param name="catId">Offer 发布类目id,对应为offer的发布类目id，字段名为catid</param>
+            <param name="userId">卖家id（1688的memberId）,对应为该offer的旺铺userid</param>
+             <returns>对于检测到类目作弊的，在type字段中，会标示为anti，否则为none。同时系统会推荐一到多个类目id，分别在catid，catname，以及score中标示，解析相关字段就可以得到。</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.ServicePlatform.PlatformApi">
+            <summary>
+            服务平台
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.ServicePlatform.PlatformApi.GetApplyOrdersByBeginDate(System.DateTime,System.String,ZyLob.Ali1688.Op.Models.AliApplyOrderState[],System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.ServicePlatform.PlatformApi.GetApplyOrdersByEndDate(System.DateTime,System.String,ZyLob.Ali1688.Op.Models.AliApplyOrderState[],System.Int32,System.Int32)" -->
+        <member name="M:ZyLob.Ali1688.Op.ServicePlatform.PlatformApi.GetSystemTime">
+            <summary>
+            获取阿里系统时间，从而跟本地时间进行校准
+            </summary>
+            <returns>阿里系统时间</returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Trade.LogisticsApi">
+            <summary>
+            物流接口
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Trade.LogisticsApi.GetLogisticsCompanys" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Trade.LogisticsApi.GetSendGoodsAddresses(System.Boolean,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Trade.LogisticsApi.GetLogisticsTemplates" -->
+        <member name="T:ZyLob.Ali1688.Op.Trade.OrderApi">
+            <summary>
+            订单操作接口
+            </summary>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Trade.OrderApi.GetWholesaleSetting">
+            <summary>
+            获取阿里巴巴中国网站指定会员的混批和发票设置信息
+            <para>
+            需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=wholesale.get&amp;v=1
+            </para>
+            </summary>
+            <returns>会员的混批和发票设置信息</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Trade.OrderApi.ModifyOrderPrice(System.Int64,System.Int64,ZyLob.Ali1688.Op.Models.ModifyOrderPriceDetail[])">
+            <summary>
+            修改订单价格
+            <para>
+            需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=trade.order.modifyOrderPrice&amp;v=1
+            </para>
+            </summary>
+            <param name="orderId">需要改价的订单号</param>
+            <param name="carriage">订单修改之后的运费，单位为分</param>
+            <param name="entryDiscounts">改价明细,discount值的单位为分，正数为涨价，负数为减价</param>
+            <returns>修改订单价格结果</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Trade.OrderApi.OrderSearch(ZyLob.Ali1688.Op.Models.OrderSeachModel)">
+            <summary>
+            新版查询订单列表，不包含用户的隐私数据；适用于查询卖家和买家的订单列表
+            <para>
+            需要授权
+            </para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=trade.order.list.get&amp;v=2
+            </para>
+            </summary>
+            <param name="seachModel">订单搜索条件</param>
+            <returns>订单搜索结果</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Trade.OrderApi.GetOrderDetail(System.Int64,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            查询单个订单详情，新版的查询详情接口，不含隐私数据
+            <para>需要授权</para>
+            <para>接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=trade.order.detail.get&amp;v=1 </para>
+            </summary>
+            <param name="orderId">订单号</param>
+            <param name="needOrderEntries">是否需要订单明细,默认true</param>
+            <param name="needInvoiceInfo">是否需要发票信息,默认true</param>
+            <param name="needOrderMemoList">是否需要订单备注,默认true</param>
+            <param name="needLogisticsOrderList">是否需要物流单信息,默认true</param>
+            <returns>订单详情</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Trade.OrderApi.TradeSearch(ZyLob.Ali1688.Op.Models.TradeSeachModel)">
+            <summary>
+            本接口查询当前会话会员的交易订单列表 营销手段的折扣比如限时促销 满减这类的优惠，暂时还无法通过接口获取
+            <para>
+            需要授权    
+            </para>
+            <para>
+            接口地址:http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=trade.order.orderList.get&amp;v=1
+            </para>
+            </summary>
+            <param name="seachModel">交易搜索条件</param>
+            <returns>交易列表</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Trade.OrderApi.GetTradeDetail(System.Int64)">
+            <summary>
+            本接口查询当前会话会员的交易订单详情
+            <para>需要授权</para>
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=trade.order.orderDetail.get&amp;v=1 
+            </para>
+            </summary>
+            <param name="orderId">订单号</param>
+            <returns>（原）订单详情</returns>
+        </member>
+        <member name="M:ZyLob.Ali1688.Op.Trade.OrderApi.OrderEvaluate(System.Collections.Generic.Dictionary{System.Int64,ZyLob.Ali1688.Op.Models.OrderEvaluateModel[]})">
+            <summary>
+            此接口支持多笔订单（暂定最多10笔每次）同时提交评价, 只支持卖家向买家的评价，
+            目前当某笔订单存在多个商品时,只能为这笔订单的这些商品提交相同的评价内容。
+            <para>
+            需要授权
+            </para> 
+            <para>
+            接口地址：http://open.1688.com/doc/api/cn/api.htm?ns=cn.alibaba.open&amp;n=trade.order.batch.rate&amp;v=1
+            </para>
+            </summary>
+            <param name="orderEvaluates">订单评价信息</param>
+            <returns>
+            批量评价结果提交评价失败的订单Map(Long,String) ,前者为失败的订单号，后者为失败的错误码：
+            1 返回为空时，创建全部成功 
+            2 没指定订单号及评价内容时,接口直接返回成功结果 
+            3 当订单已经评价过时，接口直接返回成功结果，不做任何处理
+            4 当指定的订单不是指定postMemberId用户的订单是，接口直接返回成功结果，不做任何处理 
+            5 当指定的订单不处于待评价状态时，接口直接返回成功结果，不做任何处理
+            </returns>
+        </member>
+        <member name="T:ZyLob.Ali1688.Op.Url.UrlApi">
+            <summary>
+            阿里地址接口
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Url.UrlApi.GetBuyerOrderListUri" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Url.UrlApi.GetSellerOrderListUri" -->
+        <!-- Badly formed XML comment ignored for member "M:ZyLob.Ali1688.Op.Url.UrlApi.GetOfferEditUri(System.Int64)" -->
+    </members>
+</doc>

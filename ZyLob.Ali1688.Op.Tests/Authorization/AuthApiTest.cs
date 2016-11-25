@@ -11,7 +11,7 @@ namespace ZyLob.Ali1688.Op.Tests.Authorization
         [TestMethod]
         public void GetAuthorizeUriTest()
         {
-            var authUrl = AliContext.Static.Auth.GetAuthorizeUri("");
+            var authUrl = AliContext.Static.Auth.GetAuthorizeUri("http://qn.ngrok.cc/auth?appkey=1022032", "web");
             
         }
         [TestMethod]

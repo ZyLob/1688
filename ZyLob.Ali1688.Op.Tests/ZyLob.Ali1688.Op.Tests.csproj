@@ -66,6 +66,7 @@
     <Compile Include="PhotoAlbum\PhotoApiTest.cs" />
     <Compile Include="Product\ProductApiTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Search\SearchApiUnitTest.cs" />
     <Compile Include="ServicePlatform\PlatformApiTest.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="Trade\OrderApiTest.cs" />

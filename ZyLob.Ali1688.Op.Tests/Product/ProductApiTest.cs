@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ZyLob.Ali1688.Op.Context;
 using ZyLob.Ali1688.Op.Models;
@@ -18,8 +20,9 @@ namespace ZyLob.Ali1688.Op.Tests.Product
                 // OfferId = 521260330042,
                 MemberId = "b2b-1623492085",
                 PageSize = 50,
+                OrderBy = "gmtexpire:desc",
                 Status = OfferStatus.Published,
-                ReturnFields = "skuArray,imageList"
+                ReturnFields = "offerId,subject,isSkuOffer,skuArray"
             });
         }
 
@@ -81,20 +84,18 @@ namespace ZyLob.Ali1688.Op.Tests.Product
         [TestMethod]
         public void OfferExpireTest()
         {
-
             var result = AliContext.Static.Product.OfferExpire(527115880487, 525423472366, 522836198359);
         }
         [TestMethod]
         public void IndustryShowwindowQueryTest()
         {
-
-            var result = AliContext.Static.Product.IndustryShowwindowQuery();
+             var result = AliContext.Static.Product.IndustryShowwindowQuery();
         }
         [TestMethod]
         public void IndustryShowwindowDoRecommendOfferTest()
         {
 
-            var result = AliContext.Static.Product.IndustryShowwindowDoRecommendOffer(524638517261);
+            var result = AliContext.Static.Product.IndustryShowwindowDoRecommendOffer(38566790281);
         }
         [TestMethod]
         public void DoQueryRecommOfferListTest()
@@ -108,6 +109,17 @@ namespace ZyLob.Ali1688.Op.Tests.Product
 
             var result = AliContext.Static.Product.IndustryShowwindowCancelRecommendOffer(524638517261);
         }
-        
+        [TestMethod]
+        public void OfferCanModifyTest()
+        {
+
+            var result = AliContext.Static.Product.OfferCanModify(539138716672, 537209493155);
+        }
+
+    }
+
+    public class Tes
+    {
+        public DateTime Type { get; set; }
     }
 }
