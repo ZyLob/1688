@@ -625,6 +625,25 @@ namespace ZyLob.Ali1688.Op.Models
 
     }
     /// <summary>
+    /// 产品是否可以修改的信息
+    /// </summary>
+    public class OfferCanModifyResult
+    {
+        /// <summary>
+        /// 消息
+        /// </summary>
+        public string Message { get; set; }
+        /// <summary>
+        /// 是否可修改
+        /// </summary>
+
+        public bool IsEditable { get; set; }
+        /// <summary>
+        /// 产品编号
+        /// </summary>
+        public long OfferId { get; set; }
+    }
+    /// <summary>
     /// 获取某个卖家的相关橱窗信息(目前诚信通用户可用)
     /// </summary>
     public class ShowWindowModel

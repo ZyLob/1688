@@ -91,7 +91,8 @@ namespace ZyLob.Ali1688.Op.Member
             otherParas.Add("returnFields", returnFields);
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<AliResult<AliResultList<AliMemberInfo>>>(url, otherParas);
-            if (results.Result.ToReturn.Count > 0)
+
+            if (results.Result!=null&&results.Result.ToReturn.Count > 0)
             {
                 return results.Result.ToReturn.First();
             }

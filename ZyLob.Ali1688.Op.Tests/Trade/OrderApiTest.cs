@@ -42,7 +42,7 @@ namespace ZyLob.Ali1688.Op.Tests.Trade
         [TestMethod]
         public void GetOrderDetailTest()
         {
-            var results = AliContext.Static.Order.GetOrderDetail(1276650775832295);
+            var results = AliContext.Static.Order.GetOrderDetail(2030902422321815);
         }
         [TestMethod]
         public void GetWholesaleSettingTest()

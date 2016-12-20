@@ -345,7 +345,7 @@ namespace ZyLob.Ali1688.Op.Product
             otherParas.Add("offer", modifyStr);
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<AliResult<AliResultList<string>>>(url, otherParas);
-            return results.Result.Message ?? "";
+            return results.Message!=null ?string.Join("|", results.Message): "";
         }
         /// <summary>
         /// 增量修改产品库存
@@ -428,6 +428,28 @@ namespace ZyLob.Ali1688.Op.Product
             }
             if (results.Result == null)
                 return new List<OfferExpireResult>();
+            return results.Result.ToReturn;
+        }
+        /// <summary>
+        /// 通过本接口实现阿里巴巴中文站已登录会员获取指定产品是否可以修改的信息
+        /// </summary>
+        public List<OfferCanModifyResult> OfferCanModify(params long[] offerIds)
+        {
+            string url = "http://gw.open.1688.com:80/openapi/param2/1/cn.alibaba.open/offer.canModify.get/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            if (offerIds.Count() > 0)
+            {   
+
+                otherParas.Add("offerIds", string.Join(";", offerIds));
+            }
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<AliResult<AliResultList<OfferCanModifyResult>>>(url, otherParas);
+            if (results.Message != null && results.Message.Length > 0)
+            {
+                throw new AliResultException(string.Join(",", results.Message));
+            }
+            if (results.Result == null)
+                return new List<OfferCanModifyResult>();
             return results.Result.ToReturn;
         }
         #region 橱窗

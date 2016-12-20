@@ -107,6 +107,10 @@ namespace ZyLob.Ali1688.Op.Common
                 try
                 {
                     memberPrivateData = wuHelp.DoPost(url, parameters);
+                    if (typeof(T).FullName=="System.String")
+                    {
+                        return (T)Convert.ChangeType(memberPrivateData, typeof(T));
+                    }
                     ApiStatistics.SendRecord(_context.Config);
                     var result = JsonConvert.DeserializeObject<T>(memberPrivateData, new AliDatetimeJsonConverter());
                     if (result == null)

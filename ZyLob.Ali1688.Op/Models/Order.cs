@@ -361,6 +361,7 @@ namespace ZyLob.Ali1688.Op.Models
         /// 收货人邮编
         /// </summary>
         public string ToPost { get; set; }
+       
         /// <summary>
         /// 买家承担的服务费初始值
         /// </summary>
@@ -454,7 +455,78 @@ namespace ZyLob.Ali1688.Op.Models
         /// 卖家备注
         /// </summary>
         public OrderMemo SellerOrderMemo { get; set; }
+        /// <summary>
+        /// 收货地址信息
+        /// </summary>
+        public List<LogisticsOrderModel> LogisticsOrderList { get; set; }
+        /// <summary>
+        /// 收件人电话
+        /// </summary>
+        public string ToMobile { get; set; }
     }
+    /// <summary>
+    ///收货地址信息
+    /// </summary>
+    public class LogisticsOrderModel
+    {
+        /// <summary>
+        /// 物流公司运单号
+        /// </summary>
+        public string LogisticsBillNo { set; get; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public string Status { set; get; }
+        /// <summary>
+        /// 寄件人
+        /// </summary>
+        public string FromContact { set; get; }
+        /// <summary>
+        /// 寄件人电话
+        /// </summary>
+        public string FromPhone { set; get; }
+        ///<summary>
+        /// 发货时间
+        /// </summary>
+        public DateTime GmtSend { set; get; }
+        /// <summary>
+        /// 收货人
+        /// </summary>
+        public string ToContact { set; get; }
+        /// <summary>
+        /// 收货人手机
+        /// </summary>
+        public string ToMobile { set; get; }
+        /// <summary>
+        /// 收货人邮编
+        /// </summary>
+        public string ToPost { set; get; }
+        /// <summary>
+        /// 收货地址
+        /// </summary>
+        public string ToArea { set; get; }
+        /// <summary>
+        /// 物流Id
+        /// </summary>
+        public long LogisticsId { set; get; }
+        ///<summary>
+        /// 物流编号
+        /// </summary>
+        public string LogisticsOrderNo { set; get; }
+      
+        public string AssembledToAddress { get; set; }
+        /// <summary>
+        /// 物流公司编号
+        /// </summary>
+        public int LogisticsCompanyId { get; set; }
+        /// <summary>
+        /// 物流公司名称
+        /// </summary>
+        public LogisticsCompanyModel logisticsCompany { set; get; }
+
+    }
+
+ 
     /// <summary>
     /// 订单备注
     /// </summary>

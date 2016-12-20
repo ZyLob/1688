@@ -57,14 +57,14 @@ namespace ZyLob.Ali1688.Op.Search
         /// 属性滥用
         /// 判断用户填写的属性是否存在滥用，比如属性值多个重复使用，属性值过长，以及属性值无意义等。
         /// </summary> 
-        /// <param name="title">Offer标题,对应为offer的标题，字段名为title</param>
+        /// <param name="catid">Offer 发布类目id,对应为offer的发布类目id，字段名为catid</param>
         /// <param name="brief">Offer属性,对应为offer的属性，字段名为brief。brief的字段格式要求为： key：value 多个间空格分开</param>
         /// <returns>对于存在属性滥用的，会在OFFERLEVEL输出对应的作弊程度，没有作弊的会标示为NONE.其他字段会标示具体的引起属性滥用的原因以及具体的属性KEY和VALUE</returns>
-        public string PropertiesAbuse(string title, string brief)
+        public string PropertiesAbuse(string catid, string brief)
         {
             string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/search.properties.abuse/{0}".FormatStr(_context.Config.AppKey);
             var otherParas = _context.GetParas();
-            otherParas.Add("title", title);
+            otherParas.Add("catid", catid);
             otherParas.Add("brief", brief);
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<string>(url, otherParas);
