@@ -439,6 +439,8 @@ namespace ZyLob.Ali1688.Op.Models
         /// </summary>
         waitsellerpush,
 
+        confirm_goods_but_not_fund
+
 
     }
     /// <summary>

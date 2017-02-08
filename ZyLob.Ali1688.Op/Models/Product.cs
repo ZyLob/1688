@@ -746,5 +746,238 @@ namespace ZyLob.Ali1688.Op.Models
         public List<OfferDetailInfo> showWindowOfferList { get; set; }
     }
 
+    #region 微供
+    /// <summary>
+    /// (微供)根据供应商获取offerId列表
+    /// </summary>
+    public class GetOfferListResult
+    {
+        public bool success { get; set; }
+
+        public string msgCode { get; set; }
+
+        public string msgInfo { get; set; }
+
+        public long[] model { get; set; }
+    }
+
+    public class ProductInfoGetResult
+    {
+
+        public ProductInfoResult result { get; set; }
+
+        public string errMsg { get; set; }
+
+        public string errCode { get; set; }
+
+    }
+
+
+    //(微供)获取产品的结果对象 
+    public class ProductInfoResult
+    {
+        public DateTime createTime { get; set; }
+
+        public DateTime lastUpdateTime { get; set; }
+
+        public DateTime lastRepostTime { get; set; }
+        public DateTime approvedTime { get; set; }
+
+        public DateTime expireTime { get; set; }
+        public ProductInfo productInfo { get; set; }
+        public string productOwnerId { get; set; }
+
+    }
+    //(微供产品详细)
+    public class ProductInfo
+    {
+        public long productID { get; set; }
+
+        public string productType { get; set; }
+        public long categoryID { get; set; }
+        //商品属性
+        public ProductAttribute[] attributes { get; set; }
+
+        public long[] groupID { get; set; }
+
+        public string status { get; set; }
+
+        public string subject { get; set; }
+
+        public string description { get; set; }
+
+        public string language { get; set; }
+
+        public int periodOfValidity { get; set; }
+
+        public int bizType { get; set; }
+
+        public bool pictureAuth { get; set; }
+
+        //图片列表
+        public ProductImageInfo image { get; set; }
+        //sku列表
+        public ProductSKUInfo[] skuInfos { get; set; }
+        //商品销售信息
+        public ProductSaleInfo saleInfo { get; set; }
+        //商品物流信息
+        public ProductShippingInfo shippingInfo { get; set; }
+        //
+        public ProductInternationalTradeInfo internationalTradeInfo { get; set; }
+        //商品扩展信息
+        public ProductExtendInfo[] extendInfos { get; set; }
+
+    }
+    //(微供)产品图片列表
+    public class ProductImageInfo
+    {
+        //主图列表，需先使用图片上传接口上传图片
+        public string[] images { get; set; }
+        //是否打水印，是(true)或否(false)，1688无需关注此字段，1688的水印信息在上传图片时处理
+        public bool isWatermark { get; set; }
+        //水印是否有边框，有边框(true)或者无边框(false)，1688无需关注此字段，1688的水印信息在上传图片时处理
+        public bool isWatermarkFrame { get; set; }
+        //水印位置，在中间(center)或者在底部(bottom)，1688无需关注此字段，1688的水印信息在上传图片时处理
+        public string watermarkPosition { get; set; }
+
+    }
+    //（微供）产品sku信息
+    public class ProductSKUInfo
+    {
+        //SKU属性值，可填多组信息
+        public ProductAttribute[] attributes { get; set; }
+        //指定规格的货号，国际站无需关注
+        public string cargoNumber { get; set; }
+        //可销售数量，国际站无需关注
+        public int amountOnSale { get; set; }
+        //建议零售价，国际站无需关注
+        public double retailPrice { get; set; }
+        //报价时该规格的单价，国际站注意要点：含有SKU属性的在线批发产品设定具体价格时使用此值，若设置阶梯价格则使用priceRange
+        public double price { get; set; }
+        //阶梯报价，1688无需关注
+        public ProductPriceRange[] priceRange { get; set; }
+        //商品编码，1688无需关注
+        public string skuCode { get; set; }
+        //skuId, 国际站无需关注
+        public long skuId { get; set; }
+        //specId, 国际站无需关注
+        public string specId { get; set; }
+
+
+    }
+
+    //(微供)商品属性和属性值
+    public class ProductAttribute
+    {
+        //属性ID
+        public long attributeID { get; set; }
+        //属性名称
+        public String attributeName { get; set; }
+        //属性值ID
+        // public long valueID { get; set; }
+        //属性值
+        public string value { get; set; }
+        //是否为自定义属性，国际站无需关注
+        public bool isCustom { get; set; }
+
+    }
+    //(微供)商品扩展信息
+    public class ProductExtendInfo
+    {
+        //key
+        public string key { get; set; }
+        //value
+        public string value { get; set; }
+    }
+
+    //商品销售信息，包含上传商品中跟销售相关的信息
+    public class ProductSaleInfo
+    {
+        //是否支持网上交易。true：支持 false：不支持，国际站不需关注此字段
+        public bool supportOnlineTrade { get; set; }
+
+        //是否支持混批，国际站无需关注此字段
+        public bool mixWholeSale { get; set; }
+        //销售方式，按件卖(normal)或者按批卖(batch)，1688站点无需关注此字段
+        public string saleType { get; set; }
+        //是否价格私密信息，国际站无需关注此字段
+        public bool priceAuth { get; set; }
+        //区间价格。按数量范围设定的区间价格
+        public ProductPriceRange[] priceRanges { get; set; }
+        //可售数量，国际站无需关注此字段
+        public double amountOnSale { get; set; }
+        //计量单位
+        public string unit { get; set; }
+        //最小起订量，范围是1-99999。1688无需处理此字段
+        public int minOrderQuantity { get; set; }
+        //每批数量
+        public int batchNumber { get; set; }
+        //建议零售价，国际站无需关注
+        public double retailprice { get; set; }
+        //税率相关信息，内容由用户自定，国际站无需关注
+        public string tax { get; set; }
+        //售卖单位，如果为批量售卖，代表售卖的单位，例如1"手"=12“件"的"手"，国际站无需关注
+        public string sellunit { get; set; }
+        //普通报价
+        public int quoteType { get; set; }
+
+    }
+
+    //(微供)商品价格区间
+    public class ProductPriceRange
+    {
+        //
+        public int startQuantity { get; set; }
+        //
+        public double price { get; set; }
+    }
+    //（微供）商品物流信息
+    public class ProductShippingInfo
+    {
+
+        public long freightTemplateID { get; set; }
+        public double unitWeight { get; set; }
+        public string packageSize { get; set; }
+        public int volume { get; set; }
+        public int handlingTime { get; set; }
+        public long sendGoodsAddressId { get; set; }
+
+    }
+    //（微供）商品国际贸易信息
+
+    public class ProductInternationalTradeInfo
+    {
+        // 	FOB价格货币，参见FAQ 货币枚举值
+        public string fobCurrency { get; set; }
+        //FOB最小价格
+        public string fobMinPrice { get; set; }
+        //FOB最大价格
+        public string fobMaxPrice { get; set; }
+        //FOB计量单位，参见FAQ 计量单位枚举值
+        public string fobUnitType { get; set; }
+        //付款方式，参见FAQ 付款方式枚举值
+        public string[] paymentMethods { get; set; }
+        //最小起订量
+        public int minOrderQuantity { get; set; }
+        //最小起订量计量单位，参见FAQ 计量单位枚举值
+        public string minOrderUnitType { get; set; }
+        //supplyQuantity
+        public int supplyQuantity { get; set; }
+        //供货能力计量单位，参见FAQ 计量单位枚举值
+        public string supplyUnitType { get; set; }
+        //供货能力周期，参见FAQ 时间周期枚举值
+        public string supplyPeriodType { get; set; }
+        // 	发货港口
+        public string deliveryPort { get; set; }
+        //发货期限
+        public string deliveryTime { get; set; }
+        //新发货期限
+        public int consignmentDate { get; set; }
+        //常规包装
+        public string packagingDesc { get; set; }
+
+    }
+
+    #endregion
 
 }

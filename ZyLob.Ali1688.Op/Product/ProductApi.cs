@@ -452,6 +452,24 @@ namespace ZyLob.Ali1688.Op.Product
                 return new List<OfferCanModifyResult>();
             return results.Result.ToReturn;
         }
+        /// <summary>
+        /// 根据状态查询商品
+        /// </summary>
+        public string GetOfferByStatus(int page = 1, int pageSize = 20,params string[] statusList)
+        {
+            string url = "http://gw.open.1688.com:80/openapi/param2/1/com.alibaba.product/alibaba.product.getByStatus/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            otherParas.Add("pageNo", page + "");
+            otherParas.Add("pageSize", pageSize + "");
+            if (statusList.Any())
+            {
+                otherParas.Add("statusList",JsonConvert.SerializeObject(statusList));
+            }
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<string>(url, otherParas);
+            
+            return results;
+        }
         #region 橱窗
         /// <summary>
         /// 获取卖家的相关橱窗信息
@@ -523,7 +541,62 @@ namespace ZyLob.Ali1688.Op.Product
              }
             return results.showWindowOfferList;
         }
-        
+
+        #endregion
+        #region 微供
+
+
+        /// <summary>
+        /// (微供)根据供应商的名称获取该供应商的offerId列表。这是一个分页接口，需要提供起始位置和获取的数量。一次最多获取100条。 该API需要申请成为微供解决方案提供者才能使用。 
+        /// </summary>
+        /// <param name="marketSupplierLoginId">供应商账户名</param>
+        /// <param name="offset">起始页</param>
+        /// <param name="limit">每页数量(最大100)</param>
+        /// <returns></returns>
+        public GetOfferListResult GetOfferList(string marketSupplierLoginId, int offset, int limit)
+        {
+            string url = "http://gw.open.1688.com:80/openapi/param2/1/com.alibaba.commissionSale.microsupply/alibaba.china.microsupply.open.getOfferList/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            if (marketSupplierLoginId.IsNotNullOrEmpty())
+            {
+
+                otherParas.Add("marketSupplierLoginId", marketSupplierLoginId);
+            }
+
+            otherParas.Add("offset", offset + "");
+            otherParas.Add("limit", limit + "");
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<GetOfferListResult>(url, otherParas);
+           
+            return results;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productId">商品ID</param>
+        /// <param name="webSite">站点信息，指定调用的API是属于国际站（alibaba）还是1688网站（1688）</param>
+        /// <returns></returns>
+        public ProductInfoGetResult GetWeiGonOfferInfo(long productId, string webSite = "1688")
+        {
+
+            string url = "http://gw.open.1688.com:80/openapi/param2/1/com.alibaba.commissionSale/alibaba.product.get/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            if (productId != default(long))
+            {
+                otherParas.Add("productID", productId + "");
+            }
+            otherParas.Add("webSite", webSite);
+
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<ProductInfoGetResult>(url, otherParas);
+            return results;
+
+
+        }
+
+
+
         #endregion
     }
 }
