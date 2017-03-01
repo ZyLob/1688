@@ -37,7 +37,7 @@ namespace ZyLob.Ali1688.Op.Product
             var otherParas = _context.GetParas();
             otherParas.Add("pageNo", seachModel.PageNo.ToString());
             otherParas.Add("pageSize", seachModel.PageSize.ToString());
-            otherParas.Add("status", seachModel.Status.ToString().ToLower());
+            otherParas.Add("status", seachModel.GetStatusStr);
             if (seachModel.Q.IsNotNullOrEmpty())
             {
                 otherParas.Add("q", seachModel.Q);
@@ -339,6 +339,38 @@ namespace ZyLob.Ali1688.Op.Product
             {
                 json.Add("skuList", incrementAttr.SkuList);
             }
+            if (incrementAttr.FreightTemplateId.IsNotNullOrEmpty())
+            {
+                json.Add("freightTemplateId", incrementAttr.FreightTemplateId);
+            }
+            if (incrementAttr.FreightType.IsNotNullOrEmpty())
+            {
+                json.Add("freightType", incrementAttr.FreightType);
+            }
+            if (incrementAttr.IsMixWholeSale.IsNotNullOrEmpty())
+            {
+                json.Add("isMixWholeSale", incrementAttr.IsMixWholeSale);
+            }
+            if (incrementAttr.IsPictureAuthOffer.IsNotNullOrEmpty())
+            {
+                json.Add("isPictureAuthOffer", incrementAttr.IsPictureAuthOffer);
+            }
+            if (incrementAttr.IsPriceAuthOffer.IsNotNullOrEmpty())
+            {
+                json.Add("isPriceAuthOffer", incrementAttr.IsPriceAuthOffer);
+            }
+            if (incrementAttr.OfferWeight.IsNotNullOrEmpty())
+            {
+                json.Add("offerWeight", incrementAttr.OfferWeight);
+            }
+            if (incrementAttr.UserCategorys.IsNotNullOrEmpty())
+            {
+                json.Add("userCategorys", incrementAttr.UserCategorys);
+            }
+            if (incrementAttr.SendGoodsAddressId.IsNotNullOrEmpty())
+            {
+                json.Add("sendGoodsAddressId", incrementAttr.SendGoodsAddressId);
+            }
             string modifyStr = JsonConvert.SerializeObject(json);
             string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.modify.increment/{0}".FormatStr(_context.Config.AppKey);
             var otherParas = _context.GetParas();
@@ -468,6 +500,20 @@ namespace ZyLob.Ali1688.Op.Product
             _context.Util.AddAliApiUrlSignPara(url, otherParas);
             var results = _context.Util.Send<string>(url, otherParas);
             
+            return results;
+        }
+        /// <summary>
+        /// 通过本接口实现阿里巴巴中文站已登录卖家会员永久删除指定offerID产品信息的功能；offer永久删除的业务规则现有网站业务逻辑保持一致
+        /// </summary>
+        public string Delste(params  long[] offerIds)
+        {
+            string url = "http://gw.open.1688.com:80/openapi/param2/1/cn.alibaba.open/offer.delete/{0}".FormatStr(_context.Config.AppKey);
+            var otherParas = _context.GetParas();
+            otherParas.Add("offerIds",string.Join(",", offerIds));
+           
+            _context.Util.AddAliApiUrlSignPara(url, otherParas);
+            var results = _context.Util.Send<string>(url, otherParas);
+
             return results;
         }
         #region 橱窗

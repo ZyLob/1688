@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
+using ZyLob.Ali1688.Op.Common;
 
 namespace ZyLob.Ali1688.Op.Models
 {
@@ -317,6 +319,7 @@ namespace ZyLob.Ali1688.Op.Models
         {
             PageNo = 1;
             PageSize = 20;
+            StatusList=new List<OfferStatus>();
         }
         /// <summary>
         /// 当分页查询时指定请求的数据页
@@ -404,8 +407,33 @@ namespace ZyLob.Ali1688.Op.Models
         /// <summary>
         /// Offer状态
         /// </summary>
-        public OfferStatus Status { get; set; }
-
+        public OfferStatus? Status { get; set; }
+        /// <summary>
+        /// Offer集合状态
+        /// </summary>
+        public List<OfferStatus> StatusList { get; set; }
+        /// <summary>
+        /// 获取状态标识
+        /// </summary>
+        internal string GetStatusStr
+        {
+            get
+            {
+              
+                if (Status != null && StatusList.All(e => e != Status))
+                {
+                    StatusList.Add(Status.Value);
+                }
+                var statuDis = StatusList.Distinct();
+                var statusDesc = EnumUtils.FindAll<OfferStatus, EnumDescription>();
+                var statusStrList=new List<string>();
+                foreach (var offerStatuse in statuDis)
+                {
+                    statusStrList.Add(statusDesc[offerStatuse].TextTag);
+                }
+               return string.Join(",", statusStrList);
+            }
+        }
     }
 
     /// <summary>
@@ -454,7 +482,38 @@ namespace ZyLob.Ali1688.Op.Models
         /// 产品标题
         /// </summary>
         public string Subject { get; set; }
-
+        /// <summary>
+        /// 自定义分类
+        /// </summary>
+        public string UserCategorys { get; set; }
+        /// <summary>
+        /// 运费类型
+        /// </summary>
+        public string FreightType { get; set; }
+        /// <summary>
+        /// 单位重量
+        /// </summary>
+        public string OfferWeight { get; set; }
+         /// <summary>
+        /// 图片仅会员可见
+        /// </summary>
+        public string IsPictureAuthOffer { get; set; }
+        /// <summary>
+        /// 价格仅会员可见
+        /// </summary>
+        public string IsPriceAuthOffer { get; set; }
+        /// <summary>
+        /// 是否支持混批
+        /// </summary>
+        public string IsMixWholeSale { get; set; }
+        /// <summary>
+        /// 发货地址
+        /// </summary>
+        public string SendGoodsAddressId { get; set; }
+        /// <summary>
+        /// 运费模版编号
+        /// </summary>
+        public string FreightTemplateId { get; set; }
         /// <summary>
         /// sku价格
         /// </summary>

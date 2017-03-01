@@ -28,21 +28,70 @@ namespace ZyLob.Ali1688.Op.Models
     public enum OfferStatus
     {
         /// <summary>
+        /// 即将删除
+        /// </summary>
+        [EnumDescription("to be delete", "TBD")]
+        Tbd,
+        /// <summary>
         /// 所有上线
         /// </summary>
+        [EnumDescription("to be delete", "Tdb")]
         Tdb,
         /// <summary>
         /// 销售中
         /// </summary>
+        [EnumDescription("上网状态", "published")]
         Published,
         /// <summary>
         /// 删除
         /// </summary>
+        [EnumDescription("删除", "deleted")]
         Deleted,
         /// <summary>
-        /// 待审
+        /// 会员撤销
         /// </summary>
-        New
+        [EnumDescription("会员撤销", "member expired")]
+        MemberExpired,
+        /// <summary>
+        /// 新发
+        /// </summary>
+        [EnumDescription("新发", "new")]
+        New,
+        /// <summary>
+        /// 自然过期
+        /// </summary>
+        [EnumDescription("自然过期", "auto expired")]
+        AutoExpired,
+        /// <summary>
+        /// 过期(包含手动过期与自动过期
+        /// </summary>
+        [EnumDescription("过期(包含手动过期与自动过期", "expired")]
+        Expired,
+        /// <summary>
+        /// 会员删除
+        /// </summary>
+        [EnumDescription("会员删除", "member deleted")]
+        MemberDeleted,
+        /// <summary>
+        /// 修改
+        /// </summary>
+        [EnumDescription("修改", "modified")]
+        Modified,
+        /// <summary>
+        /// 审批通过
+        /// </summary>
+        [EnumDescription("审批通过", "approved")]
+        Approved,
+        /// <summary>
+        /// 审核中
+        /// </summary>
+        [EnumDescription("审核中", "auditing")]
+        Auditing,
+        /// <summary>
+        /// 审核不通过
+        /// </summary>
+        [EnumDescription("审核不通过", "untread")]
+        Untread
     }
     /// <summary>
     /// 阿里相册类型
