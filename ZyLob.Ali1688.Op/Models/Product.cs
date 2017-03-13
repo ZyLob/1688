@@ -518,6 +518,23 @@ namespace ZyLob.Ali1688.Op.Models
         /// sku价格
         /// </summary>
         public List<OfferIncrementSku> SkuList { get; set; }
+        /// <summary>
+        /// 图片地址
+        /// </summary>
+        public List<string> ImageUriList { get; set; }
+
+        /// <summary>
+        /// 可售数量
+        /// </summary>
+        public int AmountOnSale { get; set; }
+        /// <summary>
+        /// 区间价格。每个区间之间用`分割，冒号前面是起订量，后面是价格 20:10`30:9`40:8
+        /// </summary>
+        public string PriceRanges { get; set; }
+        /// <summary>
+        /// 产品属性列表。key是属性id， value是值。所有的属性值都需要传入，包括产品属性和除价格之外的交易属性
+        /// </summary>
+        public Dictionary<string, string> ProductFeatures { get; set; }
 
     }
     /// <summary>

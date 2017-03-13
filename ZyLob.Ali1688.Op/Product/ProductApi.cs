@@ -337,7 +337,7 @@ namespace ZyLob.Ali1688.Op.Product
             }
             if (incrementAttr.SkuList != null)
             {
-                json.Add("skuList", incrementAttr.SkuList);
+                json.Add("skuList", JsonConvert.SerializeObject(incrementAttr.SkuList));
             }
             if (incrementAttr.FreightTemplateId.IsNotNullOrEmpty())
             {
@@ -370,6 +370,26 @@ namespace ZyLob.Ali1688.Op.Product
             if (incrementAttr.SendGoodsAddressId.IsNotNullOrEmpty())
             {
                 json.Add("sendGoodsAddressId", incrementAttr.SendGoodsAddressId);
+            }
+            if (incrementAttr.ProductFeatures != null)
+            {
+                //产品属性
+                json.Add("productFeatures", JsonConvert.SerializeObject(incrementAttr.ProductFeatures));
+            }
+            if (incrementAttr.ImageUriList != null)
+            {
+                //产品图片
+                json.Add("imageUriList", JsonConvert.SerializeObject(incrementAttr.ImageUriList));
+            }
+            if (incrementAttr.PriceRanges != null)
+            {
+                //价格区间
+                json.Add("priceRanges", incrementAttr.PriceRanges);
+            }
+            if (incrementAttr.AmountOnSale != default(int))
+            {
+                //可售数量
+                json.Add("amountOnSale", incrementAttr.AmountOnSale.ToString());
             }
             string modifyStr = JsonConvert.SerializeObject(json);
             string url = "http://gw.open.1688.com/openapi/param2/1/cn.alibaba.open/offer.modify.increment/{0}".FormatStr(_context.Config.AppKey);

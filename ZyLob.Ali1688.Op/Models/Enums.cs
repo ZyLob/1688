@@ -63,9 +63,9 @@ namespace ZyLob.Ali1688.Op.Models
         [EnumDescription("自然过期", "auto expired")]
         AutoExpired,
         /// <summary>
-        /// 过期(包含手动过期与自动过期
+        /// 过期(包含手动过期与自动过期）
         /// </summary>
-        [EnumDescription("过期(包含手动过期与自动过期", "expired")]
+        [EnumDescription("过期(包含手动过期与自动过期", "Expired")]
         Expired,
         /// <summary>
         /// 会员删除
