@@ -13,7 +13,7 @@ namespace ZyLob.Ali1688.Op.Tests
     {
         public TestBase()
         {
-             AliContext.Static.AccessToken = "45b883ef-30a2-4117-b61f-262c9139ee25";
+             AliContext.Static.AccessToken = "79b2dc8a-093e-463f-ad0c-06f76a34beb3";
             
         }
     }

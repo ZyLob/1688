@@ -18,11 +18,11 @@ namespace ZyLob.Ali1688.Op.Tests.Product
             {
                 Q = "",
                 // OfferId = 521260330042,
-                MemberId = "b2b-1623492085",
+                MemberId = "b2b-1911996114",
                 PageSize = 50,
-                OrderBy = "gmtexpire:desc",
-                Status = OfferStatus.Published,
-                ReturnFields = "offerId,subject,isSkuOffer,skuArray"
+               // OrderBy = "gmtexpire:desc",
+                Status = OfferStatus.Expired,
+                ReturnFields = "offerId,subject,priceRanges,unitPrice,imageList,qualityLevel,isOfferSupportOnlineTrade,saledCount"
             });
         }
 
@@ -115,7 +115,33 @@ namespace ZyLob.Ali1688.Op.Tests.Product
 
             var result = AliContext.Static.Product.OfferCanModify(539138716672, 537209493155);
         }
+        [TestMethod]
+        public void GetOfferList()
+        {
 
+            var result = AliContext.Static.Product.GetOfferList("韩艳服饰", 100, 100);
+
+        }
+
+        [TestMethod]
+        public void GetWeiGonOfferInfo()
+        {
+            var offlist = AliContext.Static.Product.GetOfferList("韩艳服饰", 100, 100);
+            foreach (var item in offlist.model)
+            {
+                var result = AliContext.Static.Product.GetWeiGonOfferInfo(item);
+            }
+
+
+
+        }
+
+        [TestMethod]
+        public void GetOfferByStatusTest()
+        {
+            var offlist = AliContext.Static.Product.GetOfferByStatus(1, 10, "member expired", "published");
+            int i = 1;
+        }
     }
 
     public class Tes
